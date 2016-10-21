@@ -1,0 +1,49 @@
+pkgbase = linux-surfacebook
+	pkgver = 4.9
+	pkgrel = 1
+	url = https://github.com/afzalarsalan/linux-surfacebook
+	arch = i686
+	arch = x86_64
+	license = GPL2
+	makedepends = xmlto
+	makedepends = docbook-xsl
+	makedepends = kmod
+	makedepends = inetutils
+	makedepends = bc
+	makedepends = elfutils
+	options = !strip
+	source = https://www.kernel.org/pub/linux/kernel/v4.x/testing/linux-4.9-rc1.tar.xz
+	source = https://www.kernel.org/pub/linux/kernel/v4.x/testing/linux-4.9-rc1.tar.sign
+	source = config
+	source = config.x86_64
+	source = linux.preset
+	source = change-default-console-loglevel.patch
+	source = multitouch.patch
+	validpgpkeys = ABAF11C65A2970B130ABE3C479BE3E4300411886
+	validpgpkeys = 647F28654894E3BD457199BE38DBBDC86092693E
+	sha256sums = 0efb65be9189e45868062190a61467296b6eec305e8408fcffe17e20f41a22e8
+	sha256sums = SKIP
+	sha256sums = 2ac8818414beb7dbacbd3ad450c516e6ada804827132a7132f63b8189e5f5151
+	sha256sums = 69cd5e0edc165bc8be7b9aa22bbfb9888b09ac3993b8e34484a7099552fea412
+	sha256sums = f0d90e756f14533ee67afda280500511a62465b4f76adcc5effa95a40045179c
+	sha256sums = 1256b241cd477b265a3c2d64bdc19ffe3c9bbcee82ea3994c590c2c76e767d99
+	sha256sums = c523cb5848603d76723f4344b64045b5894bdb213b63cd87703917d875923857
+	sha256sums = 2e070646c2e23a504208af21457e5d9d3d181a0af7a234e813200eadeaa70669
+
+pkgname = linux-surfacebook
+	pkgdesc = The Linux-surfacebook kernel and modules
+	install = linux.install
+	depends = coreutils
+	depends = linux-firmware
+	depends = kmod
+	depends = mkinitcpio>=0.7
+	depends = xf86-input-libinput
+	optdepends = crda: to set the correct wireless channels of your country
+	backup = etc/mkinitcpio.d/linux-surfacebook.preset
+
+pkgname = linux-surfacebook-headers
+	pkgdesc = Header files and scripts for building modules for Linux-surfacebook kernel
+
+pkgname = linux-surfacebook-docs
+	pkgdesc = Kernel hackers manual - HTML documentation that comes with the Linux-surfacebook kernel
+
