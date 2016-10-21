@@ -23,7 +23,7 @@ For Greg Kroah-Hartman's key (the stable patch release key):
 Then, to build the package, simply run (as usual):
 
 	makepkg
-
-  ##Micelanous 
+	
+## Miscellaneous 
   Try powertop, it's great
   Also use Caffeine or the corresponding applet for your desktop environment because waking up from sleep is a gamble at best.
