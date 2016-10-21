@@ -25,5 +25,6 @@ Then, to build the package, simply run (as usual):
 	makepkg
 	
 ## Miscellaneous 
-  Try powertop, it's great
-  Also use Caffeine or the corresponding applet for your desktop environment because waking up from sleep is a gamble at best.
+  Try powertop, it's great.
+  
+  Also use Caffeine or a corresponding applet for your desktop environment because waking up from sleep is a gamble at best.
