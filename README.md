@@ -8,6 +8,7 @@ This is based on the offical Linux kernel package provided by Arch Linux at: htt
 ##Patches
 
  - Proper multitouch support for the Surface Book keyboard, allowing two-finger scroll (etc): https://raw.githubusercontent.com/shvr/fedora-surface-pro-3-kernel/master/Add-multitouch-support-for-Microsoft-Type-Cover-3.patch 
+ 
 ## Building
 
 You will need to have imported gpg keys for the Linux kernel maintainers:
