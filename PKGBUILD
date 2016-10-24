@@ -1,9 +1,9 @@
 # $Id$
-# Maintainer: Matthew Wardrop <mister.wardrop@gmail.com>
+# Maintainer: Arsalan Afzal <afzal.arsalan@gmail.com>
 
 pkgbase=linux-surfacebook
-_srcname=linux-4.9-rc1
-pkgver=4.9
+_srcname=linux-4.9-rc2
+pkgver=4.9rc2
 pkgrel=1
 arch=('i686' 'x86_64')
 url="https://github.com/afzalarsalan/linux-surfacebook"
@@ -24,14 +24,13 @@ source=(
         'change-default-console-loglevel.patch'
         'multitouch.patch')
 
-sha256sums=('0efb65be9189e45868062190a61467296b6eec305e8408fcffe17e20f41a22e8'
+sha256sums=('24cd6bd2d2bdd5cece97b9e95b0cde2d63e8912ea0b070928fb67cffea08c9c1'
             'SKIP'
             '2ac8818414beb7dbacbd3ad450c516e6ada804827132a7132f63b8189e5f5151'
-            '69cd5e0edc165bc8be7b9aa22bbfb9888b09ac3993b8e34484a7099552fea412'
+            '97219f6f479a2d4c37deb73dc8a1b1bf22c5360c1355467c5cbeee990edcc468'
             'f0d90e756f14533ee67afda280500511a62465b4f76adcc5effa95a40045179c'
             '1256b241cd477b265a3c2d64bdc19ffe3c9bbcee82ea3994c590c2c76e767d99'
-            'c523cb5848603d76723f4344b64045b5894bdb213b63cd87703917d875923857'
-            '2e070646c2e23a504208af21457e5d9d3d181a0af7a234e813200eadeaa70669')
+            'c523cb5848603d76723f4344b64045b5894bdb213b63cd87703917d875923857')
 
 validpgpkeys=(
               'ABAF11C65A2970B130ABE3C479BE3E4300411886' # Linus Torvalds
@@ -87,7 +86,7 @@ prepare() {
   sed -i '2iexit 0' scripts/depmod.sh
 
   # No precedent config so wing it
-  make olddefconfig
+  #make olddefconfig
 
   # get kernel version
   make prepare
