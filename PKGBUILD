@@ -2,8 +2,8 @@
 # Maintainer: Arsalan Afzal <afzal.arsalan@gmail.com>
 
 pkgbase=linux-surfacebook
-_srcname=linux-4.9-rc2
-pkgver=4.9rc2
+_srcname=linux-4.9-rc4
+pkgver=4.9rc4
 pkgrel=1
 arch=('i686' 'x86_64')
 url="https://github.com/afzalarsalan/linux-surfacebook"
@@ -24,10 +24,10 @@ source=(
         'change-default-console-loglevel.patch'
         'multitouch.patch')
 
-sha256sums=('24cd6bd2d2bdd5cece97b9e95b0cde2d63e8912ea0b070928fb67cffea08c9c1'
+sha256sums=('bd6e386266d9ca28b292ae8d18dc517586c20d87370556c3332195c469ac8327'
             'SKIP'
-            '2ac8818414beb7dbacbd3ad450c516e6ada804827132a7132f63b8189e5f5151'
-            '97219f6f479a2d4c37deb73dc8a1b1bf22c5360c1355467c5cbeee990edcc468'
+            'f4797260b2818a18c6d68d8f7d414493c985661075a166c79686648f1a582455'
+            '0ba947f20d1ab13c43126457cc0c11c29b54a4bef188219eb58bf3deabf9de33'
             'f0d90e756f14533ee67afda280500511a62465b4f76adcc5effa95a40045179c'
             '1256b241cd477b265a3c2d64bdc19ffe3c9bbcee82ea3994c590c2c76e767d99'
             'c523cb5848603d76723f4344b64045b5894bdb213b63cd87703917d875923857')
