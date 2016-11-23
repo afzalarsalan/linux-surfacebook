@@ -3,7 +3,7 @@
 
 pkgbase=linux-surfacebook
 _srcname=linux-4.9-rc5
-pkgver=4.9rc5
+pkgver=4.9rc6
 pkgrel=1
 arch=('i686' 'x86_64')
 url="https://github.com/afzalarsalan/linux-surfacebook"
@@ -27,7 +27,7 @@ source=(
 sha256sums=('49a69ad592a96fa6c5215ad2de79bf64d094061a0828e0acf19ab711f467ee3a'
             'SKIP'
             'f4797260b2818a18c6d68d8f7d414493c985661075a166c79686648f1a582455'
-            '2f9787f03d1a75452abf30d3248af102628dc236b1a01abaa594e30f45643025'
+            '8c1dd25b89e39da9286c580f65859bc2b97b57507bf449cf6cc56ba3791039cb'
             'f0d90e756f14533ee67afda280500511a62465b4f76adcc5effa95a40045179c'
             '1256b241cd477b265a3c2d64bdc19ffe3c9bbcee82ea3994c590c2c76e767d99'
             'c523cb5848603d76723f4344b64045b5894bdb213b63cd87703917d875923857')
