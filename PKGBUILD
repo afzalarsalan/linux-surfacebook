@@ -2,8 +2,8 @@
 # Maintainer: Arsalan Afzal <afzal.arsalan@gmail.com>
 
 pkgbase=linux-surfacebook
-_srcname=linux-4.9-rc5
-pkgver=4.9rc6
+_srcname=linux-4.9-rc7
+pkgver=4.9rc7
 pkgrel=1
 arch=('i686' 'x86_64')
 url="https://github.com/afzalarsalan/linux-surfacebook"
@@ -22,15 +22,17 @@ source=(
         # standard config files for mkinitcpio ramdisk
         'linux.preset'
         'change-default-console-loglevel.patch'
-        'multitouch.patch')
+        'multitouch.patch'
+        'wifi.patch')
 
-sha256sums=('49a69ad592a96fa6c5215ad2de79bf64d094061a0828e0acf19ab711f467ee3a'
+sha256sums=('1d96b372779b3fd4c80a7606f310d36ffe11a99f655dd490b16bffc88a5b4535'
             'SKIP'
             'f4797260b2818a18c6d68d8f7d414493c985661075a166c79686648f1a582455'
-            '8c1dd25b89e39da9286c580f65859bc2b97b57507bf449cf6cc56ba3791039cb'
+            '91b679db249c9f5787b1d57999950cff5b84d4ea111937a200784b8fa860cf3d'
             'f0d90e756f14533ee67afda280500511a62465b4f76adcc5effa95a40045179c'
             '1256b241cd477b265a3c2d64bdc19ffe3c9bbcee82ea3994c590c2c76e767d99'
-            'c523cb5848603d76723f4344b64045b5894bdb213b63cd87703917d875923857')
+            'c523cb5848603d76723f4344b64045b5894bdb213b63cd87703917d875923857'
+            'e8ed95070745a8d7060a126e952e23f0959c4533f24ac45029a63c6a7c33b412')
 
 validpgpkeys=(
               'ABAF11C65A2970B130ABE3C479BE3E4300411886' # Linus Torvalds
@@ -54,8 +56,8 @@ prepare() {
   # (relevant patch sent upstream: https://lkml.org/lkml/2011/7/26/227)
   patch -p1 -i "${srcdir}/change-default-console-loglevel.patch"
 
-  # This patch disables some wireless optimisations which cause trouble on Surface devices.
-  #patch -p1 -i "${srcdir}/wifi.patch"
+  # This patch fixes a kernel crash caused by wifi by deleting random lines of code
+  patch -p1 -i "${srcdir}/wifi.patch"
 
   # This patch adds multitouch support for the surface pro 3
   # keyboard cover.
