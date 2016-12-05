@@ -31,7 +31,7 @@ source=(
 sha256sums=('2717333631803036c1d11747199a70546056d436bef332b7aac624bf5055d0f7'
             'SKIP'
             '2ac8818414beb7dbacbd3ad450c516e6ada804827132a7132f63b8189e5f5151'
-            '41b9a64542befd2fea170776e8ec22a7d158dd3273633afc9b91662c448cd90a'
+            'bc1a3bc231196b26edcf18f4f9f15dab283b146f1f7859abb94e985de4b28449'
             '834bd254b56ab71d73f59b3221f056c72f559553c04718e350ab2a3e2991afe0'
             'ad6344badc91ad0630caacde83f7f9b97276f80d26a20619a87952be65492c65'
             '1256b241cd477b265a3c2d64bdc19ffe3c9bbcee82ea3994c590c2c76e767d99'
@@ -48,13 +48,13 @@ prepare() {
   cd "${srcdir}/${_srcname}"
 
   # add upstream patch
-  patch -p1 -i "${srcdir}/patch-${pkgver}"
+  # patch -p1 -i "${srcdir}/patch-${pkgver}"
 
   # add keyboard and trackpad support
   patch -p1 -i "${srcdir}/multitouch.patch"
 
   # add wifi fixup if needed
-  #patch -p1 -i "${srcdir}/wifi.patch"
+  # patch -p1 -i "${srcdir}/wifi.patch"
 
   # add latest fixes from stable queue, if needed
   # http://git.kernel.org/?p=linux/kernel/git/stable/stable-queue.git
