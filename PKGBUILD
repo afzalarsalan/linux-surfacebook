@@ -2,18 +2,21 @@
 # Maintainer: Arsalan Afzal <afzal.arsalan@gmail.com>
 
 pkgbase=linux-surfacebook
-_srcname=linux-4.8
-pkgver=4.8.10
+_srcname=linux-4.9-rc8
+pkgver=4.9rc8
 pkgrel=1
 arch=('i686' 'x86_64')
 url="http://www.kernel.org/"
 license=('GPL2')
 makedepends=('xmlto' 'docbook-xsl' 'kmod' 'inetutils' 'bc' 'libelf')
 options=('!strip')
-source=("https://www.kernel.org/pub/linux/kernel/v4.x/${_srcname}.tar.xz"
-        "https://www.kernel.org/pub/linux/kernel/v4.x/${_srcname}.tar.sign"
-        "https://www.kernel.org/pub/linux/kernel/v4.x/patch-${pkgver}.xz"
-        "https://www.kernel.org/pub/linux/kernel/v4.x/patch-${pkgver}.sign"
+source=(
+        #"https://www.kernel.org/pub/linux/kernel/v4.x/${_srcname}.tar.xz"
+        #"https://www.kernel.org/pub/linux/kernel/v4.x/${_srcname}.tar.sign"
+        "https://www.kernel.org/pub/linux/kernel/v4.x/testing/${_srcname}.tar.xz"
+        "https://www.kernel.org/pub/linux/kernel/v4.x/testing/${_srcname}.tar.sign"
+        #"https://www.kernel.org/pub/linux/kernel/v4.x/patch-${pkgver}.xz"
+        #"https://www.kernel.org/pub/linux/kernel/v4.x/patch-${pkgver}.sign"
         # the main kernel config files
         'config' 'config.x86_64'
         # pacman hook for initramfs regeneration
@@ -22,19 +25,18 @@ source=("https://www.kernel.org/pub/linux/kernel/v4.x/${_srcname}.tar.xz"
         'linux.preset'
         'change-default-console-loglevel.patch'
         'multitouch.patch'
-	'wifi.patch'
+	      'wifi.patch'
         )
 
-sha256sums=('3e9150065f193d3d94bcf46a1fe9f033c7ef7122ab71d75a7fb5a2f0c9a7e11a'
-            'SKIP'
-            'd0ea1671c488957d7b1ef46a5107c47c16b37f2985ca7ee4c900ba0f89d40d3c'
+sha256sums=('2717333631803036c1d11747199a70546056d436bef332b7aac624bf5055d0f7'
             'SKIP'
             '2ac8818414beb7dbacbd3ad450c516e6ada804827132a7132f63b8189e5f5151'
             '41b9a64542befd2fea170776e8ec22a7d158dd3273633afc9b91662c448cd90a'
             '834bd254b56ab71d73f59b3221f056c72f559553c04718e350ab2a3e2991afe0'
             'ad6344badc91ad0630caacde83f7f9b97276f80d26a20619a87952be65492c65'
             '1256b241cd477b265a3c2d64bdc19ffe3c9bbcee82ea3994c590c2c76e767d99'
-            '9d25f74e70fbaf28cb83cecb2ca781c0eadf32f40344ee8ad8fb52580075dfcd')
+            'c523cb5848603d76723f4344b64045b5894bdb213b63cd87703917d875923857'
+            'e8ed95070745a8d7060a126e952e23f0959c4533f24ac45029a63c6a7c33b412')
 validpgpkeys=(
               'ABAF11C65A2970B130ABE3C479BE3E4300411886' # Linus Torvalds
               '647F28654894E3BD457199BE38DBBDC86092693E' # Greg Kroah-Hartman
