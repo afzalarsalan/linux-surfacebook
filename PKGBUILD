@@ -2,41 +2,42 @@
 # Maintainer: Arsalan Afzal <afzal.arsalan@gmail.com>
 
 pkgbase=linux-surfacebook
-_srcname=linux-4.9-rc5
-pkgver=4.9rc6
+_srcname=linux-4.8
+pkgver=4.8.10
 pkgrel=1
 arch=('i686' 'x86_64')
-url="https://github.com/afzalarsalan/linux-surfacebook"
+url="http://www.kernel.org/"
 license=('GPL2')
-makedepends=('xmlto' 'docbook-xsl' 'kmod' 'inetutils' 'bc' 'elfutils')
+makedepends=('xmlto' 'docbook-xsl' 'kmod' 'inetutils' 'bc' 'libelf')
 options=('!strip')
-source=(
-        #"https://www.kernel.org/pub/linux/kernel/v4.x/${_srcname}.tar.xz"
-        #"https://www.kernel.org/pub/linux/kernel/v4.x/${_srcname}.tar.sign"
-        "https://www.kernel.org/pub/linux/kernel/v4.x/testing/${_srcname}.tar.xz"
-        "https://www.kernel.org/pub/linux/kernel/v4.x/testing/${_srcname}.tar.sign"
-        #"https://www.kernel.org/pub/linux/kernel/v4.x/patch-${pkgver}.xz"
-        #"https://www.kernel.org/pub/linux/kernel/v4.x/patch-${pkgver}.sign"
+source=("https://www.kernel.org/pub/linux/kernel/v4.x/${_srcname}.tar.xz"
+        "https://www.kernel.org/pub/linux/kernel/v4.x/${_srcname}.tar.sign"
+        "https://www.kernel.org/pub/linux/kernel/v4.x/patch-${pkgver}.xz"
+        "https://www.kernel.org/pub/linux/kernel/v4.x/patch-${pkgver}.sign"
         # the main kernel config files
         'config' 'config.x86_64'
+        # pacman hook for initramfs regeneration
+        '99-linux.hook'
         # standard config files for mkinitcpio ramdisk
         'linux.preset'
         'change-default-console-loglevel.patch'
-        'multitouch.patch')
+        'multitouch.patch'
+        )
 
-sha256sums=('49a69ad592a96fa6c5215ad2de79bf64d094061a0828e0acf19ab711f467ee3a'
+sha256sums=('3e9150065f193d3d94bcf46a1fe9f033c7ef7122ab71d75a7fb5a2f0c9a7e11a'
             'SKIP'
-            'f4797260b2818a18c6d68d8f7d414493c985661075a166c79686648f1a582455'
-            '8c1dd25b89e39da9286c580f65859bc2b97b57507bf449cf6cc56ba3791039cb'
-            'f0d90e756f14533ee67afda280500511a62465b4f76adcc5effa95a40045179c'
+            'd0ea1671c488957d7b1ef46a5107c47c16b37f2985ca7ee4c900ba0f89d40d3c'
+            'SKIP'
+            '2ac8818414beb7dbacbd3ad450c516e6ada804827132a7132f63b8189e5f5151'
+            '41b9a64542befd2fea170776e8ec22a7d158dd3273633afc9b91662c448cd90a'
+            '834bd254b56ab71d73f59b3221f056c72f559553c04718e350ab2a3e2991afe0'
+            'ad6344badc91ad0630caacde83f7f9b97276f80d26a20619a87952be65492c65'
             '1256b241cd477b265a3c2d64bdc19ffe3c9bbcee82ea3994c590c2c76e767d99'
-            'c523cb5848603d76723f4344b64045b5894bdb213b63cd87703917d875923857')
-
+            '9d25f74e70fbaf28cb83cecb2ca781c0eadf32f40344ee8ad8fb52580075dfcd')
 validpgpkeys=(
               'ABAF11C65A2970B130ABE3C479BE3E4300411886' # Linus Torvalds
               '647F28654894E3BD457199BE38DBBDC86092693E' # Greg Kroah-Hartman
              )
-multitouch='y'
 
 _kernelname=${pkgbase#linux}
 
@@ -44,7 +45,10 @@ prepare() {
   cd "${srcdir}/${_srcname}"
 
   # add upstream patch
-  #patch -p1 -i "${srcdir}/patch-${pkgver}"
+  patch -p1 -i "${srcdir}/patch-${pkgver}"
+
+  # add keyboard and trackpad support
+  patch -p1 -i "${srcdir}/multitouch.patch"
 
   # add latest fixes from stable queue, if needed
   # http://git.kernel.org/?p=linux/kernel/git/stable/stable-queue.git
@@ -53,20 +57,6 @@ prepare() {
   # remove this when a Kconfig knob is made available by upstream
   # (relevant patch sent upstream: https://lkml.org/lkml/2011/7/26/227)
   patch -p1 -i "${srcdir}/change-default-console-loglevel.patch"
-
-  # This patch disables some wireless optimisations which cause trouble on Surface devices.
-  #patch -p1 -i "${srcdir}/wifi.patch"
-
-  # This patch adds multitouch support for the surface pro 3
-  # keyboard cover.
-  if [[ $multitouch = 'y' ]]; then
-    patch -p1 -i "${srcdir}/multitouch.patch"
-  fi
-
-  # These patches work around buggy hardware implementations
-  # in the surface pro 3 touchscreen module.
-  #patch -p1 -i "${srcdir}/touchscreen_multitouch_fixes1.patch"
-  #patch -p1 -i "${srcdir}/touchscreen_multitouch_fixes2.patch"
 
   if [ "${CARCH}" = "x86_64" ]; then
     cat "${srcdir}/config.x86_64" > ./.config
@@ -84,9 +74,6 @@ prepare() {
 
   # don't run depmod on 'make install'. We'll do this ourselves in packaging
   sed -i '2iexit 0' scripts/depmod.sh
-
-  # No precedent config so wing it
-  #make olddefconfig
 
   # get kernel version
   make prepare
@@ -112,7 +99,7 @@ build() {
 _package() {
   pkgdesc="The ${pkgbase/linux/Linux} kernel and modules"
   [ "${pkgbase}" = "linux" ] && groups=('base')
-  depends=('coreutils' 'linux-firmware' 'kmod' 'mkinitcpio>=0.7' 'xf86-input-libinput')
+  depends=('coreutils' 'linux-firmware' 'kmod' 'mkinitcpio>=0.7')
   optdepends=('crda: to set the correct wireless channels of your country')
   backup=("etc/mkinitcpio.d/${pkgbase}.preset")
   install=linux.install
@@ -131,21 +118,17 @@ _package() {
   cp arch/$KARCH/boot/bzImage "${pkgdir}/boot/vmlinuz-${pkgbase}"
 
   # set correct depmod command for install
-  cp -f "${startdir}/${install}" "${startdir}/${install}.pkg"
+  sed -e "s|%PKGBASE%|${pkgbase}|g;s|%KERNVER%|${_kernver}|g" \
+    "${startdir}/${install}" > "${startdir}/${install}.pkg"
   true && install=${install}.pkg
-  sed \
-    -e  "s/KERNEL_NAME=.*/KERNEL_NAME=${_kernelname}/" \
-    -e  "s/KERNEL_VERSION=.*/KERNEL_VERSION=${_kernver}/" \
-    -i "${startdir}/${install}"
 
   # install mkinitcpio preset file for kernel
-  install -D -m644 "${srcdir}/linux.preset" "${pkgdir}/etc/mkinitcpio.d/${pkgbase}.preset"
-  sed \
-    -e "1s|'linux.*'|'${pkgbase}'|" \
-    -e "s|ALL_kver=.*|ALL_kver=\"/boot/vmlinuz-${pkgbase}\"|" \
-    -e "s|default_image=.*|default_image=\"/boot/initramfs-${pkgbase}.img\"|" \
-    -e "s|fallback_image=.*|fallback_image=\"/boot/initramfs-${pkgbase}-fallback.img\"|" \
-    -i "${pkgdir}/etc/mkinitcpio.d/${pkgbase}.preset"
+  sed "s|%PKGBASE%|${pkgbase}|g" "${srcdir}/linux.preset" |
+    install -D -m644 /dev/stdin "${pkgdir}/etc/mkinitcpio.d/${pkgbase}.preset"
+
+  # install pacman hook for initramfs regeneration
+  sed "s|%PKGBASE%|${pkgbase}|g" "${srcdir}/99-linux.hook" |
+    install -D -m644 /dev/stdin "${pkgdir}/usr/share/libalpm/hooks/99-${pkgbase}.hook"
 
   # remove build and source links
   rm -f "${pkgdir}"/lib/modules/${_kernver}/{source,build}
@@ -165,7 +148,7 @@ _package() {
   mv "${pkgdir}/lib" "${pkgdir}/usr/"
 
   # add vmlinux
-  install -D -m644 vmlinux "${pkgdir}/usr/lib/modules/${_kernver}/build/vmlinux"
+  install -D -m644 vmlinux "${pkgdir}/usr/lib/modules/${_kernver}/build/vmlinux" 
 }
 
 _package-headers() {
@@ -184,7 +167,7 @@ _package-headers() {
   mkdir -p "${pkgdir}/usr/lib/modules/${_kernver}/build/include"
 
   for i in acpi asm-generic config crypto drm generated keys linux math-emu \
-    media net pcmcia scsi sound trace uapi video xen; do
+    media net pcmcia scsi soc sound trace uapi video xen; do
     cp -a include/${i} "${pkgdir}/usr/lib/modules/${_kernver}/build/include/"
   done
 
@@ -269,7 +252,7 @@ _package-headers() {
   # add objtool for external module building and enabled VALIDATION_STACK option
   if [ -f tools/objtool/objtool ];  then
       mkdir -p "${pkgdir}/usr/lib/modules/${_kernver}/build/tools/objtool"
-      cp -a tools/objtool/objtool ${pkgdir}/usr/lib/modules/${_kernver}/build/tools/objtool/
+      cp -a tools/objtool/objtool ${pkgdir}/usr/lib/modules/${_kernver}/build/tools/objtool/ 
   fi
 
   chown -R root.root "${pkgdir}/usr/lib/modules/${_kernver}/build"
@@ -289,7 +272,7 @@ _package-headers() {
 
   # remove unneeded architectures
   rm -rf "${pkgdir}"/usr/lib/modules/${_kernver}/build/arch/{alpha,arc,arm,arm26,arm64,avr32,blackfin,c6x,cris,frv,h8300,hexagon,ia64,m32r,m68k,m68knommu,metag,mips,microblaze,mn10300,openrisc,parisc,powerpc,ppc,s390,score,sh,sh64,sparc,sparc64,tile,unicore32,um,v850,xtensa}
-
+  
   # remove a files already in linux-docs package
   rm -f "${pkgdir}/usr/lib/modules/${_kernver}/build/Documentation/kbuild/Kconfig.recursion-issue-01"
   rm -f "${pkgdir}/usr/lib/modules/${_kernver}/build/Documentation/kbuild/Kconfig.recursion-issue-02"
