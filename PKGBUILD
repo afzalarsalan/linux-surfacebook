@@ -22,6 +22,7 @@ source=("https://www.kernel.org/pub/linux/kernel/v4.x/${_srcname}.tar.xz"
         'linux.preset'
         'change-default-console-loglevel.patch'
         'multitouch.patch'
+	'wifi.patch'
         )
 
 sha256sums=('3e9150065f193d3d94bcf46a1fe9f033c7ef7122ab71d75a7fb5a2f0c9a7e11a'
@@ -49,6 +50,9 @@ prepare() {
 
   # add keyboard and trackpad support
   patch -p1 -i "${srcdir}/multitouch.patch"
+
+  # add wifi fixup if needed
+  #patch -p1 -i "${srcdir}/wifi.patch"
 
   # add latest fixes from stable queue, if needed
   # http://git.kernel.org/?p=linux/kernel/git/stable/stable-queue.git
