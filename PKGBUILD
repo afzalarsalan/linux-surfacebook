@@ -2,8 +2,8 @@
 # Maintainer: Arsalan Afzal <afzal.arsalan@gmail.com>
 
 pkgbase=linux-surfacebook
-_srcname=linux-4.9-rc8
-pkgver=4.9rc8
+_srcname=linux-4.9
+pkgver=4.9.0
 pkgrel=1
 arch=('i686' 'x86_64')
 url="http://www.kernel.org/"
@@ -11,10 +11,10 @@ license=('GPL2')
 makedepends=('xmlto' 'docbook-xsl' 'kmod' 'inetutils' 'bc' 'libelf')
 options=('!strip')
 source=(
-        #"https://www.kernel.org/pub/linux/kernel/v4.x/${_srcname}.tar.xz"
-        #"https://www.kernel.org/pub/linux/kernel/v4.x/${_srcname}.tar.sign"
-        "https://www.kernel.org/pub/linux/kernel/v4.x/testing/${_srcname}.tar.xz"
-        "https://www.kernel.org/pub/linux/kernel/v4.x/testing/${_srcname}.tar.sign"
+        "https://www.kernel.org/pub/linux/kernel/v4.x/${_srcname}.tar.xz"
+        "https://www.kernel.org/pub/linux/kernel/v4.x/${_srcname}.tar.sign"
+        #"https://www.kernel.org/pub/linux/kernel/v4.x/testing/${_srcname}.tar.xz"
+        #"https://www.kernel.org/pub/linux/kernel/v4.x/testing/${_srcname}.tar.sign"
         #"https://www.kernel.org/pub/linux/kernel/v4.x/patch-${pkgver}.xz"
         #"https://www.kernel.org/pub/linux/kernel/v4.x/patch-${pkgver}.sign"
         # the main kernel config files
@@ -28,10 +28,10 @@ source=(
 	      'wifi.patch'
         )
 
-sha256sums=('2717333631803036c1d11747199a70546056d436bef332b7aac624bf5055d0f7'
+sha256sums=('029098dcffab74875e086ae970e3828456838da6e0ba22ce3f64ef764f3d7f1a'
             'SKIP'
             '2ac8818414beb7dbacbd3ad450c516e6ada804827132a7132f63b8189e5f5151'
-            'bc1a3bc231196b26edcf18f4f9f15dab283b146f1f7859abb94e985de4b28449'
+            'a9ae1678a8676245493bdc20c0321c59d9c792c28dd602c88f838af1f0f7719b'
             '834bd254b56ab71d73f59b3221f056c72f559553c04718e350ab2a3e2991afe0'
             'ad6344badc91ad0630caacde83f7f9b97276f80d26a20619a87952be65492c65'
             '1256b241cd477b265a3c2d64bdc19ffe3c9bbcee82ea3994c590c2c76e767d99'

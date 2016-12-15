@@ -1,6 +1,6 @@
 #
 # Automatically generated file; DO NOT EDIT.
-# Linux/x86 4.9.0-rc8 Kernel Configuration
+# Linux/x86 4.9.0 Kernel Configuration
 #
 CONFIG_64BIT=y
 CONFIG_X86_64=y
@@ -5586,12 +5586,12 @@ CONFIG_USB_HIDDEV=y
 #
 # I2C HID support
 #
-CONFIG_I2C_HID=m
+CONFIG_I2C_HID=y
 
 #
 # Intel ISH HID support
 #
-# CONFIG_INTEL_ISH_HID is not set
+CONFIG_INTEL_ISH_HID=y
 CONFIG_USB_OHCI_LITTLE_ENDIAN=y
 CONFIG_USB_SUPPORT=y
 CONFIG_USB_COMMON=m
