@@ -7,7 +7,9 @@ This is based on the offical Linux kernel package provided by Arch Linux at: htt
 
 ##Patches
 
- - Proper multitouch support for the Surface Book keyboard, allowing two-finger scroll (etc): https://raw.githubusercontent.com/shvr/fedora-surface-pro-3-kernel/master/Add-multitouch-support-for-Microsoft-Type-Cover-3.patch 
+ - Proper multitouch support for the Surface Book keyboard, allowing two-finger scroll (etc): https://raw.githubusercontent.com/shvr/fedora-surface-pro-3-kernel/master/Add-multitouch-support-for-Microsoft-Type-Cover-3.patch
+ 
+ - Some touchscreen support that may or may not work in the future based on patch maintenance, courtesy of the IPTS-New Repo: https://github.com/ipts-linux-org/ipts-linux-new 
  
 ## Building
 
@@ -26,6 +28,9 @@ Then, to build the package, simply run (as usual):
 	makepkg
 	
 ## Miscellaneous 
-  Try powertop, it's great.
+
+If you want your touchscreen to work then you need to follow the steps listed [here](https://github.com/ipts-linux-org/ipts-linux-new/wiki) under Firmware
+
+Try powertop, it's great.
   
-  Also use Caffeine or a corresponding applet for your desktop environment because waking up from sleep is a gamble at best.
+Also use Caffeine or a corresponding applet for your desktop environment because waking up from sleep is a gamble at best.
