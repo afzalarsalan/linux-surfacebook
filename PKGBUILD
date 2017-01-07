@@ -3,9 +3,9 @@
 
 pkgbase=linux-surfacebook
 _srcname=linux-4.9
-pkgver=4.9.0
+pkgver=4.9.1
 pkgrel=1
-arch=('i686' 'x86_64')
+arch=('x86_64')
 url="http://www.kernel.org/"
 license=('GPL2')
 makedepends=('xmlto' 'docbook-xsl' 'kmod' 'inetutils' 'bc' 'libelf')
@@ -15,25 +15,26 @@ source=(
         "https://www.kernel.org/pub/linux/kernel/v4.x/${_srcname}.tar.sign"
         #"https://www.kernel.org/pub/linux/kernel/v4.x/testing/${_srcname}.tar.xz"
         #"https://www.kernel.org/pub/linux/kernel/v4.x/testing/${_srcname}.tar.sign"
-        #"https://www.kernel.org/pub/linux/kernel/v4.x/patch-${pkgver}.xz"
-        #"https://www.kernel.org/pub/linux/kernel/v4.x/patch-${pkgver}.sign"
+        "https://www.kernel.org/pub/linux/kernel/v4.x/patch-${pkgver}.xz"
+        "https://www.kernel.org/pub/linux/kernel/v4.x/patch-${pkgver}.sign"
         # the main kernel config files
-        'config' 'config.x86_64'
+        'config.x86_64'
         # pacman hook for initramfs regeneration
         '99-linux.hook'
         # standard config files for mkinitcpio ramdisk
         'linux.preset'
         'change-default-console-loglevel.patch'
         'multitouch.patch'
-	      'wifi.patch'
+	'wifi.patch'
         'touchscreen.patch'
         'ipts_fw_config.bin'
         )
 
 sha256sums=('029098dcffab74875e086ae970e3828456838da6e0ba22ce3f64ef764f3d7f1a'
             'SKIP'
-            '2ac8818414beb7dbacbd3ad450c516e6ada804827132a7132f63b8189e5f5151'
-            'c9c4529cdf7a6bd3d9a4863202160721419d10397a2f1186def8325ba660ed02'
+            'db6dfd7c38a9b6a62052d7a60c6fc5818e07fb2d8fc758ba576e87a8b150e305'
+            'SKIP'
+            'a0d47a9874a9fc0db66ea4b7a274f535fb4a533aab3bf8da8fd092d8002fc692'
             '834bd254b56ab71d73f59b3221f056c72f559553c04718e350ab2a3e2991afe0'
             'ad6344badc91ad0630caacde83f7f9b97276f80d26a20619a87952be65492c65'
             '1256b241cd477b265a3c2d64bdc19ffe3c9bbcee82ea3994c590c2c76e767d99'
@@ -52,7 +53,7 @@ prepare() {
   cd "${srcdir}/${_srcname}"
 
   # add upstream patch
-  # patch -p1 -i "${srcdir}/patch-${pkgver}"
+  patch -p1 -i "${srcdir}/patch-${pkgver}"
 
   # add experimental touchscreen support
   patch -p1 -i "${srcdir}/touchscreen.patch"
