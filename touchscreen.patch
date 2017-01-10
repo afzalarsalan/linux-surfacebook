@@ -248,7 +248,7 @@ diff --git a/drivers/gpu/drm/i915/intel_guc.h b/drivers/gpu/drm/i915/intel_guc.h
 index 5cdf7aa..0b8dd19 100644
 --- a/drivers/gpu/drm/i915/intel_guc.h
 +++ b/drivers/gpu/drm/i915/intel_guc.h
-@@ -133,6 +133,7 @@ struct intel_guc {
+@@ -151,6 +151,7 @@ struct intel_guc {
  	struct ida ctx_ids;
  
  	struct i915_guc_client *execbuf_client;
@@ -256,16 +256,16 @@ index 5cdf7aa..0b8dd19 100644
  
  	DECLARE_BITMAP(doorbell_bitmap, GUC_MAX_DOORBELLS);
  	uint32_t db_cacheline;		/* Cyclic counter mod pagesize	*/
-@@ -163,5 +164,9 @@ int i915_guc_wq_reserve(struct drm_i915_gem_request *rq);
+@@ -184,6 +185,9 @@ int i915_guc_wq_reserve(struct drm_i915_
  void i915_guc_wq_unreserve(struct drm_i915_gem_request *request);
  void i915_guc_submission_disable(struct drm_i915_private *dev_priv);
  void i915_guc_submission_fini(struct drm_i915_private *dev_priv);
-+int i915_guc_ipts_submission_enable(struct drm_i915_private *dev_priv,
-+				    struct i915_gem_context *ctx);
++int i915_guc_ipts_submission_enable(struct drm_i915_private *dev_priv, struct i915_gem_context *ctx);
 +void i915_guc_ipts_submission_disable(struct drm_i915_private *dev_priv);
 +void i915_guc_ipts_reacquire_doorbell(struct drm_i915_private *dev_priv);
- 
- #endif
+ void i915_guc_capture_logs(struct drm_i915_private *dev_priv);
+ void i915_guc_flush_logs(struct drm_i915_private *dev_priv);
+ void i915_guc_register(struct drm_i915_private *dev_priv);
 diff --git a/drivers/gpu/drm/i915/intel_guc_loader.c b/drivers/gpu/drm/i915/intel_guc_loader.c
 index 6fd39ef..5a21181 100644
 --- a/drivers/gpu/drm/i915/intel_guc_loader.c
@@ -1173,7 +1173,7 @@ diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
 index fb6f1f4..18b25ee 100644
 --- a/drivers/hid/hid-multitouch.c
 +++ b/drivers/hid/hid-multitouch.c
-@@ -550,8 +550,12 @@ static int mt_touch_input_mapping(struct hid_device *hdev, struct hid_input *hi,
+@@ -548,8 +548,12 @@ static int mt_touch_input_mapping(struct
  			if (field->index >= field->report->maxfield ||
  			    usage->usage_index >= field->report_count)
  				return 1;
@@ -1188,18 +1188,18 @@ index fb6f1f4..18b25ee 100644
  			return 1;
  		case HID_DG_CONTACTMAX:
  			/* we don't set td->last_slot_field as contactcount and
-@@ -842,7 +846,9 @@ static int mt_input_mapping(struct hid_device *hdev, struct hid_input *hi,
- 	if (!td->mtclass.export_all_inputs &&
- 	    field->application != HID_DG_TOUCHSCREEN &&
+@@ -850,7 +854,9 @@ static int mt_input_mapping(struct hid_d
  	    field->application != HID_DG_PEN &&
--	    field->application != HID_DG_TOUCHPAD)
-+	    field->application != HID_DG_TOUCHPAD &&
-+	    field->application != HID_GD_MOUSE &&
+ 	    field->application != HID_DG_TOUCHPAD &&
+ 	    field->application != HID_GD_KEYBOARD &&
+-	    field->application != HID_CP_CONSUMER_CONTROL)
++	    field->application != HID_CP_CONSUMER_CONTROL &&
++		field->application != HID_GD_MOUSE &&
 +	    field->logical != HID_DG_TOUCHSCREEN)
  		return -1;
  
  	/*
-@@ -1023,6 +1029,10 @@ static int mt_input_configured(struct hid_device *hdev, struct hid_input *hi)
+@@ -1031,6 +1037,10 @@ static int mt_input_configured(struct hi
  		suffix = "Pen";
  		/* force BTN_STYLUS to allow tablet matching in udev */
  		__set_bit(BTN_STYLUS, hi->input->keybit);
@@ -6252,3 +6252,34 @@ index 8f3b468..a7a4846 100644
  
  	bool		switch_sensor_mode;
 --
+From bab1e5b308acfa7572906e70ae959d8db5080b3e Mon Sep 17 00:00:00 2001
+From: Anton Vorontsov <anton@enomsg.org>
+Date: Thu, 29 Dec 2016 15:15:38 -0800
+Subject: [PATCH] misc: ipts: Fix NULL pointer dereference in
+ ipts_hid_release()
+
+If we failed to add a hid device (e.g. firmware failed to load),
+ipts_hid_release() will still be called (by mei_cl_device_remove()) on
+shutdown, which in turn will cause ipts->hid to be dereferenced.
+
+Signed-off-by: Anton Vorontsov <anton@enomsg.org>
+---
+ drivers/misc/ipts/ipts-hid.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/misc/ipts/ipts-hid.c b/drivers/misc/ipts/ipts-hid.c
+index cc3ad0d..afa740f 100644
+--- a/drivers/misc/ipts/ipts-hid.c
++++ b/drivers/misc/ipts/ipts-hid.c
+@@ -286,8 +286,9 @@ int ipts_hid_init(ipts_info_t *ipts)
+ 
+ void ipts_hid_release(ipts_info_t *ipts)
+ {
+-	struct hid_device *hid = ipts->hid;
+-	hid_destroy_device(hid);
++	if (!ipts->hid)
++		return;
++	hid_destroy_device(ipts->hid);
+ }
+ 
+ int ipts_handle_hid_data(ipts_info_t *ipts,

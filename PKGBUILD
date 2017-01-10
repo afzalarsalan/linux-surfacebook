@@ -1,9 +1,9 @@
 # $Id$
 # Maintainer: Arsalan Afzal <afzal.arsalan@gmail.com>
 
-pkgbase=linux-surfacebook
-_srcname=linux-4.9
-pkgver=4.9.1
+pkgbase=linux-surfacebook-debug
+_srcname=linux-4.10-rc3
+pkgver=4.10rc3
 pkgrel=1
 arch=('x86_64')
 url="http://www.kernel.org/"
@@ -11,12 +11,12 @@ license=('GPL2')
 makedepends=('xmlto' 'docbook-xsl' 'kmod' 'inetutils' 'bc' 'libelf')
 options=('!strip')
 source=(
-        "https://www.kernel.org/pub/linux/kernel/v4.x/${_srcname}.tar.xz"
-        "https://www.kernel.org/pub/linux/kernel/v4.x/${_srcname}.tar.sign"
-        #"https://www.kernel.org/pub/linux/kernel/v4.x/testing/${_srcname}.tar.xz"
-        #"https://www.kernel.org/pub/linux/kernel/v4.x/testing/${_srcname}.tar.sign"
-        "https://www.kernel.org/pub/linux/kernel/v4.x/patch-${pkgver}.xz"
-        "https://www.kernel.org/pub/linux/kernel/v4.x/patch-${pkgver}.sign"
+        #"https://www.kernel.org/pub/linux/kernel/v4.x/${_srcname}.tar.xz"
+        #"https://www.kernel.org/pub/linux/kernel/v4.x/${_srcname}.tar.sign"
+        "https://www.kernel.org/pub/linux/kernel/v4.x/testing/${_srcname}.tar.xz"
+        "https://www.kernel.org/pub/linux/kernel/v4.x/testing/${_srcname}.tar.sign"
+        #"https://www.kernel.org/pub/linux/kernel/v4.x/patch-${pkgver}.xz"
+        #"https://www.kernel.org/pub/linux/kernel/v4.x/patch-${pkgver}.sign"
         # the main kernel config files
         'config.x86_64'
         # pacman hook for initramfs regeneration
@@ -24,23 +24,19 @@ source=(
         # standard config files for mkinitcpio ramdisk
         'linux.preset'
         'change-default-console-loglevel.patch'
-        'multitouch.patch'
-	'wifi.patch'
+	      'wifi.patch'
         'touchscreen.patch'
         'ipts_fw_config.bin'
         )
 
-sha256sums=('029098dcffab74875e086ae970e3828456838da6e0ba22ce3f64ef764f3d7f1a'
+sha256sums=('ef95e8c308d64573e1f216397e831ed3d2e2ae414b56a2720a57509fe1e7e397'
             'SKIP'
-            'db6dfd7c38a9b6a62052d7a60c6fc5818e07fb2d8fc758ba576e87a8b150e305'
-            'SKIP'
-            'a0d47a9874a9fc0db66ea4b7a274f535fb4a533aab3bf8da8fd092d8002fc692'
+            '0a607fa6860c12f666d28b55b208d65c2ab72a6d7d3996463784927f32ee17d9'
             '834bd254b56ab71d73f59b3221f056c72f559553c04718e350ab2a3e2991afe0'
             'ad6344badc91ad0630caacde83f7f9b97276f80d26a20619a87952be65492c65'
             '1256b241cd477b265a3c2d64bdc19ffe3c9bbcee82ea3994c590c2c76e767d99'
-            'c523cb5848603d76723f4344b64045b5894bdb213b63cd87703917d875923857'
             'e8ed95070745a8d7060a126e952e23f0959c4533f24ac45029a63c6a7c33b412'
-            '79bb85be69f388b8ac5a7dc75678e54fb09a544aef96c728e847a844e7a3de2a'
+            '07f99e81b6cf3d2231111152ecba8f56b7de2049adbdfd9f37d7a3963597ef4b'
             'eed5c04a5f8841d52292fbb321990c79316ce98cd21324c71226cdc95cc20d09')
 validpgpkeys=(
               'ABAF11C65A2970B130ABE3C479BE3E4300411886' # Linus Torvalds
@@ -53,17 +49,17 @@ prepare() {
   cd "${srcdir}/${_srcname}"
 
   # add upstream patch
-  patch -p1 -i "${srcdir}/patch-${pkgver}"
+  #patch -p1 -i "${srcdir}/patch-${pkgver}"
 
   # add experimental touchscreen support
   patch -p1 -i "${srcdir}/touchscreen.patch"
   mkdir -p firmware/intel/ipts/ && cp "${srcdir}/ipts_fw_config.bin" firmware/intel/ipts/
 
   # add keyboard and trackpad support
-  patch -p1 -i "${srcdir}/multitouch.patch"
+  #patch -p1 -i "${srcdir}/multitouch.patch"
 
   # add wifi fixup if needed
-  patch -p1 -i "${srcdir}/wifi.patch"
+  #patch -p1 -i "${srcdir}/wifi.patch"
 
   # add latest fixes from stable queue, if needed
   # http://git.kernel.org/?p=linux/kernel/git/stable/stable-queue.git
