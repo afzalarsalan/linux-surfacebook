@@ -31,7 +31,7 @@ source=(
 
 sha256sums=('ef95e8c308d64573e1f216397e831ed3d2e2ae414b56a2720a57509fe1e7e397'
             'SKIP'
-            '0a607fa6860c12f666d28b55b208d65c2ab72a6d7d3996463784927f32ee17d9'
+            '0882d4c30b625a80be292c99de9f2d995b723144ad7eac3fe88b6c61515638af'
             '834bd254b56ab71d73f59b3221f056c72f559553c04718e350ab2a3e2991afe0'
             'ad6344badc91ad0630caacde83f7f9b97276f80d26a20619a87952be65492c65'
             '1256b241cd477b265a3c2d64bdc19ffe3c9bbcee82ea3994c590c2c76e767d99'
@@ -67,7 +67,7 @@ prepare() {
   # set DEFAULT_CONSOLE_LOGLEVEL to 4 (same value as the 'quiet' kernel param)
   # remove this when a Kconfig knob is made available by upstream
   # (relevant patch sent upstream: https://lkml.org/lkml/2011/7/26/227)
-  patch -p1 -i "${srcdir}/change-default-console-loglevel.patch"
+  #patch -p1 -i "${srcdir}/change-default-console-loglevel.patch"
 
   if [ "${CARCH}" = "x86_64" ]; then
     cat "${srcdir}/config.x86_64" > ./.config
