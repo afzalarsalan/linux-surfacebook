@@ -36,7 +36,7 @@ sha256sums=('ef95e8c308d64573e1f216397e831ed3d2e2ae414b56a2720a57509fe1e7e397'
             'ad6344badc91ad0630caacde83f7f9b97276f80d26a20619a87952be65492c65'
             '1256b241cd477b265a3c2d64bdc19ffe3c9bbcee82ea3994c590c2c76e767d99'
             'e8ed95070745a8d7060a126e952e23f0959c4533f24ac45029a63c6a7c33b412'
-            '07f99e81b6cf3d2231111152ecba8f56b7de2049adbdfd9f37d7a3963597ef4b'
+            '3915f06745b036c18040ae2da8a5db16b2b3cf26dddf34827c426aac0fabd71d'
             'eed5c04a5f8841d52292fbb321990c79316ce98cd21324c71226cdc95cc20d09')
 validpgpkeys=(
               'ABAF11C65A2970B130ABE3C479BE3E4300411886' # Linus Torvalds
@@ -59,7 +59,7 @@ prepare() {
   #patch -p1 -i "${srcdir}/multitouch.patch"
 
   # add wifi fixup if needed
-  #patch -p1 -i "${srcdir}/wifi.patch"
+  patch -p1 -i "${srcdir}/wifi.patch"
 
   # add latest fixes from stable queue, if needed
   # http://git.kernel.org/?p=linux/kernel/git/stable/stable-queue.git

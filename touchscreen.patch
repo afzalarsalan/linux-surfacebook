@@ -65,7 +65,7 @@ index 18dfdd5..33c8e4b 100644
  	drm_kms_helper_poll_init(dev);
  
 +pr_info(">> let init ipts\n");
-+	if (INTEL_GEN(dev) >= 9 && i915.enable_guc_submission)
++	if (INTEL_GEN(dev_priv) >= 9 && i915.enable_guc_submission)
 +                intel_ipts_init(dev);
 +
  	return 0;
@@ -75,7 +75,7 @@ index 18dfdd5..33c8e4b 100644
  	struct drm_i915_private *dev_priv = to_i915(dev);
  	struct pci_dev *pdev = dev_priv->drm.pdev;
  
-+	if (INTEL_GEN(dev) >= 9 && i915.enable_guc_submission)
++	if (INTEL_GEN(dev_priv) >= 9 && i915.enable_guc_submission)
 +		intel_ipts_cleanup(dev);
 +
  	intel_fbdev_fini(dev);
@@ -477,13 +477,13 @@ index 0000000..f4a2440
 +		goto err_unlock;
 +	}
 +
-+	ret = execlists_context_deferred_alloc(ipts_ctx, &dev_priv->engine[RCS]);
++	ret = execlists_context_deferred_alloc(ipts_ctx, dev_priv->engine[RCS]);
 +	if (ret) {
 +		DRM_DEBUG("lr context allocation failed : %d\n", ret);
 +		goto err_ctx;
 +	}
 +
-+	ret = intel_lr_context_pin(ipts_ctx, &dev_priv->engine[RCS]);
++	ret = intel_lr_context_pin(ipts_ctx, dev_priv->engine[RCS]);
 +	if (ret) {
 +		DRM_DEBUG("lr context pinning failed : %d\n", ret);
 +		goto err_ctx;
@@ -524,7 +524,7 @@ index 0000000..f4a2440
 +		return;
 +	}
 +
-+	intel_lr_context_unpin(ipts_ctx, &dev_priv->engine[RCS]);
++	intel_lr_context_unpin(ipts_ctx, dev_priv->engine[RCS]);
 +	i915_gem_context_put(ipts_ctx);
 +
 +	mutex_unlock(&intel_ipts.dev->struct_mutex);
@@ -611,7 +611,7 @@ index 0000000..f4a2440
 +		return -EINVAL;
 +	}
 +
-+	base = client->client_base;
++	base = client->vaddr;
 +	desc = (struct guc_process_desc *)((u64)base + client->proc_desc_offset);
 +
 +	desc->wq_base_addr = (u64)base + client->wq_offset;
@@ -781,7 +781,7 @@ index 0000000..f4a2440
 +		ipts_connect->ipts_ops.get_wq_info = intel_ipts_get_wq_info;
 +		ipts_connect->ipts_ops.map_buffer = intel_ipts_map_buffer;
 +		ipts_connect->ipts_ops.unmap_buffer = intel_ipts_unmap_buffer;
-+		ipts_connect->gfx_version = INTEL_INFO(intel_ipts.dev)->gen;
++		ipts_connect->gfx_version = INTEL_INFO(to_i915(intel_ipts.dev))->gen;
 +		ipts_connect->gfx_handle = (uint64_t)&intel_ipts;
 +
 +		/* save callback and data */
@@ -1021,7 +1021,7 @@ index be4b4d5..6ba5e21 100644
  	struct drm_i915_private *dev_priv = to_i915(connector->base.dev);
  	u32 tmp;
  
-+	if (INTEL_GEN(connector->base.dev) >= 9 && i915.enable_guc_submission)
++	if (INTEL_GEN(dev_priv) >= 9 && i915.enable_guc_submission)
 +		intel_ipts_notify_backlight_status(false);
 +
  	intel_panel_actually_set_backlight(connector, 0);
@@ -1032,7 +1032,7 @@ index be4b4d5..6ba5e21 100644
  	/* This won't stick until the above enable. */
  	intel_panel_actually_set_backlight(connector, panel->backlight.level);
 +
-+	if (INTEL_GEN(connector->base.dev) >= 9 && i915.enable_guc_submission)
++	if (INTEL_GEN(dev_priv) >= 9 && i915.enable_guc_submission)
 +		intel_ipts_notify_backlight_status(true);
  }
  
