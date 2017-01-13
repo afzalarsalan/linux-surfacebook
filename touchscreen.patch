@@ -6283,3 +6283,16 @@ index cc3ad0d..afa740f 100644
  }
  
  int ipts_handle_hid_data(ipts_info_t *ipts,
+
+ diff --git a/drivers/misc/ipts/ipts.h b/drivers/misc/ipts/ipts.h
+index a7a4846..397b70a 100644
+--- a/drivers/misc/ipts/ipts.h
++++ b/drivers/misc/ipts/ipts.h
+@@ -26,7 +26,7 @@
+ #include "ipts-state.h"
+ #include "ipts-binary-spec.h"
+ 
+-//#define ENABLE_IPTS_DEBUG		/* enable IPTS debug */
++#define ENABLE_IPTS_DEBUG		/* enable IPTS debug */
+ 
+ #ifdef ENABLE_IPTS_DEBUG
