@@ -1,0 +1,12 @@
+diff -aur Downloads/linux-4.10-rc3/drivers/misc/ipts/ipts-gfx.c Downloads/other_linux/linux-4.10-rc3/drivers/misc/ipts/ipts-gfx.c
+--- Downloads/linux-4.10-rc3/drivers/misc/ipts/ipts-gfx.c	2017-01-13 01:35:47.241069876 -0600
++++ Downloads/other_linux/linux-4.10-rc3/drivers/misc/ipts/ipts-gfx.c	2017-01-13 01:35:12.024443761 -0600
+@@ -67,8 +67,6 @@
+ 	intel_ipts_disconnect(ipts->gfx_info.gfx_handle);
+ }
+ 
+-#define RUN_DBG_THREAD
+-
+ #ifdef RUN_DBG_THREAD
+ #include "../mei/mei_dev.h"
+ 

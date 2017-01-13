@@ -26,6 +26,7 @@ source=(
         'change-default-console-loglevel.patch'
 	      'wifi.patch'
         'touchscreen.patch'
+        'touchscreenv2.patch'
         'ipts_fw_config.bin'
         )
 
@@ -37,6 +38,7 @@ sha256sums=('ef95e8c308d64573e1f216397e831ed3d2e2ae414b56a2720a57509fe1e7e397'
             '1256b241cd477b265a3c2d64bdc19ffe3c9bbcee82ea3994c590c2c76e767d99'
             'e8ed95070745a8d7060a126e952e23f0959c4533f24ac45029a63c6a7c33b412'
             '94e7c7afa7d6c75e2b34035d63e74ddefaeb814f9a05ac8151880d60493570a1'
+            'ec69e09091ca0d300622116846dd8157f83e4a085b5143a3a310cb740cdcdddc'
             'eed5c04a5f8841d52292fbb321990c79316ce98cd21324c71226cdc95cc20d09')
 validpgpkeys=(
               'ABAF11C65A2970B130ABE3C479BE3E4300411886' # Linus Torvalds
@@ -53,6 +55,7 @@ prepare() {
 
   # add experimental touchscreen support
   patch -p1 -i "${srcdir}/touchscreen.patch"
+  patch -p1 -i "${srcdir}/touchscreenv2.patch"
   mkdir -p firmware/intel/ipts/ && cp "${srcdir}/ipts_fw_config.bin" firmware/intel/ipts/
 
   # add keyboard and trackpad support
