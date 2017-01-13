@@ -1,6 +1,6 @@
-diff -aur Downloads/linux-4.10-rc3/drivers/misc/ipts/ipts-gfx.c Downloads/other_linux/linux-4.10-rc3/drivers/misc/ipts/ipts-gfx.c
---- Downloads/linux-4.10-rc3/drivers/misc/ipts/ipts-gfx.c	2017-01-13 01:35:47.241069876 -0600
-+++ Downloads/other_linux/linux-4.10-rc3/drivers/misc/ipts/ipts-gfx.c	2017-01-13 01:35:12.024443761 -0600
+diff --git a/drivers/misc/ipts/ipts-gfx.c b/drivers/misc/ipts/ipts-gfx.c
+--- a/drivers/misc/ipts/ipts-gfx.c
++++ b/drivers/misc/ipts/ipts-gfx.c
 @@ -67,8 +67,6 @@
  	intel_ipts_disconnect(ipts->gfx_info.gfx_handle);
  }
