@@ -2,8 +2,8 @@
 # Maintainer: Arsalan Afzal <afzal.arsalan@gmail.com>
 
 pkgbase=linux-surfacebook-debug
-_srcname=linux-4.10-rc3
-pkgver=4.10rc3
+_srcname=linux-4.10-rc4
+pkgver=4.10rc4
 pkgrel=1
 arch=('x86_64')
 url="http://www.kernel.org/"
@@ -27,18 +27,20 @@ source=(
 	      'wifi.patch'
         'touchscreen.patch'
         'touchscreenv2.patch'
+        'touchscreenv3.patch'
         'ipts_fw_config.bin'
         )
 
-sha256sums=('ef95e8c308d64573e1f216397e831ed3d2e2ae414b56a2720a57509fe1e7e397'
+sha256sums=('7737eb36c9215661e7ef655b658070a3de7fdc8d2667e98967743c85784c5167'
             'SKIP'
-            '0882d4c30b625a80be292c99de9f2d995b723144ad7eac3fe88b6c61515638af'
+            '554a6e6bb86682451a67cee3e6925d6a1679f617da69fec45c6b030267067068'
             '834bd254b56ab71d73f59b3221f056c72f559553c04718e350ab2a3e2991afe0'
             'ad6344badc91ad0630caacde83f7f9b97276f80d26a20619a87952be65492c65'
             '1256b241cd477b265a3c2d64bdc19ffe3c9bbcee82ea3994c590c2c76e767d99'
             'e8ed95070745a8d7060a126e952e23f0959c4533f24ac45029a63c6a7c33b412'
             '94e7c7afa7d6c75e2b34035d63e74ddefaeb814f9a05ac8151880d60493570a1'
             'b6b64ea258e2eaebe359306407d4fc78489eab400164e3dfb16234785eae220e'
+            '046195cdaec09e9762a7145bf960374f9a9522e893268ba538e129a6f7ac17fd'
             'eed5c04a5f8841d52292fbb321990c79316ce98cd21324c71226cdc95cc20d09')
 validpgpkeys=(
               'ABAF11C65A2970B130ABE3C479BE3E4300411886' # Linus Torvalds
@@ -54,8 +56,9 @@ prepare() {
   #patch -p1 -i "${srcdir}/patch-${pkgver}"
 
   # add experimental touchscreen support
-  patch -p1 -i "${srcdir}/touchscreen.patch"
-  patch -p1 -i "${srcdir}/touchscreenv2.patch"
+  #patch -p1 -i "${srcdir}/touchscreen.patch"
+  #patch -p1 -i "${srcdir}/touchscreenv2.patch"
+  patch -p1 -i "${srcdir}/touchscreenv3.patch"
   mkdir -p firmware/intel/ipts/ && cp "${srcdir}/ipts_fw_config.bin" firmware/intel/ipts/
 
   # add keyboard and trackpad support
