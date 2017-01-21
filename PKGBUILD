@@ -3,7 +3,7 @@
 
 pkgbase=linux-surfacebook
 _srcname=linux-4.9
-pkgver=4.9.4
+pkgver=4.9.5
 pkgrel=1
 arch=('x86_64')
 url="http://www.kernel.org/"
