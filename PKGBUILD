@@ -2,8 +2,8 @@
 # Maintainer: Arsalan Afzal <afzal.arsalan@gmail.com>
 
 pkgbase=linux-surfacebook-debug
-_srcname=linux-4.10-rc4
-pkgver=4.10rc4
+_srcname=linux-4.10-rc5
+pkgver=4.10rc5
 pkgrel=1
 arch=('x86_64')
 url="http://www.kernel.org/"
@@ -31,7 +31,7 @@ source=(
         'ipts_fw_config.bin'
         )
 
-sha256sums=('7737eb36c9215661e7ef655b658070a3de7fdc8d2667e98967743c85784c5167'
+sha256sums=('cdc49b0b83327ef0295e82c35035f0c34223fdfba9d4b94068d33f202c506d9b'
             'SKIP'
             '554a6e6bb86682451a67cee3e6925d6a1679f617da69fec45c6b030267067068'
             '834bd254b56ab71d73f59b3221f056c72f559553c04718e350ab2a3e2991afe0'
