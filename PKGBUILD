@@ -2,8 +2,8 @@
 # Maintainer: Arsalan Afzal <afzal.arsalan@gmail.com>
 
 pkgbase=linux-surfacebook
-_srcname=linux-4.9
-pkgver=4.9.10
+_srcname=linux-4.10
+pkgver=4.10
 pkgrel=1
 arch=('x86_64')
 url="http://www.kernel.org/"
@@ -15,8 +15,8 @@ source=(
         "https://www.kernel.org/pub/linux/kernel/v4.x/${_srcname}.tar.sign"
         #"https://www.kernel.org/pub/linux/kernel/v4.x/testing/${_srcname}.tar.xz"
         #"https://www.kernel.org/pub/linux/kernel/v4.x/testing/${_srcname}.tar.sign"
-        "https://www.kernel.org/pub/linux/kernel/v4.x/patch-${pkgver}.xz"
-        "https://www.kernel.org/pub/linux/kernel/v4.x/patch-${pkgver}.sign"
+        #"https://www.kernel.org/pub/linux/kernel/v4.x/patch-${pkgver}.xz"
+        #"https://www.kernel.org/pub/linux/kernel/v4.x/patch-${pkgver}.sign"
         # the main kernel config files
         'config.x86_64'
         # pacman hook for initramfs regeneration
@@ -24,23 +24,23 @@ source=(
         # standard config files for mkinitcpio ramdisk
         'linux.preset'
         'change-default-console-loglevel.patch'
-        'multitouch.patch'
-	'wifi.patch'
+	      'wifi.patch'
         'touchscreen.patch'
+        'touchscreenv2.patch'
+        'touchscreenv3.patch'
         'ipts_fw_config.bin'
         )
 
-sha256sums=('029098dcffab74875e086ae970e3828456838da6e0ba22ce3f64ef764f3d7f1a'
+sha256sums=('3c95d9f049bd085e5c346d2c77f063b8425f191460fcd3ae9fe7e94e0477dc4b'
             'SKIP'
-            'd6350ace4757775a76f2b7f76ab1b16756587a2f6ab06182fee8125eb01dd3f4'
-            'SKIP'
-            '3abe99504b5e645129a07516fd0f44d32a74774b80efdb48d29ee439f447915b'
+            '5f034bb4857a1d12bf833557ea63289820cd872b2687417b02eb3496b3c8248f'
             '834bd254b56ab71d73f59b3221f056c72f559553c04718e350ab2a3e2991afe0'
             'ad6344badc91ad0630caacde83f7f9b97276f80d26a20619a87952be65492c65'
             '1256b241cd477b265a3c2d64bdc19ffe3c9bbcee82ea3994c590c2c76e767d99'
-            'c523cb5848603d76723f4344b64045b5894bdb213b63cd87703917d875923857'
             'e8ed95070745a8d7060a126e952e23f0959c4533f24ac45029a63c6a7c33b412'
-            'b65c20ad0eadfa45582cbc648be3fbfebba41146201ff188c88112eddfd4152f'
+            '94e7c7afa7d6c75e2b34035d63e74ddefaeb814f9a05ac8151880d60493570a1'
+            'b6b64ea258e2eaebe359306407d4fc78489eab400164e3dfb16234785eae220e'
+            '046195cdaec09e9762a7145bf960374f9a9522e893268ba538e129a6f7ac17fd'
             'eed5c04a5f8841d52292fbb321990c79316ce98cd21324c71226cdc95cc20d09')
 validpgpkeys=(
               'ABAF11C65A2970B130ABE3C479BE3E4300411886' # Linus Torvalds
@@ -53,14 +53,16 @@ prepare() {
   cd "${srcdir}/${_srcname}"
 
   # add upstream patch
-  patch -p1 -i "${srcdir}/patch-${pkgver}"
+  #patch -p1 -i "${srcdir}/patch-${pkgver}"
 
   # add experimental touchscreen support
-  patch -p1 -i "${srcdir}/touchscreen.patch"
+  #patch -p1 -i "${srcdir}/touchscreen.patch"
+  #patch -p1 -i "${srcdir}/touchscreenv2.patch"
+  patch -p1 -i "${srcdir}/touchscreenv3.patch"
   mkdir -p firmware/intel/ipts/ && cp "${srcdir}/ipts_fw_config.bin" firmware/intel/ipts/
 
   # add keyboard and trackpad support
-  patch -p1 -i "${srcdir}/multitouch.patch"
+  #patch -p1 -i "${srcdir}/multitouch.patch"
 
   # add wifi fixup if needed
   patch -p1 -i "${srcdir}/wifi.patch"
@@ -71,7 +73,7 @@ prepare() {
   # set DEFAULT_CONSOLE_LOGLEVEL to 4 (same value as the 'quiet' kernel param)
   # remove this when a Kconfig knob is made available by upstream
   # (relevant patch sent upstream: https://lkml.org/lkml/2011/7/26/227)
-  patch -p1 -i "${srcdir}/change-default-console-loglevel.patch"
+  #patch -p1 -i "${srcdir}/change-default-console-loglevel.patch"
 
   if [ "${CARCH}" = "x86_64" ]; then
     cat "${srcdir}/config.x86_64" > ./.config
