@@ -1,7 +1,7 @@
 # $Id$
 # Maintainer: Arsalan Afzal <afzal.arsalan@gmail.com>
 
-pkgbase=linux-surfacebook-debug
+pkgbase=linux-surfacebook
 _srcname=linux-4.10
 pkgver=4.10
 pkgrel=1
