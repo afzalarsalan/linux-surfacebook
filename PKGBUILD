@@ -3,7 +3,7 @@
 
 pkgbase=linux-surfacebook
 _srcname=linux-4.9
-pkgver=4.9.10
+pkgver=4.9.11
 pkgrel=1
 arch=('x86_64')
 url="http://www.kernel.org/"
@@ -32,7 +32,7 @@ source=(
 
 sha256sums=('029098dcffab74875e086ae970e3828456838da6e0ba22ce3f64ef764f3d7f1a'
             'SKIP'
-            'd6350ace4757775a76f2b7f76ab1b16756587a2f6ab06182fee8125eb01dd3f4'
+            '23e773a670f3cac11a92c4e442405dea6d2c28fea0f914ea2ba4bea313c26541'
             'SKIP'
             '3abe99504b5e645129a07516fd0f44d32a74774b80efdb48d29ee439f447915b'
             '834bd254b56ab71d73f59b3221f056c72f559553c04718e350ab2a3e2991afe0'
