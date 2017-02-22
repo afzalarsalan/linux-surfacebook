@@ -24,7 +24,8 @@ source=(
         # standard config files for mkinitcpio ramdisk
         'linux.preset'
         'change-default-console-loglevel.patch'
-	      'wifi.patch'
+        'wifi.patch'
+	      'wifi2.patch'
         'touchscreen.patch'
         'touchscreenv2.patch'
         'touchscreenv3.patch'
@@ -38,6 +39,7 @@ sha256sums=('3c95d9f049bd085e5c346d2c77f063b8425f191460fcd3ae9fe7e94e0477dc4b'
             'ad6344badc91ad0630caacde83f7f9b97276f80d26a20619a87952be65492c65'
             '1256b241cd477b265a3c2d64bdc19ffe3c9bbcee82ea3994c590c2c76e767d99'
             'e8ed95070745a8d7060a126e952e23f0959c4533f24ac45029a63c6a7c33b412'
+            'b3bc2d160778af296f5814658c578f581801fd8c1fd82ee2ad8ca2621f43e6c6'
             '94e7c7afa7d6c75e2b34035d63e74ddefaeb814f9a05ac8151880d60493570a1'
             'b6b64ea258e2eaebe359306407d4fc78489eab400164e3dfb16234785eae220e'
             '046195cdaec09e9762a7145bf960374f9a9522e893268ba538e129a6f7ac17fd'
@@ -65,7 +67,7 @@ prepare() {
   #patch -p1 -i "${srcdir}/multitouch.patch"
 
   # add wifi fixup if needed
-  patch -p1 -i "${srcdir}/wifi.patch"
+  patch -p1 -i "${srcdir}/wifi2.patch"
 
   # add latest fixes from stable queue, if needed
   # http://git.kernel.org/?p=linux/kernel/git/stable/stable-queue.git
