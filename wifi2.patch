@@ -3016,35 +3016,7 @@ index 3f4ca28..a0d9180 100644
  		usleep_range(20, 30);
  	}
  
--- 
-From 50d55b6d3f1c40485e2e06b2805ef81f881ee9db Mon Sep 17 00:00:00 2001
-From: Johannes Berg <johannes.berg@intel.com>
-Date: Thu, 5 Jan 2017 13:38:35 +0100
-Subject: mwifiex: don't include mac80211.h
-
-This driver doesn't use mac80211, so it shouldn't include mac80211.h,
-include only the necessary cfg80211.h instead.
-
-Signed-off-by: Johannes Berg <johannes.berg@intel.com>
-Signed-off-by: Kalle Valo <kvalo@codeaurora.org>
----
- drivers/net/wireless/marvell/mwifiex/decl.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/net/wireless/marvell/mwifiex/decl.h b/drivers/net/wireless/marvell/mwifiex/decl.h
-index bec300b..188e4c3 100644
---- a/drivers/net/wireless/marvell/mwifiex/decl.h
-+++ b/drivers/net/wireless/marvell/mwifiex/decl.h
-@@ -27,7 +27,7 @@
- #include <linux/timer.h>
- #include <linux/ieee80211.h>
- #include <uapi/linux/if_arp.h>
--#include <net/mac80211.h>
-+#include <net/cfg80211.h>
- 
- #define MWIFIEX_BSS_COEX_COUNT	     2
- #define MWIFIEX_MAX_BSS_NUM         (3)
--- 
+--  
 From a5b60de6972decc6b50a39abb376077c3c3621c8 Mon Sep 17 00:00:00 2001
 From: Ganapathi Bhat <gbhat@marvell.com>
 Date: Fri, 3 Feb 2017 18:30:22 +0530
