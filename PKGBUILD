@@ -34,7 +34,7 @@ source=(
 
 sha256sums=('3c95d9f049bd085e5c346d2c77f063b8425f191460fcd3ae9fe7e94e0477dc4b'
             'SKIP'
-            '5f034bb4857a1d12bf833557ea63289820cd872b2687417b02eb3496b3c8248f'
+            'e07cc28337d6a4699283e565ddfff6557cade5289433b222c88a95f17c0fabfa'
             '834bd254b56ab71d73f59b3221f056c72f559553c04718e350ab2a3e2991afe0'
             'ad6344badc91ad0630caacde83f7f9b97276f80d26a20619a87952be65492c65'
             '1256b241cd477b265a3c2d64bdc19ffe3c9bbcee82ea3994c590c2c76e767d99'
@@ -60,8 +60,8 @@ prepare() {
   # add experimental touchscreen support
   #patch -p1 -i "${srcdir}/touchscreen.patch"
   #patch -p1 -i "${srcdir}/touchscreenv2.patch"
-  patch -p1 -i "${srcdir}/touchscreenv3.patch"
-  mkdir -p firmware/intel/ipts/ && cp "${srcdir}/ipts_fw_config.bin" firmware/intel/ipts/
+  #patch -p1 -i "${srcdir}/touchscreenv3.patch"
+  #mkdir -p firmware/intel/ipts/ && cp "${srcdir}/ipts_fw_config.bin" firmware/intel/ipts/
 
   # add keyboard and trackpad support
   #patch -p1 -i "${srcdir}/multitouch.patch"
