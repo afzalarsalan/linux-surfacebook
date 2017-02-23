@@ -67,7 +67,7 @@ prepare() {
   #patch -p1 -i "${srcdir}/multitouch.patch"
 
   # add wifi fixup if needed
-  patch -p1 -i "${srcdir}/wifi2.patch"
+  patch -p1 -i "${srcdir}/wifi.patch"
 
   # add latest fixes from stable queue, if needed
   # http://git.kernel.org/?p=linux/kernel/git/stable/stable-queue.git
