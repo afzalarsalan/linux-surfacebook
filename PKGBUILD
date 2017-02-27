@@ -3,7 +3,7 @@
 
 pkgbase=linux-surfacebook
 _srcname=linux-4.10
-pkgver=4.10
+pkgver=4.10.1
 pkgrel=1
 arch=('x86_64')
 url="http://www.kernel.org/"
@@ -15,8 +15,8 @@ source=(
         "https://www.kernel.org/pub/linux/kernel/v4.x/${_srcname}.tar.sign"
         #"https://www.kernel.org/pub/linux/kernel/v4.x/testing/${_srcname}.tar.xz"
         #"https://www.kernel.org/pub/linux/kernel/v4.x/testing/${_srcname}.tar.sign"
-        #"https://www.kernel.org/pub/linux/kernel/v4.x/patch-${pkgver}.xz"
-        #"https://www.kernel.org/pub/linux/kernel/v4.x/patch-${pkgver}.sign"
+        "https://www.kernel.org/pub/linux/kernel/v4.x/patch-${pkgver}.xz"
+        "https://www.kernel.org/pub/linux/kernel/v4.x/patch-${pkgver}.sign"
         # the main kernel config files
         'config.x86_64'
         # pacman hook for initramfs regeneration
@@ -25,7 +25,7 @@ source=(
         'linux.preset'
         'change-default-console-loglevel.patch'
         'wifi.patch'
-	      'wifi2.patch'
+	'wifi2.patch'
         'touchscreen.patch'
         'touchscreenv2.patch'
         'touchscreenv3.patch'
@@ -34,7 +34,9 @@ source=(
 
 sha256sums=('3c95d9f049bd085e5c346d2c77f063b8425f191460fcd3ae9fe7e94e0477dc4b'
             'SKIP'
-            'e07cc28337d6a4699283e565ddfff6557cade5289433b222c88a95f17c0fabfa'
+            'da560125aa350f76f0e4a5b9373a0d0a1c27ccefe3b7bd9231724f3a3c4ebb9e'
+            'SKIP'
+            '06acfc0e828894a2aa88bab1a40f9fd3d28cf2a6ddea1560a15670b3c8ef0290'
             '834bd254b56ab71d73f59b3221f056c72f559553c04718e350ab2a3e2991afe0'
             'ad6344badc91ad0630caacde83f7f9b97276f80d26a20619a87952be65492c65'
             '1256b241cd477b265a3c2d64bdc19ffe3c9bbcee82ea3994c590c2c76e767d99'
@@ -55,7 +57,7 @@ prepare() {
   cd "${srcdir}/${_srcname}"
 
   # add upstream patch
-  #patch -p1 -i "${srcdir}/patch-${pkgver}"
+  patch -p1 -i "${srcdir}/patch-${pkgver}"
 
   # add experimental touchscreen support
   #patch -p1 -i "${srcdir}/touchscreen.patch"
@@ -77,11 +79,7 @@ prepare() {
   # (relevant patch sent upstream: https://lkml.org/lkml/2011/7/26/227)
   #patch -p1 -i "${srcdir}/change-default-console-loglevel.patch"
 
-  if [ "${CARCH}" = "x86_64" ]; then
-    cat "${srcdir}/config.x86_64" > ./.config
-  else
-    cat "${srcdir}/config" > ./.config
-  fi
+  cat "${srcdir}/config.x86_64" > ./.config
 
   if [ "${_kernelname}" != "" ]; then
     sed -i "s|CONFIG_LOCALVERSION=.*|CONFIG_LOCALVERSION=\"${_kernelname}\"|g" ./.config
