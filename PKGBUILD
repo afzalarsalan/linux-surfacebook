@@ -65,8 +65,8 @@ prepare() {
   #patch -p1 -i "${srcdir}/touchscreenv3.patch"
   #mkdir -p firmware/intel/ipts/ && cp "${srcdir}/ipts_fw_config.bin" firmware/intel/ipts/
 
-  # add keyboard and trackpad support
-  #patch -p1 -i "${srcdir}/multitouch.patch"
+  # add keyboard and trackpad support for other Surface Devices (merged in 4.11)
+  patch -p1 -i "${srcdir}/multitouch.patch"
 
   # add wifi fixup if needed
   patch -p1 -i "${srcdir}/wifi.patch"
