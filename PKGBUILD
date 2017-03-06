@@ -2,8 +2,8 @@
 # Maintainer: Arsalan Afzal <afzal.arsalan@gmail.com>
 
 pkgbase=linux-surfacebook
-_srcname=linux-4.10
-pkgver=4.10.1
+_srcname=linux-4.11-rc1
+pkgver=4.11rc1
 pkgrel=1
 arch=('x86_64')
 url="http://www.kernel.org/"
@@ -11,39 +11,31 @@ license=('GPL2')
 makedepends=('xmlto' 'docbook-xsl' 'kmod' 'inetutils' 'bc' 'libelf')
 options=('!strip')
 source=(
-        "https://www.kernel.org/pub/linux/kernel/v4.x/${_srcname}.tar.xz"
-        "https://www.kernel.org/pub/linux/kernel/v4.x/${_srcname}.tar.sign"
-        #"https://www.kernel.org/pub/linux/kernel/v4.x/testing/${_srcname}.tar.xz"
-        #"https://www.kernel.org/pub/linux/kernel/v4.x/testing/${_srcname}.tar.sign"
-        "https://www.kernel.org/pub/linux/kernel/v4.x/patch-${pkgver}.xz"
-        "https://www.kernel.org/pub/linux/kernel/v4.x/patch-${pkgver}.sign"
+        #"https://www.kernel.org/pub/linux/kernel/v4.x/${_srcname}.tar.xz"
+        #"https://www.kernel.org/pub/linux/kernel/v4.x/${_srcname}.tar.sign"
+        "https://www.kernel.org/pub/linux/kernel/v4.x/testing/${_srcname}.tar.xz"
+        "https://www.kernel.org/pub/linux/kernel/v4.x/testing/${_srcname}.tar.sign"
+        #"https://www.kernel.org/pub/linux/kernel/v4.x/patch-${pkgver}.xz"
+        #"https://www.kernel.org/pub/linux/kernel/v4.x/patch-${pkgver}.sign"
         # the main kernel config files
         'config.x86_64'
         # pacman hook for initramfs regeneration
         '99-linux.hook'
         # standard config files for mkinitcpio ramdisk
         'linux.preset'
-        'change-default-console-loglevel.patch'
-	'multitouch.patch'
         'wifi.patch'
-	'wifi2.patch'
         'touchscreen.patch'
         'touchscreenv2.patch'
         'touchscreenv3.patch'
         'ipts_fw_config.bin'
         )
 
-sha256sums=('3c95d9f049bd085e5c346d2c77f063b8425f191460fcd3ae9fe7e94e0477dc4b'
+sha256sums=('14093d085a0ea603524cbc0d6b51d93caec7431c63d6301169a5081eb1f4eca7'
             'SKIP'
-            'da560125aa350f76f0e4a5b9373a0d0a1c27ccefe3b7bd9231724f3a3c4ebb9e'
-            'SKIP'
-            '06acfc0e828894a2aa88bab1a40f9fd3d28cf2a6ddea1560a15670b3c8ef0290'
+            '45d6c1bd1eabd2fa5e441970228ed40a71fb562e886f5369f5fbbef516523d5f'
             '834bd254b56ab71d73f59b3221f056c72f559553c04718e350ab2a3e2991afe0'
             'ad6344badc91ad0630caacde83f7f9b97276f80d26a20619a87952be65492c65'
-            '1256b241cd477b265a3c2d64bdc19ffe3c9bbcee82ea3994c590c2c76e767d99'
-            '1f418ada7f2f7dfa32403ec4f6768cb74b7f29798b5418b722343771e97de870'
             'e8ed95070745a8d7060a126e952e23f0959c4533f24ac45029a63c6a7c33b412'
-            'ec386f0c4e84352a3f51ef641904f032359361f0ad88223f988d10779fa38aeb'
             '94e7c7afa7d6c75e2b34035d63e74ddefaeb814f9a05ac8151880d60493570a1'
             'b6b64ea258e2eaebe359306407d4fc78489eab400164e3dfb16234785eae220e'
             '046195cdaec09e9762a7145bf960374f9a9522e893268ba538e129a6f7ac17fd'
@@ -59,7 +51,7 @@ prepare() {
   cd "${srcdir}/${_srcname}"
 
   # add upstream patch
-  patch -p1 -i "${srcdir}/patch-${pkgver}"
+  #patch -p1 -i "${srcdir}/patch-${pkgver}"
 
   # add experimental touchscreen support
   #patch -p1 -i "${srcdir}/touchscreen.patch"
@@ -68,18 +60,13 @@ prepare() {
   #mkdir -p firmware/intel/ipts/ && cp "${srcdir}/ipts_fw_config.bin" firmware/intel/ipts/
 
   # add keyboard and trackpad support for other Surface Devices (merged in 4.11)
-  patch -p1 -i "${srcdir}/multitouch.patch"
+  #patch -p1 -i "${srcdir}/multitouch.patch"
 
   # add wifi fixup if needed
-  patch -p1 -i "${srcdir}/wifi.patch"
+  #patch -p1 -i "${srcdir}/wifi.patch"
 
   # add latest fixes from stable queue, if needed
   # http://git.kernel.org/?p=linux/kernel/git/stable/stable-queue.git
-
-  # set DEFAULT_CONSOLE_LOGLEVEL to 4 (same value as the 'quiet' kernel param)
-  # remove this when a Kconfig knob is made available by upstream
-  # (relevant patch sent upstream: https://lkml.org/lkml/2011/7/26/227)
-  #patch -p1 -i "${srcdir}/change-default-console-loglevel.patch"
 
   cat "${srcdir}/config.x86_64" > ./.config
 
