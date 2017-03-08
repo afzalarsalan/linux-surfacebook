@@ -25,9 +25,10 @@ source=(
         'linux.preset'
         'change-default-console-loglevel.patch'
         'multitouch.patch'
-	'wifi.patch'
+	      'wifi.patch'
         'touchscreen.patch'
         'ipts_fw_config.bin'
+        'hibernate.sh'
         )
 
 sha256sums=('029098dcffab74875e086ae970e3828456838da6e0ba22ce3f64ef764f3d7f1a'
@@ -41,7 +42,8 @@ sha256sums=('029098dcffab74875e086ae970e3828456838da6e0ba22ce3f64ef764f3d7f1a'
             'c523cb5848603d76723f4344b64045b5894bdb213b63cd87703917d875923857'
             'e8ed95070745a8d7060a126e952e23f0959c4533f24ac45029a63c6a7c33b412'
             'b65c20ad0eadfa45582cbc648be3fbfebba41146201ff188c88112eddfd4152f'
-            'eed5c04a5f8841d52292fbb321990c79316ce98cd21324c71226cdc95cc20d09')
+            'eed5c04a5f8841d52292fbb321990c79316ce98cd21324c71226cdc95cc20d09'
+            '8bc62ffd13077e01b84a21c38abc1abbd008fc8b578c511d23d8fa012d37f410')
 validpgpkeys=(
               'ABAF11C65A2970B130ABE3C479BE3E4300411886' # Linus Torvalds
               '647F28654894E3BD457199BE38DBBDC86092693E' # Greg Kroah-Hartman
@@ -163,7 +165,10 @@ _package() {
   mv "${pkgdir}/lib" "${pkgdir}/usr/"
 
   # add vmlinux
-  install -D -m644 vmlinux "${pkgdir}/usr/lib/modules/${_kernver}/build/vmlinux" 
+  install -D -m644 vmlinux "${pkgdir}/usr/lib/modules/${_kernver}/build/vmlinux"
+
+  # Move Hibernation Hook
+  cat "${srcdir}/hibernate.sh" | install -D -m755 /dev/stdin "${pkgdir}/usr/lib/systemd/system-sleep/hibernate.sh"
 }
 
 _package-headers() {
