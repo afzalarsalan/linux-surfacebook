@@ -1,6 +1,6 @@
 #
 # Automatically generated file; DO NOT EDIT.
-# Linux/x86 4.11.0-rc2 Kernel Configuration
+# Linux/x86 4.11.0-rc3 Kernel Configuration
 #
 CONFIG_64BIT=y
 CONFIG_X86_64=y
@@ -2254,6 +2254,8 @@ CONFIG_QEDI=m
 # CONFIG_QEDF is not set
 CONFIG_SCSI_LPFC=m
 # CONFIG_SCSI_LPFC_DEBUG_FS is not set
+# CONFIG_LPFC_NVME_INITIATOR is not set
+# CONFIG_LPFC_NVME_TARGET is not set
 CONFIG_SCSI_DC395x=m
 CONFIG_SCSI_AM53C974=m
 CONFIG_SCSI_WD719X=m
