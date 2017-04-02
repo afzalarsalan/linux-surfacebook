@@ -35,7 +35,7 @@ source=(
 
 sha256sums=('3c95d9f049bd085e5c346d2c77f063b8425f191460fcd3ae9fe7e94e0477dc4b'
             'SKIP'
-            '68e935fbe1c3faaf186824a44b79a26f1ab85f04a1dade2e5bce5f8c2941624d'
+            'ceb385486e34084dd53425e5ba50b9fba4a8e380d8f2815bfde142852d797da0'
             'SKIP'
             '06acfc0e828894a2aa88bab1a40f9fd3d28cf2a6ddea1560a15670b3c8ef0290'
             '834bd254b56ab71d73f59b3221f056c72f559553c04718e350ab2a3e2991afe0'
