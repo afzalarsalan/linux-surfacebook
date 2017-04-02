@@ -28,6 +28,12 @@ For Greg Kroah-Hartman's key (the stable patch release key):
 Then, to build the package, simply run (as usual):
 
 	makepkg
+
+Once the package is built, you'll need to run the following :
+	
+	makepkg -i
+
+This will generate the kernel executable (vmlinuz) and two initramfs images. They will likely be located in the /boot directory.
 	
 ## Miscellaneous 
 
