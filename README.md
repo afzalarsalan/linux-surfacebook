@@ -3,9 +3,9 @@ Arch Linux package to compile the Linux kernel modified for the Surface Book
 
 This is based on the offical Linux kernel package provided by Arch Linux at: https://projects.archlinux.org/svntogit/packages.git/tree/trunk?h=packages/linux.
 
-###Don't expect this to be rock stable, new patches are never rock-stable
+### Don't expect this to be rock stable, new patches are never rock-stable
 
-##Patches
+### Patches
 
  - Proper multitouch support for the Surface Book keyboard, allowing two-finger scroll (etc): https://raw.githubusercontent.com/shvr/fedora-surface-pro-3-kernel/master/Add-multitouch-support-for-Microsoft-Type-Cover-3.patch
  
@@ -27,10 +27,6 @@ For Greg Kroah-Hartman's key (the stable patch release key):
 
 Then, to build the package, simply run (as usual):
 
-	makepkg
-
-Once the package is built, you'll need to run the following :
-	
 	makepkg -i
 
 This will generate the kernel executable (vmlinuz) and two initramfs images. They will likely be located in the /boot directory.
