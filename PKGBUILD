@@ -2,8 +2,8 @@
 # Maintainer: Arsalan Afzal <afzal.arsalan@gmail.com>
 
 pkgbase=linux-surfacebook
-_srcname=linux-4.11-rc3
-pkgver=4.11rc3
+_srcname=linux-4.11-rc5
+pkgver=4.11rc5
 pkgrel=1
 arch=('x86_64')
 url="http://www.kernel.org/"
@@ -30,7 +30,7 @@ source=(
         'ipts_fw_config.bin'
         )
 
-sha256sums=('bfef338a625d5c0bc1cb353281f4f6f243344d99e32e0ecdf81a9328e822c51f'
+sha256sums=('07839bddb0cc04c98a5883e252f1008c3394c1984078ad36fcc411a8b546ab62'
             'SKIP'
             '46ff22da93416cfae103c068d8fb55ae1e6c94628ea6b9f5fa26dad076160494'
             '834bd254b56ab71d73f59b3221f056c72f559553c04718e350ab2a3e2991afe0'
