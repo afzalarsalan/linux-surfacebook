@@ -1,53 +1,36 @@
 # $Id$
-# Maintainer: Arsalan Afzal <afzal.arsalan@gmail.com>
+# Maintainer: Tobias Powalowski <tpowa@archlinux.org>
+# Maintainer: Thomas Baechler <thomas@archlinux.org>
 
-pkgbase=linux-surfacebook
-_srcname=linux-4.10
-pkgver=4.10.8
+pkgbase=linux               # Build stock -ARCH kernel
+#pkgbase=linux-custom       # Build kernel with a different name
+_srcname=linux-4.12
+pkgver=4.12.10
 pkgrel=1
-arch=('x86_64')
-url="http://www.kernel.org/"
+arch=('i686' 'x86_64')
+url="https://www.kernel.org/"
 license=('GPL2')
 makedepends=('xmlto' 'docbook-xsl' 'kmod' 'inetutils' 'bc' 'libelf')
 options=('!strip')
-source=(
-        "https://www.kernel.org/pub/linux/kernel/v4.x/${_srcname}.tar.xz"
+source=("https://www.kernel.org/pub/linux/kernel/v4.x/${_srcname}.tar.xz"
         "https://www.kernel.org/pub/linux/kernel/v4.x/${_srcname}.tar.sign"
-        #"https://www.kernel.org/pub/linux/kernel/v4.x/testing/${_srcname}.tar.xz"
-        #"https://www.kernel.org/pub/linux/kernel/v4.x/testing/${_srcname}.tar.sign"
         "https://www.kernel.org/pub/linux/kernel/v4.x/patch-${pkgver}.xz"
         "https://www.kernel.org/pub/linux/kernel/v4.x/patch-${pkgver}.sign"
         # the main kernel config files
-        'config.x86_64'
+        'config.i686' 'config.x86_64'
         # pacman hook for initramfs regeneration
-        '99-linux.hook'
+        '90-linux.hook'
         # standard config files for mkinitcpio ramdisk
-        'linux.preset'
-        'change-default-console-loglevel.patch'
-	'multitouch.patch'
-        'wifi.patch'
-	'wifi2.patch'
-        'touchscreen.patch'
-        'touchscreenv2.patch'
-        'touchscreenv3.patch'
-        'ipts_fw_config.bin'
-        )
+        'linux.preset')
 
-sha256sums=('3c95d9f049bd085e5c346d2c77f063b8425f191460fcd3ae9fe7e94e0477dc4b'
+sha256sums=('a45c3becd4d08ce411c14628a949d08e2433d8cdeca92036c7013980e93858ab'
             'SKIP'
-            'ceb385486e34084dd53425e5ba50b9fba4a8e380d8f2815bfde142852d797da0'
+            '32dfc4d44b559bb7007a54217aee04f6fe93e1f7bc9d9809064b5a4e689ba6e1'
             'SKIP'
-            '06acfc0e828894a2aa88bab1a40f9fd3d28cf2a6ddea1560a15670b3c8ef0290'
+            'df55887a43dcbb6bd35fd2fb1ec841427b6ea827334c0880cbc256d4f042a7a1'
+            'bf84528c592d1841bba0662242f0339a24a1de384c31f28248631e8be9446586'
             '834bd254b56ab71d73f59b3221f056c72f559553c04718e350ab2a3e2991afe0'
-            'ad6344badc91ad0630caacde83f7f9b97276f80d26a20619a87952be65492c65'
-            '1256b241cd477b265a3c2d64bdc19ffe3c9bbcee82ea3994c590c2c76e767d99'
-            '1f418ada7f2f7dfa32403ec4f6768cb74b7f29798b5418b722343771e97de870'
-            'e8ed95070745a8d7060a126e952e23f0959c4533f24ac45029a63c6a7c33b412'
-            'ec386f0c4e84352a3f51ef641904f032359361f0ad88223f988d10779fa38aeb'
-            '94e7c7afa7d6c75e2b34035d63e74ddefaeb814f9a05ac8151880d60493570a1'
-            'b6b64ea258e2eaebe359306407d4fc78489eab400164e3dfb16234785eae220e'
-            '046195cdaec09e9762a7145bf960374f9a9522e893268ba538e129a6f7ac17fd'
-            'eed5c04a5f8841d52292fbb321990c79316ce98cd21324c71226cdc95cc20d09')
+            'ad6344badc91ad0630caacde83f7f9b97276f80d26a20619a87952be65492c65')
 validpgpkeys=(
               'ABAF11C65A2970B130ABE3C479BE3E4300411886' # Linus Torvalds
               '647F28654894E3BD457199BE38DBBDC86092693E' # Greg Kroah-Hartman
@@ -61,27 +44,12 @@ prepare() {
   # add upstream patch
   patch -p1 -i "${srcdir}/patch-${pkgver}"
 
-  # add experimental touchscreen support
-  #patch -p1 -i "${srcdir}/touchscreen.patch"
-  #patch -p1 -i "${srcdir}/touchscreenv2.patch"
-  #patch -p1 -i "${srcdir}/touchscreenv3.patch"
-  #mkdir -p firmware/intel/ipts/ && cp "${srcdir}/ipts_fw_config.bin" firmware/intel/ipts/
-
-  # add keyboard and trackpad support for other Surface Devices (merged in 4.11)
-  patch -p1 -i "${srcdir}/multitouch.patch"
-
-  # add wifi fixup if needed
-  patch -p1 -i "${srcdir}/wifi.patch"
+  # security patches
 
   # add latest fixes from stable queue, if needed
   # http://git.kernel.org/?p=linux/kernel/git/stable/stable-queue.git
-
-  # set DEFAULT_CONSOLE_LOGLEVEL to 4 (same value as the 'quiet' kernel param)
-  # remove this when a Kconfig knob is made available by upstream
-  # (relevant patch sent upstream: https://lkml.org/lkml/2011/7/26/227)
-  #patch -p1 -i "${srcdir}/change-default-console-loglevel.patch"
-
-  cat "${srcdir}/config.x86_64" > ./.config
+  
+  cat "${srcdir}/config.${CARCH}" > ./.config
 
   if [ "${_kernelname}" != "" ]; then
     sed -i "s|CONFIG_LOCALVERSION=.*|CONFIG_LOCALVERSION=\"${_kernelname}\"|g" ./.config
@@ -146,8 +114,8 @@ _package() {
     install -D -m644 /dev/stdin "${pkgdir}/etc/mkinitcpio.d/${pkgbase}.preset"
 
   # install pacman hook for initramfs regeneration
-  sed "s|%PKGBASE%|${pkgbase}|g" "${srcdir}/99-linux.hook" |
-    install -D -m644 /dev/stdin "${pkgdir}/usr/share/libalpm/hooks/99-${pkgbase}.hook"
+  sed "s|%PKGBASE%|${pkgbase}|g" "${srcdir}/90-linux.hook" |
+    install -D -m644 /dev/stdin "${pkgdir}/usr/share/libalpm/hooks/90-${pkgbase}.hook"
 
   # remove build and source links
   rm -f "${pkgdir}"/lib/modules/${_kernver}/{source,build}
@@ -167,7 +135,7 @@ _package() {
   mv "${pkgdir}/lib" "${pkgdir}/usr/"
 
   # add vmlinux
-  install -D -m644 vmlinux "${pkgdir}/usr/lib/modules/${_kernver}/build/vmlinux" 
+  install -D -m644 vmlinux "${pkgdir}/usr/lib/modules/${_kernver}/build/vmlinux"
 }
 
 _package-headers() {
@@ -186,7 +154,7 @@ _package-headers() {
   mkdir -p "${pkgdir}/usr/lib/modules/${_kernver}/build/include"
 
   for i in acpi asm-generic config crypto drm generated keys linux math-emu \
-    media net pcmcia scsi soc sound trace uapi video xen; do
+    media net pcmcia rdma scsi soc sound trace uapi video xen; do
     cp -a include/${i} "${pkgdir}/usr/lib/modules/${_kernver}/build/include/"
   done
 
@@ -271,7 +239,7 @@ _package-headers() {
   # add objtool for external module building and enabled VALIDATION_STACK option
   if [ -f tools/objtool/objtool ];  then
       mkdir -p "${pkgdir}/usr/lib/modules/${_kernver}/build/tools/objtool"
-      cp -a tools/objtool/objtool ${pkgdir}/usr/lib/modules/${_kernver}/build/tools/objtool/ 
+      cp -a tools/objtool/objtool ${pkgdir}/usr/lib/modules/${_kernver}/build/tools/objtool/
   fi
 
   chown -R root.root "${pkgdir}/usr/lib/modules/${_kernver}/build"
@@ -291,7 +259,7 @@ _package-headers() {
 
   # remove unneeded architectures
   rm -rf "${pkgdir}"/usr/lib/modules/${_kernver}/build/arch/{alpha,arc,arm,arm26,arm64,avr32,blackfin,c6x,cris,frv,h8300,hexagon,ia64,m32r,m68k,m68knommu,metag,mips,microblaze,mn10300,openrisc,parisc,powerpc,ppc,s390,score,sh,sh64,sparc,sparc64,tile,unicore32,um,v850,xtensa}
-  
+
   # remove a files already in linux-docs package
   rm -f "${pkgdir}/usr/lib/modules/${_kernver}/build/Documentation/kbuild/Kconfig.recursion-issue-01"
   rm -f "${pkgdir}/usr/lib/modules/${_kernver}/build/Documentation/kbuild/Kconfig.recursion-issue-02"
