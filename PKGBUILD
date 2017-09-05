@@ -2,8 +2,8 @@
 # Maintainer: Tobias Powalowski <tpowa@archlinux.org>
 # Maintainer: Thomas Baechler <thomas@archlinux.org>
 
-pkgbase=linux               # Build stock -ARCH kernel
-#pkgbase=linux-custom       # Build kernel with a different name
+#pkgbase=linux               # Build stock -ARCH kernel
+pkgbase=linux-surfacebook       # Build kernel with a different name
 _srcname=linux-4.12
 pkgver=4.12.10
 pkgrel=1
@@ -21,16 +21,34 @@ source=("https://www.kernel.org/pub/linux/kernel/v4.x/${_srcname}.tar.xz"
         # pacman hook for initramfs regeneration
         '90-linux.hook'
         # standard config files for mkinitcpio ramdisk
-        'linux.preset')
+        'linux.preset'
+        'amsdu.patch'
+        'hid-multitouch-fix.patch'
+        'ipts_driver.patch'
+        'ipts_enable.patch'
+        'ipts_fw_config.bin'
+        'mei_add.patch'
+        'usb-patch.patch'
+        'wifi_lenchksum.patch'
+        'wifi_psoff.patch')
 
 sha256sums=('a45c3becd4d08ce411c14628a949d08e2433d8cdeca92036c7013980e93858ab'
             'SKIP'
             '32dfc4d44b559bb7007a54217aee04f6fe93e1f7bc9d9809064b5a4e689ba6e1'
             'SKIP'
             'df55887a43dcbb6bd35fd2fb1ec841427b6ea827334c0880cbc256d4f042a7a1'
-            'bf84528c592d1841bba0662242f0339a24a1de384c31f28248631e8be9446586'
+            '24ce6ab4dbbff1f683a3a9c0a97615622018e548cb920e96fabb6b23b56a9a08'
             '834bd254b56ab71d73f59b3221f056c72f559553c04718e350ab2a3e2991afe0'
-            'ad6344badc91ad0630caacde83f7f9b97276f80d26a20619a87952be65492c65')
+            'ad6344badc91ad0630caacde83f7f9b97276f80d26a20619a87952be65492c65'
+            '8470e220e6ece4be7b3184fde20dd357423eebdd1a3dcd43c96b8a9e4ae6bdfa'
+            'adbaf7b1f5790d553be9ae96b790db0ed4668d2c365fc580ac6ed8381738970f'
+            '15db2ae4b397df72dcd4166908daf17254f40944518327fbfe062aa699510b77'
+            '85c37fa70f3c7631b18af95594cc5a54c922252ed971de8ecf65601295a0c286'
+            'eed5c04a5f8841d52292fbb321990c79316ce98cd21324c71226cdc95cc20d09'
+            '3a5e6b29896a547b5246abdb69847abd55131a43a9aee0c338d0e3e1eda05b16'
+            'f995e628a97b4555eac3821061a592611b6136c6e415305840ec4d3b69734831'
+            'bfaf1b713e7e5a7e88c36aaf762d48dc6bdb8da55940b41eba2dcdaf144f81f6'
+            '49ff7a4e9318b851d3dbdad6c9542fb5250e154f4ce07cb2beb79ee971c54a47')
 validpgpkeys=(
               'ABAF11C65A2970B130ABE3C479BE3E4300411886' # Linus Torvalds
               '647F28654894E3BD457199BE38DBBDC86092693E' # Greg Kroah-Hartman
@@ -48,6 +66,19 @@ prepare() {
 
   # add latest fixes from stable queue, if needed
   # http://git.kernel.org/?p=linux/kernel/git/stable/stable-queue.git
+
+  # The IPTS and Network Fixes
+  patch -p1 -i "${srcdir}/add_singletouch.patch"
+  patch -p1 -i "${srcdir}/amsdu.patch"
+  patch -p1 -i "${srcdir}/hid-multitouch-fix.patch"
+  patch -p1 -i "${srcdir}/ipts_driver.patch"
+  patch -p1 -i "${srcdir}/ipts_enable.patch"
+  patch -p1 -i "${srcdir}/mei_add.patch"
+  patch -p1 -i "${srcdir}/usb-patch.patch"
+  patch -p1 -i "${srcdir}/wifi_lenchksum.patch"
+  patch -p1 -i "${srcdir}/wifi_psoff.patch"
+
+  mkdir -p firmware/intel/ipts && cp "${srcdir}/ipts_fw_config.bin" firmware/intel/ipts
   
   cat "${srcdir}/config.${CARCH}" > ./.config
 
