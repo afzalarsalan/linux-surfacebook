@@ -1,0 +1,46 @@
+From ebfef21d226bb2befcfae62f8e5b13e2cba0109e Mon Sep 17 00:00:00 2001
+From: Jake Day <jake@ninebysix.com>
+Date: Fri, 11 Aug 2017 09:57:36 -0400
+Subject: [PATCH] disabling power save mode for marvell wifi driver
+
+---
+ drivers/net/wireless/marvell/mwifiex/cfg80211.c | 3 +++
+ drivers/net/wireless/marvell/mwifiex/sta_cmd.c  | 4 ++--
+ 2 files changed, 5 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/net/wireless/marvell/mwifiex/cfg80211.c b/drivers/net/wireless/marvell/mwifiex/cfg80211.c
+index 025bc06a..07bdf271 100644
+--- a/drivers/net/wireless/marvell/mwifiex/cfg80211.c
++++ b/drivers/net/wireless/marvell/mwifiex/cfg80211.c
+@@ -418,6 +418,9 @@ mwifiex_cfg80211_set_power_mgmt(struct wiphy *wiphy,
+ 
+ 	ps_mode = enabled;
+ 
++	mwifiex_dbg(priv->adapter, ERROR, "overriding ps_mode to false\n");
++	ps_mode = 0;
++
+ 	return mwifiex_drv_set_power(priv, &ps_mode);
+ }
+ 
+diff --git a/drivers/net/wireless/marvell/mwifiex/sta_cmd.c b/drivers/net/wireless/marvell/mwifiex/sta_cmd.c
+index 83916c14..b47def60 100644
+--- a/drivers/net/wireless/marvell/mwifiex/sta_cmd.c
++++ b/drivers/net/wireless/marvell/mwifiex/sta_cmd.c
+@@ -2308,7 +2308,7 @@ int mwifiex_sta_init_cmd(struct mwifiex_private *priv, u8 first_sta, bool init)
+ 		if (ret)
+ 			return -1;
+ 
+-		if (priv->bss_type != MWIFIEX_BSS_TYPE_UAP) {
++		if (0 && priv->bss_type != MWIFIEX_BSS_TYPE_UAP) {
+ 			/* Enable IEEE PS by default */
+ 			priv->adapter->ps_mode = MWIFIEX_802_11_POWER_MODE_PSP;
+ 			ret = mwifiex_send_cmd(priv,
+@@ -2364,7 +2364,7 @@ int mwifiex_sta_init_cmd(struct mwifiex_private *priv, u8 first_sta, bool init)
+ 	if (ret)
+ 		return -1;
+ 
+-	if (!disable_auto_ds && first_sta &&
++	if (0 && !disable_auto_ds && first_sta &&
+ 	    priv->bss_type != MWIFIEX_BSS_TYPE_UAP) {
+ 		/* Enable auto deep sleep */
+ 		auto_ds.auto_ds = DEEP_SLEEP_ON;

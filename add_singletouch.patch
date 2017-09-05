@@ -1,0 +1,51 @@
+From 773d09ef707fac5d476e21b1a0a0506dd290156e Mon Sep 17 00:00:00 2001
+From: Jake Day <jake@ninebysix.com>
+Date: Thu, 10 Aug 2017 13:48:33 -0400
+Subject: [PATCH] This patch supports single touch and virtual mouse in IPTS
+
+---
+ drivers/hid/hid-multitouch.c | 16 +++++++++++++---
+ 1 file changed, 13 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
+index be5bea15..937a7084 100644
+--- a/drivers/hid/hid-multitouch.c
++++ b/drivers/hid/hid-multitouch.c
+@@ -558,8 +558,12 @@ static int mt_touch_input_mapping(struct hid_device *hdev, struct hid_input *hi,
+ 			if (field->index >= field->report->maxfield ||
+ 			    usage->usage_index >= field->report_count)
+ 				return 1;
+-			td->cc_index = field->index;
+-			td->cc_value_index = usage->usage_index;
++
++			if (td->cc_index < 0) {
++				td->cc_index = field->index;
++				td->cc_value_index = usage->usage_index;
++			}
++
+ 			return 1;
+ 		case HID_DG_CONTACTMAX:
+ 			/* we don't set td->last_slot_field as contactcount and
+@@ -857,8 +861,10 @@ static int mt_input_mapping(struct hid_device *hdev, struct hid_input *hi,
+ 	    field->application != HID_DG_TOUCHSCREEN &&
+ 	    field->application != HID_DG_PEN &&
+ 	    field->application != HID_DG_TOUCHPAD &&
++	    field->application != HID_GD_MOUSE &&
+ 	    field->application != HID_GD_KEYBOARD &&
+-	    field->application != HID_CP_CONSUMER_CONTROL)
++	    field->application != HID_CP_CONSUMER_CONTROL &&
++	    field->logical != HID_DG_TOUCHSCREEN)
+ 		return -1;
+ 
+ 	/*
+@@ -1041,6 +1047,10 @@ static int mt_input_configured(struct hid_device *hdev, struct hid_input *hi)
+ 		suffix = "Pen";
+ 		/* force BTN_STYLUS to allow tablet matching in udev */
+ 		__set_bit(BTN_STYLUS, hi->input->keybit);
++	} else if (hi->report->field[0]->logical == HID_DG_TOUCHSCREEN) {
++		suffix = "SingleTouch";
++		/* force BTN_STYLUS to allow tablet matching in udev */
++		__set_bit(BTN_STYLUS, hi->input->keybit);
+ 	} else {
+ 		switch (field->application) {
+ 		case HID_GD_KEYBOARD:

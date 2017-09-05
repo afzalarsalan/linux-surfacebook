@@ -1,0 +1,35 @@
+From 532f8ad9da25d7d42c795633947d29b480359a20 Mon Sep 17 00:00:00 2001
+From: Jake Day <jake@ninebysix.com>
+Date: Thu, 10 Aug 2017 13:47:51 -0400
+Subject: [PATCH] Add MEI device id for Intel Sunrisepoint Skylake (PCH) which
+ has Intel Precise Touch & Stylus
+
+---
+ drivers/misc/mei/hw-me-regs.h | 1 +
+ drivers/misc/mei/pci-me.c     | 1 +
+ 2 files changed, 2 insertions(+)
+
+diff --git a/drivers/misc/mei/hw-me-regs.h b/drivers/misc/mei/hw-me-regs.h
+index c8307e8b..cde23f9a 100644
+--- a/drivers/misc/mei/hw-me-regs.h
++++ b/drivers/misc/mei/hw-me-regs.h
+@@ -119,6 +119,7 @@
+ 
+ #define MEI_DEV_ID_SPT        0x9D3A  /* Sunrise Point */
+ #define MEI_DEV_ID_SPT_2      0x9D3B  /* Sunrise Point 2 */
++#define MEI_DEV_ID_SPT_4      0x9D3E  /* Sunrise Point 4 */
+ #define MEI_DEV_ID_SPT_H      0xA13A  /* Sunrise Point H */
+ #define MEI_DEV_ID_SPT_H_2    0xA13B  /* Sunrise Point H 2 */
+ 
+diff --git a/drivers/misc/mei/pci-me.c b/drivers/misc/mei/pci-me.c
+index 8621a198..79485fd7 100644
+--- a/drivers/misc/mei/pci-me.c
++++ b/drivers/misc/mei/pci-me.c
+@@ -85,6 +85,7 @@ static const struct pci_device_id mei_me_pci_tbl[] = {
+ 
+ 	{MEI_PCI_DEVICE(MEI_DEV_ID_SPT, mei_me_pch8_cfg)},
+ 	{MEI_PCI_DEVICE(MEI_DEV_ID_SPT_2, mei_me_pch8_cfg)},
++	{MEI_PCI_DEVICE(MEI_DEV_ID_SPT_4, mei_me_pch8_cfg)},
+ 	{MEI_PCI_DEVICE(MEI_DEV_ID_SPT_H, mei_me_pch8_sps_cfg)},
+ 	{MEI_PCI_DEVICE(MEI_DEV_ID_SPT_H_2, mei_me_pch8_sps_cfg)},
+ 	{MEI_PCI_DEVICE(MEI_DEV_ID_LBG, mei_me_pch8_cfg)},

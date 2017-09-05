@@ -1,0 +1,23 @@
+From d07f054fc8d1a883b7cb40f8795753e2afe98a68 Mon Sep 17 00:00:00 2001
+From: Jake Day <jake@ninebysix.com>
+Date: Thu, 17 Aug 2017 13:52:32 -0400
+Subject: [PATCH] fix handling of amsdu packets
+
+---
+ drivers/net/wireless/marvell/mwifiex/11n_aggr.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/drivers/net/wireless/marvell/mwifiex/11n_aggr.c b/drivers/net/wireless/marvell/mwifiex/11n_aggr.c
+index a75013ac..448ba72d 100644
+--- a/drivers/net/wireless/marvell/mwifiex/11n_aggr.c
++++ b/drivers/net/wireless/marvell/mwifiex/11n_aggr.c
+@@ -200,8 +200,7 @@ mwifiex_11n_aggregate_pkt(struct mwifiex_private *priv,
+ 
+ 	do {
+ 		/* Check if AMSDU can accommodate this MSDU */
+-		if ((skb_aggr->len + skb_src->len + LLC_SNAP_LEN) >
+-		    adapter->tx_buf_size)
++		if (skb_tailroom(skb_aggr) < (skb_src->len + LLC_SNAP_LEN))
+ 			break;
+ 
+ 		skb_src = skb_dequeue(&pra_list->skb_head);
