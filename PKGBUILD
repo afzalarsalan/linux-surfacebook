@@ -113,7 +113,7 @@ prepare() {
 
 build() {
   cd "${srcdir}/${_srcname}"
-
+  export CFLAGS+=" -march=skylake"
   make ${MAKEFLAGS} LOCALVERSION= bzImage modules
 }
 
@@ -215,8 +215,8 @@ _package-headers() {
   cp arch/${KARCH}/kernel/asm-offsets.s "${pkgdir}/usr/lib/modules/${_kernver}/build/arch/${KARCH}/kernel/"
 
   # add docbook makefile
-  install -D -m644 Documentation/DocBook/Makefile \
-    "${pkgdir}/usr/lib/modules/${_kernver}/build/Documentation/DocBook/Makefile"
+  #install -D -m644 Documentation/DocBook/Makefile \
+  #  "${pkgdir}/usr/lib/modules/${_kernver}/build/Documentation/DocBook/Makefile"
 
   # add dm headers
   mkdir -p "${pkgdir}/usr/lib/modules/${_kernver}/build/drivers/md"
