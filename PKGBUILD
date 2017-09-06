@@ -4,8 +4,8 @@
 
 #pkgbase=linux               # Build stock -ARCH kernel
 pkgbase=linux-surfacebook       # Build kernel with a different name
-_srcname=linux-4.12
-pkgver=4.12.10
+_srcname=linux-4.13
+pkgver=4.13.0
 pkgrel=1
 arch=('i686' 'x86_64')
 url="https://www.kernel.org/"
@@ -14,14 +14,15 @@ makedepends=('xmlto' 'docbook-xsl' 'kmod' 'inetutils' 'bc' 'libelf')
 options=('!strip')
 source=("https://www.kernel.org/pub/linux/kernel/v4.x/${_srcname}.tar.xz"
         "https://www.kernel.org/pub/linux/kernel/v4.x/${_srcname}.tar.sign"
-        "https://www.kernel.org/pub/linux/kernel/v4.x/patch-${pkgver}.xz"
-        "https://www.kernel.org/pub/linux/kernel/v4.x/patch-${pkgver}.sign"
+        #"https://www.kernel.org/pub/linux/kernel/v4.x/patch-${pkgver}.xz"
+        #"https://www.kernel.org/pub/linux/kernel/v4.x/patch-${pkgver}.sign"
         # the main kernel config files
         'config.i686' 'config.x86_64'
         # pacman hook for initramfs regeneration
         '90-linux.hook'
         # standard config files for mkinitcpio ramdisk
         'linux.preset'
+        'ipts.patch'
         'amsdu.patch'
         'add_singletouch.patch'
         'hid-multitouch-fix.patch'
@@ -33,14 +34,13 @@ source=("https://www.kernel.org/pub/linux/kernel/v4.x/${_srcname}.tar.xz"
         'wifi_lenchksum.patch'
         'wifi_psoff.patch')
 
-sha256sums=('a45c3becd4d08ce411c14628a949d08e2433d8cdeca92036c7013980e93858ab'
-            'SKIP'
-            '32dfc4d44b559bb7007a54217aee04f6fe93e1f7bc9d9809064b5a4e689ba6e1'
+sha256sums=('2db3d6066c3ad93eb25b973a3d2951e022a7e975ee2fa7cbe5bddf84d9a49a2c'
             'SKIP'
             'df55887a43dcbb6bd35fd2fb1ec841427b6ea827334c0880cbc256d4f042a7a1'
-            '35922c78f015121e8138ecd82750de3d5e4953aefb625afe73e47e22cabc1fcb'
+            '73b7f8d486558fff07cc1a290f2f6f01f098f600543f4ae57caaf4a8c1a6967a'
             '834bd254b56ab71d73f59b3221f056c72f559553c04718e350ab2a3e2991afe0'
             'ad6344badc91ad0630caacde83f7f9b97276f80d26a20619a87952be65492c65'
+            '88aa379ab691c5b81054a77d0b4e08de1a99ae6055940f8517306b67c33670b7'
             '8470e220e6ece4be7b3184fde20dd357423eebdd1a3dcd43c96b8a9e4ae6bdfa'
             '3b548802752158428f248346113bd859d71436661d3d01354a6030274bfc431d'
             'a6bca93059b91b83f72867ce731c86efa6b42dec0572da82c76afed0e1fc62cd'
@@ -62,7 +62,7 @@ prepare() {
   cd "${srcdir}/${_srcname}"
 
   # add upstream patch
-  patch -p1 -i "${srcdir}/patch-${pkgver}"
+  #patch -p1 -i "${srcdir}/patch-${pkgver}"
 
   # security patches
 
@@ -70,15 +70,16 @@ prepare() {
   # http://git.kernel.org/?p=linux/kernel/git/stable/stable-queue.git
 
   # The IPTS and Network Fixes
-  patch -p1 -i "${srcdir}/add_singletouch.patch"
-  patch -p1 -i "${srcdir}/amsdu.patch"
-  patch -p1 -i "${srcdir}/hid-multitouch-fix.patch"
-  patch -p1 -i "${srcdir}/ipts_driver.patch"
-  patch -p1 -i "${srcdir}/ipts_enable.patch"
-  patch -p1 -i "${srcdir}/mei_add.patch"
-  patch -p1 -i "${srcdir}/usb-patch.patch"
-  patch -p1 -i "${srcdir}/wifi_lenchksum.patch"
-  patch -p1 -i "${srcdir}/wifi_psoff.patch"
+  patch -p1 -i "${srcdir}/ipts.patch"
+  # patch -p1 -i "${srcdir}/add_singletouch.patch"
+  # patch -p1 -i "${srcdir}/amsdu.patch"
+  # patch -p1 -i "${srcdir}/hid-multitouch-fix.patch"
+  # patch -p1 -i "${srcdir}/ipts_driver.patch"
+  # patch -p1 -i "${srcdir}/ipts_enable.patch"
+  # patch -p1 -i "${srcdir}/mei_add.patch"
+  # patch -p1 -i "${srcdir}/usb-patch.patch"
+  # patch -p1 -i "${srcdir}/wifi_lenchksum.patch"
+  # patch -p1 -i "${srcdir}/wifi_psoff.patch"
 
   mkdir -p firmware/intel/ipts && cp "${srcdir}/ipts_fw_config.bin" firmware/intel/ipts
   
