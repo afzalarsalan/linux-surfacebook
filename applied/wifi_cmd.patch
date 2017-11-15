@@ -1,0 +1,25 @@
+From 081258e8c0edd4c6337efa2f16feac06fedb1a2f Mon Sep 17 00:00:00 2001
+From: Jake Day <jake@ninebysix.com>
+Date: Wed, 18 Oct 2017 14:35:45 -0400
+Subject: [PATCH] ignore 0x242 cmd fails, they are not supported in the wifi
+ firmware
+
+---
+ drivers/net/wireless/marvell/mwifiex/sta_cmd.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/net/wireless/marvell/mwifiex/sta_cmd.c b/drivers/net/wireless/marvell/mwifiex/sta_cmd.c
+index de990fb5a..5b8329e26 100644
+--- a/drivers/net/wireless/marvell/mwifiex/sta_cmd.c
++++ b/drivers/net/wireless/marvell/mwifiex/sta_cmd.c
+@@ -2336,8 +2336,8 @@ int mwifiex_sta_init_cmd(struct mwifiex_private *priv, u8 first_sta, bool init)
+ 				return -1;
+ 		}
+ 
+-		mwifiex_send_cmd(priv, HostCmd_CMD_CHAN_REGION_CFG,
+-				 HostCmd_ACT_GEN_GET, 0, NULL, true);
++		//mwifiex_send_cmd(priv, HostCmd_CMD_CHAN_REGION_CFG,
++		//		 HostCmd_ACT_GEN_GET, 0, NULL, true);
+ 	}
+ 
+ 	/* get tx rate */

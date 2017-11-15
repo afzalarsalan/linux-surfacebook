@@ -7,7 +7,7 @@ pkgbase=linux-surfacebook       # Build kernel with a different name
 _srcname=linux-4.14
 pkgver=4.14.0
 pkgrel=1
-arch=('i686' 'x86_64')
+arch=('x86_64')
 url="https://www.kernel.org/"
 license=('GPL2')
 makedepends=('xmlto' 'docbook-xsl' 'kmod' 'inetutils' 'bc' 'libelf')
@@ -17,40 +17,19 @@ source=("https://www.kernel.org/pub/linux/kernel/v4.x/${_srcname}.tar.xz"
         #"https://www.kernel.org/pub/linux/kernel/v4.x/patch-${pkgver}.xz"
         #"https://www.kernel.org/pub/linux/kernel/v4.x/patch-${pkgver}.sign"
         # the main kernel config files
-        'config.i686' 'config.x86_64'
+        'config.x86_64'
         # pacman hook for initramfs regeneration
         '90-linux.hook'
         # standard config files for mkinitcpio ramdisk
         'linux.preset'
-        'ipts.patch'
-        'amsdu.patch'
-        'add_singletouch.patch'
-        'hid-multitouch-fix.patch'
-        'ipts_driver.patch'
-        'ipts_enable.patch'
-        'ipts_fw_config.bin'
-        'mei_add.patch'
-        'usb-patch.patch'
-        'wifi_lenchksum.patch'
-        'wifi_psoff.patch')
+        'mega.patch')
 
 sha256sums=('f81d59477e90a130857ce18dc02f4fbe5725854911db1e7ba770c7cd350f96a7'
             'SKIP'
-            'df55887a43dcbb6bd35fd2fb1ec841427b6ea827334c0880cbc256d4f042a7a1'
-            '73b7f8d486558fff07cc1a290f2f6f01f098f600543f4ae57caaf4a8c1a6967a'
+            '4ed3dcb29aedc3af9a66a6de1c26b0e9e5cd7f42fa2b539f30ee0696f1b41305'
             '834bd254b56ab71d73f59b3221f056c72f559553c04718e350ab2a3e2991afe0'
             'ad6344badc91ad0630caacde83f7f9b97276f80d26a20619a87952be65492c65'
-            '88aa379ab691c5b81054a77d0b4e08de1a99ae6055940f8517306b67c33670b7'
-            '8470e220e6ece4be7b3184fde20dd357423eebdd1a3dcd43c96b8a9e4ae6bdfa'
-            '3b548802752158428f248346113bd859d71436661d3d01354a6030274bfc431d'
-            'a6bca93059b91b83f72867ce731c86efa6b42dec0572da82c76afed0e1fc62cd'
-            'f633c41d242f70a4f4f1f1a8d1188e90398d0d932045a2c7befda03f668a3862'
-            '6ab447fd31734a6ac66b3bbb803a6d6951f1d08fb21505a16b0507f42d8e41ed'
-            'eed5c04a5f8841d52292fbb321990c79316ce98cd21324c71226cdc95cc20d09'
-            '3a5e6b29896a547b5246abdb69847abd55131a43a9aee0c338d0e3e1eda05b16'
-            'd70c96b1ef4c4a9620e873a3c4a67266859e33f67faf841654537d14f151654e'
-            'bfaf1b713e7e5a7e88c36aaf762d48dc6bdb8da55940b41eba2dcdaf144f81f6'
-            '49ff7a4e9318b851d3dbdad6c9542fb5250e154f4ce07cb2beb79ee971c54a47')
+            '34b248ecc4b082af3ad25fa18965c8fcdcd40e4c9671e6deddb3aabb27158361')
 validpgpkeys=(
               'ABAF11C65A2970B130ABE3C479BE3E4300411886' # Linus Torvalds
               '647F28654894E3BD457199BE38DBBDC86092693E' # Greg Kroah-Hartman
@@ -70,7 +49,7 @@ prepare() {
   # http://git.kernel.org/?p=linux/kernel/git/stable/stable-queue.git
 
   # The IPTS and Network Fixes
-  patch -p1 -i "${srcdir}/ipts.patch"
+  patch -p1 -i "${srcdir}/mega.patch"
   # patch -p1 -i "${srcdir}/add_singletouch.patch"
   # patch -p1 -i "${srcdir}/amsdu.patch"
   # patch -p1 -i "${srcdir}/hid-multitouch-fix.patch"

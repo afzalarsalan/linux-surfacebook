@@ -1,0 +1,36 @@
+From 3504b92ace9c475286b71bdac211f153b06efab8 Mon Sep 17 00:00:00 2001
+From: Jake Day <jake@ninebysix.com>
+Date: Sun, 12 Nov 2017 21:18:38 -0500
+Subject: [PATCH] disable ipts debug thread
+
+---
+ drivers/misc/ipts/ipts-gfx.c | 2 --
+ drivers/misc/ipts/ipts.h     | 2 +-
+ 2 files changed, 1 insertion(+), 3 deletions(-)
+
+diff --git a/drivers/misc/ipts/ipts-gfx.c b/drivers/misc/ipts/ipts-gfx.c
+index ff4356507..51727770e 100644
+--- a/drivers/misc/ipts/ipts-gfx.c
++++ b/drivers/misc/ipts/ipts-gfx.c
+@@ -67,8 +67,6 @@ static void disconnect_gfx(ipts_info_t *ipts)
+ 	intel_ipts_disconnect(ipts->gfx_info.gfx_handle);
+ }
+ 
+-#define RUN_DBG_THREAD
+-
+ #ifdef RUN_DBG_THREAD
+ #include "../mei/mei_dev.h"
+ 
+diff --git a/drivers/misc/ipts/ipts.h b/drivers/misc/ipts/ipts.h
+index 397b70aea..9c34b55ff 100644
+--- a/drivers/misc/ipts/ipts.h
++++ b/drivers/misc/ipts/ipts.h
+@@ -38,7 +38,7 @@
+ 	dev_info(&ipts->cldev->dev, format, ##arg);\
+ } while (0)
+ 
+-#define RUN_DBG_THREAD
++//#define RUN_DBG_THREAD
+ 
+ #else
+ 

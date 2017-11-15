@@ -1,0 +1,22 @@
+From 735a147e8e964a0d6a4d3b1a1875dbd83b4acfd4 Mon Sep 17 00:00:00 2001
+From: Jake Day <jake@ninebysix.com>
+Date: Tue, 7 Nov 2017 20:27:14 -0500
+Subject: [PATCH] enable multi-touch and pen mode by default on boot
+
+---
+ drivers/misc/ipts/ipts-msg-handler.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/misc/ipts/ipts-msg-handler.c b/drivers/misc/ipts/ipts-msg-handler.c
+index b53f668d6..ef2d71f22 100644
+--- a/drivers/misc/ipts/ipts-msg-handler.c
++++ b/drivers/misc/ipts/ipts-msg-handler.c
+@@ -138,7 +138,7 @@ int ipts_start(ipts_info_t *ipts)
+ 	ipts->num_of_parallel_data_buffers = TOUCH_SENSOR_MAX_DATA_BUFFERS;
+ 
+ #ifdef ENABLE_IPTS_DEBUG
+-	ipts->sensor_mode = TOUCH_SENSOR_MODE_HID; /* start with HID */
++	ipts->sensor_mode = TOUCH_SENSOR_MODE_RAW_DATA; /* start with RAW_DATA */
+ #endif
+ 
+ 	ret = ipts_handle_cmd(ipts, TOUCH_SENSOR_NOTIFY_DEV_READY_CMD, NULL, 0);

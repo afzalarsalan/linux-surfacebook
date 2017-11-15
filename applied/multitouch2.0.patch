@@ -1,0 +1,26 @@
+From d6950b15069758c609b2ca56a0b6fa7311214092 Mon Sep 17 00:00:00 2001
+From: Jake Day <jake@ninebysix.com>
+Date: Fri, 20 Oct 2017 20:49:05 -0400
+Subject: [PATCH] remove restriction on hid inputs
+
+---
+ drivers/hid/hid-multitouch.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
+index 994ef33db..65b9e78b8 100644
+--- a/drivers/hid/hid-multitouch.c
++++ b/drivers/hid/hid-multitouch.c
+@@ -589,10 +589,10 @@ static int mt_touch_input_mapping(struct hid_device *hdev, struct hid_input *hi,
+ 			    usage->usage_index >= field->report_count)
+ 				return 1;
+ 
+-			if (td->cc_index < 0) {
++			//if (td->cc_index < 0) {
+ 				td->cc_index = field->index;
+ 				td->cc_value_index = usage->usage_index;
+-			}
++			//}
+ 
+ 			return 1;
+ 		case HID_DG_CONTACTMAX:

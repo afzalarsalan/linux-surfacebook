@@ -1,0 +1,58 @@
+From 21b03cb66b359628c9deaf9eb9d04d47e5b0d315 Mon Sep 17 00:00:00 2001
+From: Jake Day <jake@ninebysix.com>
+Date: Wed, 8 Nov 2017 21:48:15 -0500
+Subject: [PATCH] adding support for surface pro 2017 buttons
+
+---
+ drivers/platform/x86/Kconfig              | 4 ++--
+ drivers/platform/x86/surfacepro3_button.c | 6 ++++--
+ 2 files changed, 6 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kconfig
+index 80b87954f..d5d1a3d77 100644
+--- a/drivers/platform/x86/Kconfig
++++ b/drivers/platform/x86/Kconfig
+@@ -1069,10 +1069,10 @@ config INTEL_BXTWC_PMIC_TMU
+ 	  of Whiskey Cove PMIC.
+ 
+ config SURFACE_PRO3_BUTTON
+-	tristate "Power/home/volume buttons driver for Microsoft Surface Pro 3/4 tablet"
++	tristate "Power/home/volume buttons driver for Microsoft Surface Pro 3/4/2017 tablet"
+ 	depends on ACPI && INPUT
+ 	---help---
+-	  This driver handles the power/home/volume buttons on the Microsoft Surface Pro 3/4 tablet.
++	  This driver handles the power/home/volume buttons on the Microsoft Surface Pro 3/4/2017 tablet.
+ 
+ config SURFACE_3_BUTTON
+ 	tristate "Power/home/volume buttons driver for Microsoft Surface 3 tablet"
+diff --git a/drivers/platform/x86/surfacepro3_button.c b/drivers/platform/x86/surfacepro3_button.c
+index 6505c9770..2d89a42c7 100644
+--- a/drivers/platform/x86/surfacepro3_button.c
++++ b/drivers/platform/x86/surfacepro3_button.c
+@@ -1,6 +1,6 @@
+ /*
+  * power/home/volume button support for
+- * Microsoft Surface Pro 3/4 tablet.
++ * Microsoft Surface Pro 3/4/2017 tablet.
+  *
+  * Copyright (c) 2015 Intel Corporation.
+  * All rights reserved.
+@@ -21,8 +21,9 @@
+ 
+ #define SURFACE_PRO3_BUTTON_HID		"MSHW0028"
+ #define SURFACE_PRO4_BUTTON_HID		"MSHW0040"
++#define SURFACE_PRO2017_BUTTON_HID	"MSHW0040"
+ #define SURFACE_BUTTON_OBJ_NAME		"VGBI"
+-#define SURFACE_BUTTON_DEVICE_NAME	"Surface Pro 3/4 Buttons"
++#define SURFACE_BUTTON_DEVICE_NAME	"Surface Pro 3/4/2017 Buttons"
+ 
+ #define SURFACE_BUTTON_NOTIFY_TABLET_MODE	0xc8
+ 
+@@ -59,6 +60,7 @@ MODULE_LICENSE("GPL v2");
+ static const struct acpi_device_id surface_button_device_ids[] = {
+ 	{SURFACE_PRO3_BUTTON_HID,    0},
+ 	{SURFACE_PRO4_BUTTON_HID,    0},
++	{SURFACE_PRO2017_BUTTON_HID, 0},
+ 	{"", 0},
+ };
+ MODULE_DEVICE_TABLE(acpi, surface_button_device_ids);

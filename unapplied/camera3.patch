@@ -1,0 +1,92 @@
+From 641f53300b01f153376f2e604b010539c9169a00 Mon Sep 17 00:00:00 2001
+From: Jake Day <jake@ninebysix.com>
+Date: Sun, 5 Nov 2017 21:27:22 -0500
+Subject: [PATCH] additional configs for front camera on surface devices
+
+---
+ kernel/drivers/staging/media/atomisp/i2c/ov5693/ov5693.c    | 13 +++++++++++--
+ kernel/drivers/staging/media/atomisp/i2c/ov5693/ov5693.h    |  5 +++--
+ .../atomisp/platform/intel-mid/atomisp_gmin_platform.c      |  4 ++++
+ 3 files changed, 18 insertions(+), 4 deletions(-)
+
+diff --git a/kernel/drivers/staging/media/atomisp/i2c/ov5693/ov5693.c b/kernel/drivers/staging/media/atomisp/i2c/ov5693/ov5693.c
+index 123642557..579011336 100644
+--- a/kernel/drivers/staging/media/atomisp/i2c/ov5693/ov5693.c
++++ b/kernel/drivers/staging/media/atomisp/i2c/ov5693/ov5693.c
+@@ -1342,7 +1342,16 @@ static int gpio_ctrl(struct v4l2_subdev *sd, bool flag)
+ 	if (dev->platform_data->gpio_ctrl)
+ 		return dev->platform_data->gpio_ctrl(sd, flag);
+ 
+-	ret = dev->platform_data->gpio0_ctrl(sd, flag);
++	if (flag) {
++		ret = dev->platform_data->gpio0_ctrl(sd, 0);
++		ret = dev->platform_data->gpio1_ctrl(sd, 0);
++		msleep(60);
++		ret |= dev->platform_data->gpio0_ctrl(sd, 1);
++		ret |= dev->platform_data->gpio1_ctrl(sd, 1);
++	} else {
++		ret = dev->platform_data->gpio0_ctrl(sd, 0);
++		ret = dev->platform_data->gpio1_ctrl(sd, 0);
++	}
+ 
+ 	return ret;
+ }
+@@ -1709,7 +1718,7 @@ static int ov5693_detect(struct i2c_client *client)
+ 					OV5693_SC_CMMN_CHIP_ID_L, &low);
+ 	id = ((((u16) high) << 8) | (u16) low);
+ 
+-	if (id != OV5693_ID) {
++	if (id != OV5690_ID && id != OV5693_ID) {
+ 		dev_err(&client->dev, "sensor ID error 0x%x\n", id);
+ 		return -ENODEV;
+ 	}
+diff --git a/kernel/drivers/staging/media/atomisp/i2c/ov5693/ov5693.h b/kernel/drivers/staging/media/atomisp/i2c/ov5693/ov5693.h
+index 8c2e67944..a657f94fa 100644
+--- a/kernel/drivers/staging/media/atomisp/i2c/ov5693/ov5693.h
++++ b/kernel/drivers/staging/media/atomisp/i2c/ov5693/ov5693.h
+@@ -33,7 +33,7 @@
+ #include <linux/v4l2-mediabus.h>
+ #include <media/media-entity.h>
+ 
+-#include "../../include/linux/atomisp_platform.h"
++#include "../../include/linux/atomisp_gmin_platform.h"
+ 
+ #define OV5693_NAME		"ov5693"
+ 
+@@ -78,7 +78,8 @@
+  * bits 7-0: min f-number denominator
+  */
+ #define OV5693_F_NUMBER_RANGE 0x180a180a
+-#define OV5693_ID	0x5690
++#define OV5690_ID	0x5690
++#define OV5693_ID	0x5693
+ 
+ #define OV5693_FINE_INTG_TIME_MIN 0
+ #define OV5693_FINE_INTG_TIME_MAX_MARGIN 0
+diff --git a/kernel/drivers/staging/media/atomisp/platform/intel-mid/atomisp_gmin_platform.c b/kernel/drivers/staging/media/atomisp/platform/intel-mid/atomisp_gmin_platform.c
+index edaae93af..ca59c4f0c 100644
+--- a/kernel/drivers/staging/media/atomisp/platform/intel-mid/atomisp_gmin_platform.c
++++ b/kernel/drivers/staging/media/atomisp/platform/intel-mid/atomisp_gmin_platform.c
+@@ -296,11 +296,13 @@ static const struct gmin_cfg_var ecs7_vars[] = {
+ 	{"INT33BE:00_CsiFmt", "13"},
+ 	{"INT33BE:00_CsiBayer", "2"},
+ 	{"INT33BE:00_CamClk", "0"},
++	{"INT33BE:00_ClkSrc", "1"},
+ 	{"INT33F0:00_CsiPort", "0"},
+ 	{"INT33F0:00_CsiLanes", "1"},
+ 	{"INT33F0:00_CsiFmt", "13"},
+ 	{"INT33F0:00_CsiBayer", "0"},
+ 	{"INT33F0:00_CamClk", "1"},
++	{"INT33BE:00_I2CAddr", "-1"},
+ 	{"gmin_V2P8GPIO", "402"},
+ 	{},
+ };
+@@ -325,6 +327,8 @@ static const struct {
+ 	{ "MRD7", mrd7_vars },
+ 	{ "ST70408", ecs7_vars },
+ 	{ "VTA0803", i8880_vars },
++	{ "Surface Book" , ecs7_vars } ,
++	{ "Surface Pro 4" , ecs7_vars } ,
+ };
+ 
+ 

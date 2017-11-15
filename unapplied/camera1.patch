@@ -1,0 +1,54 @@
+From 5475e25b6a5c2dfd337eb80588f805f89f393a7f Mon Sep 17 00:00:00 2001
+From: Jake Day <jake@ninebysix.com>
+Date: Tue, 7 Nov 2017 20:40:09 -0500
+Subject: [PATCH] changes for front facing camera driver build
+
+---
+ kernel/drivers/staging/media/atomisp/i2c/ov5693/Kconfig  |  2 +-
+ kernel/drivers/staging/media/atomisp/i2c/ov5693/ov5693.c | 14 +++-----------
+ 2 files changed, 4 insertions(+), 12 deletions(-)
+
+diff --git a/kernel/drivers/staging/media/atomisp/i2c/ov5693/Kconfig b/kernel/drivers/staging/media/atomisp/i2c/ov5693/Kconfig
+index 9fb1bffbe..3954b8c65 100644
+--- a/kernel/drivers/staging/media/atomisp/i2c/ov5693/Kconfig
++++ b/kernel/drivers/staging/media/atomisp/i2c/ov5693/Kconfig
+@@ -1,6 +1,6 @@
+ config VIDEO_OV5693
+        tristate "Omnivision ov5693 sensor support"
+-       depends on I2C && VIDEO_V4L2
++       depends on I2C && VIDEO_V4L2 && MEDIA_CONTROLLER
+        ---help---
+          This is a Video4Linux2 sensor-level driver for the Micron
+          ov5693 5 Mpixel camera.
+diff --git a/kernel/drivers/staging/media/atomisp/i2c/ov5693/ov5693.c b/kernel/drivers/staging/media/atomisp/i2c/ov5693/ov5693.c
+index 579011336..37986f533 100644
+--- a/kernel/drivers/staging/media/atomisp/i2c/ov5693/ov5693.c
++++ b/kernel/drivers/staging/media/atomisp/i2c/ov5693/ov5693.c
+@@ -1332,7 +1332,7 @@ static int power_ctrl(struct v4l2_subdev *sd, bool flag)
+ 
+ static int gpio_ctrl(struct v4l2_subdev *sd, bool flag)
+ {
+-	int ret;
++	int ret = 0;
+ 	struct ov5693_device *dev = to_ov5693_sensor(sd);
+ 
+ 	if (!dev || !dev->platform_data)
+@@ -1342,16 +1342,8 @@ static int gpio_ctrl(struct v4l2_subdev *sd, bool flag)
+ 	if (dev->platform_data->gpio_ctrl)
+ 		return dev->platform_data->gpio_ctrl(sd, flag);
+ 
+-	if (flag) {
+-		ret = dev->platform_data->gpio0_ctrl(sd, 0);
+-		ret = dev->platform_data->gpio1_ctrl(sd, 0);
+-		msleep(60);
+-		ret |= dev->platform_data->gpio0_ctrl(sd, 1);
+-		ret |= dev->platform_data->gpio1_ctrl(sd, 1);
+-	} else {
+-		ret = dev->platform_data->gpio0_ctrl(sd, 0);
+-		ret = dev->platform_data->gpio1_ctrl(sd, 0);
+-	}
++	if (dev->platform_data->gpio0_ctrl)
++		ret = dev->platform_data->gpio0_ctrl(sd, flag);
+ 
+ 	return ret;
+ }
