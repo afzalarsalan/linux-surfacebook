@@ -4,8 +4,8 @@
 
 #pkgbase=linux               # Build stock -ARCH kernel
 pkgbase=linux-surfacebook       # Build kernel with a different name
-_srcname=linux-4.13
-pkgver=4.13.0
+_srcname=linux-4.14
+pkgver=4.14.0
 pkgrel=1
 arch=('i686' 'x86_64')
 url="https://www.kernel.org/"
@@ -34,7 +34,7 @@ source=("https://www.kernel.org/pub/linux/kernel/v4.x/${_srcname}.tar.xz"
         'wifi_lenchksum.patch'
         'wifi_psoff.patch')
 
-sha256sums=('2db3d6066c3ad93eb25b973a3d2951e022a7e975ee2fa7cbe5bddf84d9a49a2c'
+sha256sums=('f81d59477e90a130857ce18dc02f4fbe5725854911db1e7ba770c7cd350f96a7'
             'SKIP'
             'df55887a43dcbb6bd35fd2fb1ec841427b6ea827334c0880cbc256d4f042a7a1'
             '73b7f8d486558fff07cc1a290f2f6f01f098f600543f4ae57caaf4a8c1a6967a'
