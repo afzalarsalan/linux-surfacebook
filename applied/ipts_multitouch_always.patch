@@ -1,0 +1,25 @@
+From 01d57e9868ff6e06e01ec34669b3acb4197e7d04 Mon Sep 17 00:00:00 2001
+From: Jake Day <jake@ninebysix.com>
+Date: Wed, 22 Nov 2017 20:56:36 -0500
+Subject: [PATCH] always boot in multitouch mode
+
+regardless of ipts debug being enabled, we should boot in multitouch
+mode
+---
+ kernel/drivers/misc/ipts/ipts-msg-handler.c | 2 --
+ 1 file changed, 2 deletions(-)
+
+diff --git a/kernel/drivers/misc/ipts/ipts-msg-handler.c b/kernel/drivers/misc/ipts/ipts-msg-handler.c
+index ef2d71f22..1396ecc71 100644
+--- a/kernel/drivers/misc/ipts/ipts-msg-handler.c
++++ b/kernel/drivers/misc/ipts/ipts-msg-handler.c
+@@ -137,9 +137,7 @@ int ipts_start(ipts_info_t *ipts)
+ 	ipts_set_state(ipts, IPTS_STA_INIT);
+ 	ipts->num_of_parallel_data_buffers = TOUCH_SENSOR_MAX_DATA_BUFFERS;
+ 
+-#ifdef ENABLE_IPTS_DEBUG
+ 	ipts->sensor_mode = TOUCH_SENSOR_MODE_RAW_DATA; /* start with RAW_DATA */
+-#endif
+ 
+ 	ret = ipts_handle_cmd(ipts, TOUCH_SENSOR_NOTIFY_DEV_READY_CMD, NULL, 0);
+ 

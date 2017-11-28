@@ -1,0 +1,31 @@
+From 6d7c2505d3ac1d798568c18393cfb13f247782d0 Mon Sep 17 00:00:00 2001
+From: Geoff Holden <gholden@seaformatics.ca>
+Date: Fri, 17 Nov 2017 10:37:13 -0330
+Subject: [PATCH] Sets the INPUT_PROP_DIRECT bit on the stylus input.
+
+This tells userland programs (ie, libinput and libwacom) that there is a
+1:1 mapping between the stylus and the screen (after scaling).
+---
+ kernel/drivers/hid/hid-multitouch.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/kernel/drivers/hid/hid-multitouch.c b/kernel/drivers/hid/hid-multitouch.c
+index ba5569dbf..53cf903b7 100644
+--- a/kernel/drivers/hid/hid-multitouch.c
++++ b/kernel/drivers/hid/hid-multitouch.c
+@@ -1155,6 +1155,7 @@ static int mt_input_configured(struct hid_device *hdev, struct hid_input *hi)
+ 		suffix = "Pen";
+ 		/* force BTN_STYLUS to allow tablet matching in udev */
+ 		__set_bit(BTN_STYLUS, hi->input->keybit);
++        __set_bit(INPUT_PROP_DIRECT, hi->input->propbit);
+ 	} else {
+ 		switch (field->application) {
+ 		case HID_GD_KEYBOARD:
+@@ -1170,6 +1171,7 @@ static int mt_input_configured(struct hid_device *hdev, struct hid_input *hi)
+ 			suffix = "Pen";
+ 			/* force BTN_STYLUS to allow tablet matching in udev */
+ 			__set_bit(BTN_STYLUS, hi->input->keybit);
++            __set_bit(INPUT_PROP_DIRECT, hi->input->propbit);
+ 			break;
+ 		case HID_DG_TOUCHSCREEN:
+ 			suffix = "Touchscreen";

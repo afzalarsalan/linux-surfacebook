@@ -1,0 +1,31 @@
+From 0f4429e2e913202459ec9d5b61a0ffaf2d580b83 Mon Sep 17 00:00:00 2001
+From: Jake Day <jake@ninebysix.com>
+Date: Fri, 17 Nov 2017 16:09:03 -0500
+Subject: [PATCH] ignore command that the wifi firmware does not support
+
+---
+ kernel/drivers/net/wireless/marvell/mwifiex/sta_cmdresp.c | 11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
+
+diff --git a/kernel/drivers/net/wireless/marvell/mwifiex/sta_cmdresp.c b/kernel/drivers/net/wireless/marvell/mwifiex/sta_cmdresp.c
+index 0fba5b10e..4e1687fd0 100644
+--- a/kernel/drivers/net/wireless/marvell/mwifiex/sta_cmdresp.c
++++ b/kernel/drivers/net/wireless/marvell/mwifiex/sta_cmdresp.c
+@@ -48,9 +48,14 @@ mwifiex_process_cmdresp_error(struct mwifiex_private *priv,
+ 	struct host_cmd_ds_802_11_ps_mode_enh *pm;
+ 	unsigned long flags;
+ 
+-	mwifiex_dbg(adapter, ERROR,
+-		    "CMD_RESP: cmd %#x error, result=%#x\n",
+-		    resp->command, resp->result);
++	if (resp->command == 271 && resp->result == 2){
++		// ignore this command as the firmware does not support it
++	}
++	else {
++		mwifiex_dbg(adapter, ERROR,
++				"CMD_RESP: cmd %#x error, result=%#x\n",
++				resp->command, resp->result);
++	}
+ 
+ 	if (adapter->curr_cmd->wait_q_enabled)
+ 		adapter->cmd_wait_q.status = -1;

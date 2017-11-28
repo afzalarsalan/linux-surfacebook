@@ -1,0 +1,22 @@
+From 0fc3698df4565c25664fe1261673fd041b6ce41b Mon Sep 17 00:00:00 2001
+From: Jake Day <jake@ninebysix.com>
+Date: Wed, 22 Nov 2017 20:56:46 -0500
+Subject: [PATCH] disabled ipts debug
+
+---
+ kernel/drivers/misc/ipts/ipts.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/kernel/drivers/misc/ipts/ipts.h b/kernel/drivers/misc/ipts/ipts.h
+index 9c34b55ff..1fcd02146 100644
+--- a/kernel/drivers/misc/ipts/ipts.h
++++ b/kernel/drivers/misc/ipts/ipts.h
+@@ -26,7 +26,7 @@
+ #include "ipts-state.h"
+ #include "ipts-binary-spec.h"
+ 
+-#define ENABLE_IPTS_DEBUG		/* enable IPTS debug */
++//#define ENABLE_IPTS_DEBUG		/* enable IPTS debug */
+ 
+ #ifdef ENABLE_IPTS_DEBUG
+ 

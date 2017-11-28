@@ -6255,3 +6255,73 @@ diff -aurpN linux-4.14/net/wireless/sme.c linux-4.14-new/net/wireless/sme.c
  	nl80211_send_connect_result(wiphy_to_rdev(wdev->wiphy), dev, cr,
  				    GFP_KERNEL);
  
+diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
+index ba5569dbf..53cf903b7 100644
+--- a/drivers/hid/hid-multitouch.c
++++ b/drivers/hid/hid-multitouch.c
+@@ -1155,6 +1155,7 @@ static int mt_input_configured(struct hid_device *hdev, struct hid_input *hi)
+ 		suffix = "Pen";
+ 		/* force BTN_STYLUS to allow tablet matching in udev */
+ 		__set_bit(BTN_STYLUS, hi->input->keybit);
++        __set_bit(INPUT_PROP_DIRECT, hi->input->propbit);
+ 	} else {
+ 		switch (field->application) {
+ 		case HID_GD_KEYBOARD:
+@@ -1170,6 +1171,7 @@ static int mt_input_configured(struct hid_device *hdev, struct hid_input *hi)
+ 			suffix = "Pen";
+ 			/* force BTN_STYLUS to allow tablet matching in udev */
+ 			__set_bit(BTN_STYLUS, hi->input->keybit);
++            __set_bit(INPUT_PROP_DIRECT, hi->input->propbit);
+ 			break;
+ 		case HID_DG_TOUCHSCREEN:
+ 			suffix = "Touchscreen";
+
+diff --git a/drivers/net/wireless/marvell/mwifiex/sta_cmdresp.c b/drivers/net/wireless/marvell/mwifiex/sta_cmdresp.c
+index 0fba5b10e..4e1687fd0 100644
+--- a/drivers/net/wireless/marvell/mwifiex/sta_cmdresp.c
++++ b/drivers/net/wireless/marvell/mwifiex/sta_cmdresp.c
+@@ -48,9 +48,14 @@ mwifiex_process_cmdresp_error(struct mwifiex_private *priv,
+ 	struct host_cmd_ds_802_11_ps_mode_enh *pm;
+ 	unsigned long flags;
+ 
+-	mwifiex_dbg(adapter, ERROR,
+-		    "CMD_RESP: cmd %#x error, result=%#x\n",
+-		    resp->command, resp->result);
++	if (resp->command == 271 && resp->result == 2){
++		// ignore this command as the firmware does not support it
++	}
++	else {
++		mwifiex_dbg(adapter, ERROR,
++				"CMD_RESP: cmd %#x error, result=%#x\n",
++				resp->command, resp->result);
++	}
+ 
+ 	if (adapter->curr_cmd->wait_q_enabled)
+ 		adapter->cmd_wait_q.status = -1;
+
+diff --git a/drivers/misc/ipts/ipts.h b/drivers/misc/ipts/ipts.h
+index 9c34b55ff..1fcd02146 100644
+--- a/drivers/misc/ipts/ipts.h
++++ b/drivers/misc/ipts/ipts.h
+@@ -26,7 +26,7 @@
+ #include "ipts-state.h"
+ #include "ipts-binary-spec.h"
+ 
+-#define ENABLE_IPTS_DEBUG		/* enable IPTS debug */
++//#define ENABLE_IPTS_DEBUG		/* enable IPTS debug */
+ 
+ #ifdef ENABLE_IPTS_DEBUG
+
+diff --git a/drivers/misc/ipts/ipts-msg-handler.c b/drivers/misc/ipts/ipts-msg-handler.c
+index ef2d71f22..1396ecc71 100644
+--- a/drivers/misc/ipts/ipts-msg-handler.c
++++ b/drivers/misc/ipts/ipts-msg-handler.c
+@@ -137,9 +137,7 @@ int ipts_start(ipts_info_t *ipts)
+ 	ipts_set_state(ipts, IPTS_STA_INIT);
+ 	ipts->num_of_parallel_data_buffers = TOUCH_SENSOR_MAX_DATA_BUFFERS;
+ 
+-#ifdef ENABLE_IPTS_DEBUG
+ 	ipts->sensor_mode = TOUCH_SENSOR_MODE_RAW_DATA; /* start with RAW_DATA */
+-#endif
+ 
+ 	ret = ipts_handle_cmd(ipts, TOUCH_SENSOR_NOTIFY_DEV_READY_CMD, NULL, 0);
