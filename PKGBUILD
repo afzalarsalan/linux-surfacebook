@@ -6,7 +6,7 @@
 pkgbase=linux-surfacebook       # Build kernel with a different name
 _srcname=linux-4.14
 pkgver=4.14.4
-pkgrel=1
+pkgrel=2
 arch=('x86_64')
 url="https://www.kernel.org/"
 license=('GPL2')
@@ -21,6 +21,7 @@ source=(
   '60-linux.hook'  # pacman hook for depmod
   '90-linux.hook'  # pacman hook for initramfs regeneration
   'linux.preset'   # standard config files for mkinitcpio ramdisk
+  '0001-add-sysctl-to-disallow-unprivileged-CLONE_NEWUSER-by.patch'
   'mega.patch'
   'ipts_fw_config.bin'
 )
@@ -32,10 +33,11 @@ sha256sums=('f81d59477e90a130857ce18dc02f4fbe5725854911db1e7ba770c7cd350f96a7'
             'SKIP'
             'e9dcf9aad5977289940cd6e3762af02b87a725ba6c1a9f4af86958dc621e3a84'
             'SKIP'
-            'ff182c64ffce0586766d76fd55265473b82bff68430801d4624d62822e4d88c7'
+            '2c7935a2e2ab385156f3fca4e11c2c1986dffed25107b80558b8d88f39a1e726'
             'ae2e95db94ef7176207c690224169594d49445e04249d2499e9d2fbc117a0b21'
             '75f99f5239e03238f88d1a834c50043ec32b1dc568f2cc291b07d04718483919'
             'ad6344badc91ad0630caacde83f7f9b97276f80d26a20619a87952be65492c65'
+            '37b86ca3de148a34258e3176dbf41488d9dbd19e93adbd22a062b3c41332ce85'
             '778d9744df4f62dcb5ccf04f57fd1fc614aeb81ba27d4e992940146fd4f4f3ed'
             'eed5c04a5f8841d52292fbb321990c79316ce98cd21324c71226cdc95cc20d09')
 
@@ -49,15 +51,6 @@ prepare() {
 
   # The IPTS and Network Fixes
   patch -p1 -i ../mega.patch
-  # patch -p1 -i "${srcdir}/add_singletouch.patch"
-  # patch -p1 -i "${srcdir}/amsdu.patch"
-  # patch -p1 -i "${srcdir}/hid-multitouch-fix.patch"
-  # patch -p1 -i "${srcdir}/ipts_driver.patch"
-  # patch -p1 -i "${srcdir}/ipts_enable.patch"
-  # patch -p1 -i "${srcdir}/mei_add.patch"
-  # patch -p1 -i "${srcdir}/usb-patch.patch"
-  # patch -p1 -i "${srcdir}/wifi_lenchksum.patch"
-  # patch -p1 -i "${srcdir}/wifi_psoff.patch"
 
   mkdir -p firmware/intel/ipts && cp ../ipts_fw_config.bin firmware/intel/ipts
 
@@ -65,6 +58,9 @@ prepare() {
 
   # add latest fixes from stable queue, if needed
   # http://git.kernel.org/?p=linux/kernel/git/stable/stable-queue.git
+
+  # disable USER_NS for non-root users by default
+  patch -Np1 -i ../0001-add-sysctl-to-disallow-unprivileged-CLONE_NEWUSER-by.patch
 
   cp -Tf ../config .config
 
