@@ -6,7 +6,7 @@
 pkgbase=linux-surfacebook       # Build kernel with a different name
 _srcname=linux-4.14
 pkgver=4.14.4
-pkgrel=2
+pkgrel=3
 arch=('x86_64')
 url="https://www.kernel.org/"
 license=('GPL2')
