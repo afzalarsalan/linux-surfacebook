@@ -6325,3 +6325,61 @@ index ef2d71f22..1396ecc71 100644
 -#endif
  
  	ret = ipts_handle_cmd(ipts, TOUCH_SENSOR_NOTIFY_DEV_READY_CMD, NULL, 0);
+
+From 55ac953f9fb1c9643754e1691a590efb780e02ab Mon Sep 17 00:00:00 2001
+From: Jake Day <jake@ninebysix.com>
+Date: Sun, 10 Dec 2017 13:15:23 -0500
+Subject: [PATCH] fix for reseting mwifiex module
+
+---
+ kernel/drivers/net/wireless/marvell/mwifiex/init.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/kernel/drivers/net/wireless/marvell/mwifiex/init.c b/kernel/drivers/net/wireless/marvell/mwifiex/init.c
+index e11919db7..7f41cf8fe 100644
+--- a/drivers/net/wireless/marvell/mwifiex/init.c
++++ b/drivers/net/wireless/marvell/mwifiex/init.c
+@@ -60,7 +60,7 @@ static void wakeup_timer_fn(unsigned long data)
+ 	adapter->hw_status = MWIFIEX_HW_STATUS_RESET;
+ 	mwifiex_cancel_all_pending_cmd(adapter);
+ 
+-	if (adapter->if_ops.card_reset && !adapter->hs_activated)
++	if (adapter->if_ops.card_reset)
+ 		adapter->if_ops.card_reset(adapter);
+ }
+
+From 5934ac1393eb5464681a17eae484fd242fbed384 Mon Sep 17 00:00:00 2001
+From: Jake Day <jake@ninebysix.com>
+Date: Sun, 24 Dec 2017 14:04:35 -0500
+Subject: [PATCH] cancel pending work on shutting down wifi to prevent hangs
+
+---
+ kernel/drivers/net/wireless/marvell/mwifiex/pcie.c | 2 ++
+ kernel/drivers/net/wireless/marvell/mwifiex/sdio.c | 2 ++
+ 2 files changed, 4 insertions(+)
+
+diff --git a/kernel/drivers/net/wireless/marvell/mwifiex/pcie.c b/kernel/drivers/net/wireless/marvell/mwifiex/pcie.c
+index 3f2a88167..50df1c05f 100644
+--- a/drivers/net/wireless/marvell/mwifiex/pcie.c
++++ b/drivers/net/wireless/marvell/mwifiex/pcie.c
+@@ -310,6 +310,8 @@ static void mwifiex_pcie_remove(struct pci_dev *pdev)
+ 		mwifiex_init_shutdown_fw(priv, MWIFIEX_FUNC_SHUTDOWN);
+ 	}
+ 
++	cancel_work_sync(&card->work);
++
+ 	mwifiex_remove_card(adapter);
+ }
+ 
+diff --git a/kernel/drivers/net/wireless/marvell/mwifiex/sdio.c b/kernel/drivers/net/wireless/marvell/mwifiex/sdio.c
+index fd5183c10..832824a89 100644
+--- a/drivers/net/wireless/marvell/mwifiex/sdio.c
++++ b/drivers/net/wireless/marvell/mwifiex/sdio.c
+@@ -399,6 +399,8 @@ mwifiex_sdio_remove(struct sdio_func *func)
+ 		mwifiex_init_shutdown_fw(priv, MWIFIEX_FUNC_SHUTDOWN);
+ 	}
+ 
++	cancel_work_sync(&card->work);
++
+ 	mwifiex_remove_card(adapter);
+ }
