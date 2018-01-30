@@ -541,7 +541,7 @@ diff -aurpN linux-4.15/drivers/gpu/drm/i915/intel_ipts.c linux-4.15-new/drivers/
 +	base = client->vaddr;
 +	desc = (struct guc_process_desc *)((u64)base + client->proc_desc_offset);
 +
-+	desc->wq_base_addr = (u64)base + client->wq_offset;
++	desc->wq_base_addr = (u64)base + GUC_DB_SIZE;
 +	desc->db_base_addr = (u64)base + client->doorbell_offset;
 +
 +	/* IPTS expects physical addresses to pass it to ME */
@@ -551,7 +551,7 @@ diff -aurpN linux-4.15/drivers/gpu/drm/i915/intel_ipts.c linux-4.15-new/drivers/
 +        wq_info->db_phy_addr = phy_base + client->doorbell_offset;
 +        wq_info->db_cookie_offset = offsetof(struct guc_doorbell_info, cookie);
 +        wq_info->wq_addr = desc->wq_base_addr;
-+        wq_info->wq_phy_addr = phy_base + client->wq_offset;
++        wq_info->wq_phy_addr = phy_base + GUC_DB_SIZE;
 +        wq_info->wq_head_addr = (u64)&desc->head;
 +        wq_info->wq_head_phy_addr = phy_base + client->proc_desc_offset +
 +					offsetof(struct guc_process_desc, head);
