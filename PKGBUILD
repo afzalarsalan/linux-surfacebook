@@ -38,7 +38,7 @@ sha256sums=('5a26478906d5005f4f809402e981518d2b8844949199f60c4b6e1f986ca2a769'
             'ad6344badc91ad0630caacde83f7f9b97276f80d26a20619a87952be65492c65'
             '7b7363b53c68f52b119df994c9c08d4f29271b408f021366ab23f862518bd9bc'
             'ac996455cddccc312d93e63845d92b2d8ab8fb53208a221948d28c76c678d215'
-            '1e298bae1b3d9d752079fbfa520ab497893074a3ad78b317f178d533f8e94faa'
+            '8534701099839d8ed1f6c91f1826faadb947296ecc09f1548727bd5fda48c2c2'
             'eed5c04a5f8841d52292fbb321990c79316ce98cd21324c71226cdc95cc20d09')
 
 _kernelname=${pkgbase#linux}
@@ -47,7 +47,7 @@ prepare() {
   cd ${_srcname}
 
   # add upstream patch
-  patch -p1 -i ../patch-${pkgver}
+  #patch -p1 -i ../patch-${pkgver}
   chmod +x tools/objtool/sync-check.sh # GNU patch doesn't support git-style file mode
 
   # The IPTS and Network Fixes
