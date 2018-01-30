@@ -13,7 +13,7 @@ diff -aurpN linux-4.15/drivers/gpu/drm/i915/i915_drv.c linux-4.15-new/drivers/gp
  
  	drm_kms_helper_poll_init(dev);
  
-+	if (INTEL_GEN(dev_priv) >= 9 && i915.enable_guc_submission)
++	if (INTEL_GEN(dev_priv) >= 9 && i915_modparams.enable_guc_submission)
 +        intel_ipts_init(dev);
 +
  	return 0;
@@ -23,7 +23,7 @@ diff -aurpN linux-4.15/drivers/gpu/drm/i915/i915_drv.c linux-4.15-new/drivers/gp
  	struct drm_i915_private *dev_priv = to_i915(dev);
  	struct pci_dev *pdev = dev_priv->drm.pdev;
  
-+	if (INTEL_GEN(dev_priv) >= 9 && i915.enable_guc_submission)
++	if (INTEL_GEN(dev_priv) >= 9 && i915_modparams.enable_guc_submission)
 +		intel_ipts_cleanup(dev);
 +
  	i915_driver_unregister(dev_priv);
@@ -954,7 +954,7 @@ diff -aurpN linux-4.15/drivers/gpu/drm/i915/intel_panel.c linux-4.15-new/drivers
  	struct drm_i915_private *dev_priv = to_i915(connector->base.dev);
  	u32 tmp;
  
-+	if (INTEL_GEN(dev_priv) >= 9 && i915.enable_guc_submission)
++	if (INTEL_GEN(dev_priv) >= 9 && i915_modparams.enable_guc_submission)
 +		intel_ipts_notify_backlight_status(false);
 +
  	intel_panel_actually_set_backlight(old_conn_state, 0);
@@ -965,7 +965,7 @@ diff -aurpN linux-4.15/drivers/gpu/drm/i915/intel_panel.c linux-4.15-new/drivers
  	/* This won't stick until the above enable. */
  	intel_panel_actually_set_backlight(conn_state, panel->backlight.level);
 +
-+	if (INTEL_GEN(dev_priv) >= 9 && i915.enable_guc_submission)
++	if (INTEL_GEN(dev_priv) >= 9 && i915_modparams.enable_guc_submission)
 +		intel_ipts_notify_backlight_status(true);
  }
  
