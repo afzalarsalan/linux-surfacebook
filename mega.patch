@@ -209,7 +209,7 @@ diff -aurpN linux-4.15/drivers/gpu/drm/i915/intel_guc.h linux-4.15-new/drivers/g
 diff -aurpN linux-4.15/drivers/gpu/drm/i915/intel_ipts.c linux-4.15-new/drivers/gpu/drm/i915/intel_ipts.c
 --- linux-4.15/drivers/gpu/drm/i915/intel_ipts.c	1969-12-31 18:00:00.000000000 -0600
 +++ linux-4.15-new/drivers/gpu/drm/i915/intel_ipts.c	2018-01-29 20:34:58.146585859 -0600
-@@ -0,0 +1,626 @@
+@@ -0,0 +1,627 @@
 +/*
 + * Copyright  2016 Intel Corporation
 + *
@@ -240,6 +240,7 @@ diff -aurpN linux-4.15/drivers/gpu/drm/i915/intel_ipts.c linux-4.15-new/drivers/
 +#include <drm/drmP.h>
 +
 +#include "i915_drv.h"
++#include "i915_guc_submission.h"
 +
 +#define SUPPORTED_IPTS_INTERFACE_VERSION	1
 +
