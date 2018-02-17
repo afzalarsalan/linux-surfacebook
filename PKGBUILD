@@ -5,8 +5,8 @@
 #pkgbase=linux               # Build stock -ARCH kernel
 pkgbase=linux-surfacebook       # Build kernel with a different name
 _srcname=linux-4.15
-pkgver=4.15.3
-pkgrel=2
+pkgver=4.15.4
+pkgrel=1
 arch=('x86_64')
 url="https://www.kernel.org/"
 license=('GPL2')
@@ -21,8 +21,7 @@ source=(
   linux.preset   # standard config files for mkinitcpio ramdisk
   0001-add-sysctl-to-disallow-unprivileged-CLONE_NEWUSER-by.patch
   0002-drm-i915-edp-Only-use-the-alternate-fixed-mode-if-it.patch
-  0003-ssb-Do-not-disable-PCI-host-on-non-Mips.patch
-  0004-x86-xen-init-gs-very-early-to-avoid-page-faults-with.patch
+  0003-x86-xen-init-gs-very-early-to-avoid-page-faults-with.patch
   mega.patch
   ipts_fw_config.bin
 )
@@ -32,15 +31,15 @@ validpgpkeys=(
 )
 sha256sums=('5a26478906d5005f4f809402e981518d2b8844949199f60c4b6e1f986ca2a769'
             'SKIP'
-            '6dd42389603bc6c83d2e6db1d736303e41d26cef479cad926b87711f261c9c35'
+            '5f8344fcc6b15be5f53001bb18df342bf5877563239f03271c236e3a40db89e8'
             'SKIP'
-            '80180e2762ae1d85cbdac77b583b3e9606ae1d0a71b37829b1b16341c43fed2b'
+            '5090336e84ba6383ad3b8f65c8a38f4bbb06b2f0cb66cff589e8c632190690d8'
             'ae2e95db94ef7176207c690224169594d49445e04249d2499e9d2fbc117a0b21'
             '75f99f5239e03238f88d1a834c50043ec32b1dc568f2cc291b07d04718483919'
             'ad6344badc91ad0630caacde83f7f9b97276f80d26a20619a87952be65492c65'
-            'b20e25656c9423591afd0325fe26320f50bc3421ff204acbfe5dd88ffb3866fe'
-            '68575230693b374eb68e6100e719c71a196db57fe0ac79ddae02fe72b404e09e'
-            'b21406c060cf601f879528cfa1b83f524c44d8ecd99689c331a7c6326653d0be'
+            'c7951a3dfa6dcfd6f7c56d8d5c7c89cceb0e612ce3e6134d3fe23d1202b69863'
+            'b1485882a9d26fe49b9fb2530259c2c39e03a3346ff63edcbc746f47ef693676'
+            '54380eafa1dfb42f7860a5eee9f521c14aa5fd2c9f5bfaa6e0537d75800225b7'
             '48aba45d06e2172dea971e8563c1e4d26ea09b1f3117a7460e059f8a4e026655'
             'eed5c04a5f8841d52292fbb321990c79316ce98cd21324c71226cdc95cc20d09')
 
@@ -69,19 +68,18 @@ prepare() {
   # https://bugs.archlinux.org/task/56711
   patch -Np1 -i ../0002-drm-i915-edp-Only-use-the-alternate-fixed-mode-if-it.patch
 
-  # https://bugs.archlinux.org/task/57327
-  patch -Np1 -i ../0003-ssb-Do-not-disable-PCI-host-on-non-Mips.patch
-
   # https://bugs.archlinux.org/task/57500
-  patch -Np1 -i ../0004-x86-xen-init-gs-very-early-to-avoid-page-faults-with.patch
+  patch -Np1 -i ../0003-x86-xen-init-gs-very-early-to-avoid-page-faults-with.patch
 
   cat ../config - >.config <<END
 CONFIG_LOCALVERSION="${_kernelname}"
 CONFIG_LOCALVERSION_AUTO=n
 END
 
-  # set extraversion to pkgrel
-  sed -i "/^EXTRAVERSION =/s/=.*/= -${pkgrel}/" Makefile
+  # set extraversion to pkgrel and empty localversion
+  sed -e "/^EXTRAVERSION =/s/=.*/= -${pkgrel}/" \
+      -e "/^EXTRAVERSION =/aLOCALVERSION =" \
+      -i Makefile
 
   # don't run depmod on 'make install'. We'll do this ourselves in packaging
   sed -i '2iexit 0' scripts/depmod.sh
@@ -105,7 +103,7 @@ build() {
   cd ${_srcname}
   export CFLAGS+=" -march=skylake"
 
-  make ${MAKEFLAGS} LOCALVERSION= bzImage modules
+  make ${MAKEFLAGS} bzImage modules
 }
 
 _package() {
@@ -119,12 +117,12 @@ _package() {
   cd ${_srcname}
 
   # get kernel version
-  _kernver="$(make LOCALVERSION= kernelrelease)"
+  _kernver="$(make kernelrelease)"
   _basekernel=${_kernver%%-*}
   _basekernel=${_basekernel%.*}
 
   mkdir -p "${pkgdir}"/{boot,usr/lib/modules}
-  make LOCALVERSION= INSTALL_MOD_PATH="${pkgdir}/usr" modules_install
+  make INSTALL_MOD_PATH="${pkgdir}/usr" modules_install
   cp arch/x86/boot/bzImage "${pkgdir}/boot/vmlinuz-${pkgbase}"
 
   # make room for external modules
