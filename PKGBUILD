@@ -6,7 +6,7 @@
 pkgbase=linux-surfacebook       # Build kernel with a different name
 _srcname=linux-4.15
 pkgver=4.15.3
-pkgrel=1
+pkgrel=2
 arch=('x86_64')
 url="https://www.kernel.org/"
 license=('GPL2')
@@ -22,6 +22,7 @@ source=(
   0001-add-sysctl-to-disallow-unprivileged-CLONE_NEWUSER-by.patch
   0002-drm-i915-edp-Only-use-the-alternate-fixed-mode-if-it.patch
   0003-ssb-Do-not-disable-PCI-host-on-non-Mips.patch
+  0004-x86-xen-init-gs-very-early-to-avoid-page-faults-with.patch
   mega.patch
   ipts_fw_config.bin
 )
@@ -70,6 +71,9 @@ prepare() {
 
   # https://bugs.archlinux.org/task/57327
   patch -Np1 -i ../0003-ssb-Do-not-disable-PCI-host-on-non-Mips.patch
+
+  # https://bugs.archlinux.org/task/57500
+  patch -Np1 -i ../0004-x86-xen-init-gs-very-early-to-avoid-page-faults-with.patch
 
   cat ../config - >.config <<END
 CONFIG_LOCALVERSION="${_kernelname}"
