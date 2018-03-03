@@ -5,7 +5,7 @@
 #pkgbase=linux               # Build stock -ARCH kernel
 pkgbase=linux-surfacebook       # Build kernel with a different name
 _srcname=linux-4.15
-pkgver=4.15.6
+pkgver=4.15.7
 pkgrel=1
 arch=('x86_64')
 url="https://www.kernel.org/"
@@ -30,7 +30,7 @@ validpgpkeys=(
 )
 sha256sums=('5a26478906d5005f4f809402e981518d2b8844949199f60c4b6e1f986ca2a769'
             'SKIP'
-            '79832aa2c9bc661ef1b4b8d55e6eff346cf23fd6c7dfd1ff0f1a7239cf2b8072'
+            '0dad200b26837acd0340dfe18d9610467c111df5719440248cd8be6fb8d6dd02'
             'SKIP'
             'c6a09f6bbf0a58c51be8ac2d89162a42f93bfefaf8e7cd7a7c597cf3f50cb614'
             'ae2e95db94ef7176207c690224169594d49445e04249d2499e9d2fbc117a0b21'
