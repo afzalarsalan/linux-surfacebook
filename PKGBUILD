@@ -5,7 +5,7 @@
 #pkgbase=linux               # Build stock -ARCH kernel
 pkgbase=linux-surfacebook       # Build kernel with a different name
 _srcname=linux-4.15
-pkgver=4.15.13
+pkgver=4.15.15
 pkgrel=1
 arch=('x86_64')
 url="https://www.kernel.org/"
@@ -21,7 +21,13 @@ source=(
   linux.preset   # standard config files for mkinitcpio ramdisk
   0001-add-sysctl-to-disallow-unprivileged-CLONE_NEWUSER-by.patch
   0002-drm-i915-edp-Only-use-the-alternate-fixed-mode-if-it.patch
-  mega.patch
+  acpica.patch
+  ipts.patch
+  keyboards_and_covers.patch
+  sdcard_reader.patch
+  surfaceacpi.patch
+  surfacedock.patch
+  wifi.patch
   ipts_fw_config.bin
 )
 validpgpkeys=(
@@ -30,7 +36,7 @@ validpgpkeys=(
 )
 sha256sums=('5a26478906d5005f4f809402e981518d2b8844949199f60c4b6e1f986ca2a769'
             'SKIP'
-            'f1bc5cfc7316daa463cd0ed366e376eb24a29072491c29a68732e1edf8a6ef8b'
+            'd8e7f93e24db5517a1be2030a765431120e07f7cd55e510d0de562c70e45bc00'
             'SKIP'
             'c6a09f6bbf0a58c51be8ac2d89162a42f93bfefaf8e7cd7a7c597cf3f50cb614'
             'ae2e95db94ef7176207c690224169594d49445e04249d2499e9d2fbc117a0b21'
@@ -38,7 +44,13 @@ sha256sums=('5a26478906d5005f4f809402e981518d2b8844949199f60c4b6e1f986ca2a769'
             'ad6344badc91ad0630caacde83f7f9b97276f80d26a20619a87952be65492c65'
             '19b17156ea5aec86e4eb87fc855789375a5184faf564b4ac2cd0f279de7b3bf9'
             'f49e23e2a00357f8a5f6cc5caadd56a4df2b0a3e2b53d76a514ca508f25a62a7'
-            '48aba45d06e2172dea971e8563c1e4d26ea09b1f3117a7460e059f8a4e026655'
+            '986598c2ec47d3cd960abd94d0f9fb6e153dc3803db6fe4fe6288afeaed962d2'
+            '6c7b26597be44de4d2949b34b87371b2dbd2825448fc60bf8fb5d084c694104b'
+            '0126184f0d838695261f2e9a6aed6bd68ccea3cdb8091e8c17f7a28b688c2a82'
+            'ee28626aa83b288f3e02bc4bfc49fcca969cbb258da5bdb82da1fdd66aa306bd'
+            '03b397cf1e02da93a19fe682e8e3240d2656ddffecaab5216780341c0d767cbb'
+            'bddae8572686ffe1d3b2f09786a710fc45287952d0e14a17602f128219a0f2fc'
+            'ecca09fe95cd3baf7e341dc5a7d6dbb56b166cd266438e4143a5618fb0b3ee28'
             'eed5c04a5f8841d52292fbb321990c79316ce98cd21324c71226cdc95cc20d09')
 
 _kernelname=${pkgbase#linux}
@@ -50,8 +62,14 @@ prepare() {
   # add upstream patch
   patch -p1 -i ../patch-${pkgver}
 
-  # The IPTS and Network Fixes
-  patch -p1 -i ../mega.patch
+  # Surface Device Patches
+  patch -p1 -i ../ipts.patch
+  patch -p1 -i ../keyboards_and_covers.patch
+  patch -p1 -i ../sdcard_reader.patch
+  patch -p1 -i ../wifi.patch
+  patch -p1 -i ../surfacedock.patch
+  patch -p1 -i ../surfaceacpi.patch
+  patch -p1 -i ../acpica.patch
 
   mkdir -p firmware/intel/ipts && cp ../ipts_fw_config.bin firmware/intel/ipts
 
