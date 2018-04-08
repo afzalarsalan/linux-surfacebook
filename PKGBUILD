@@ -21,6 +21,7 @@ source=(
   linux.preset   # standard config files for mkinitcpio ramdisk
   0001-add-sysctl-to-disallow-unprivileged-CLONE_NEWUSER-by.patch
   0002-drm-i915-edp-Only-use-the-alternate-fixed-mode-if-it.patch
+  0003-Partially-revert-swiotlb-remove-various-exports.patch
   acpica.patch
   ipts.patch
   keyboards_and_covers.patch
@@ -40,15 +41,16 @@ sha256sums=('63f6dc8e3c9f3a0273d5d6f4dca38a2413ca3a5f689329d05b750e4c87bb21b9'
             'ae2e95db94ef7176207c690224169594d49445e04249d2499e9d2fbc117a0b21'
             '75f99f5239e03238f88d1a834c50043ec32b1dc568f2cc291b07d04718483919'
             'ad6344badc91ad0630caacde83f7f9b97276f80d26a20619a87952be65492c65'
-            '19b17156ea5aec86e4eb87fc855789375a5184faf564b4ac2cd0f279de7b3bf9'
-            'f49e23e2a00357f8a5f6cc5caadd56a4df2b0a3e2b53d76a514ca508f25a62a7'
+            '69be34b14df3275118e8c345d61b36b71370710c7b4f61bb3bedaff7501775f0'
+            'a4566321f73fa1448195691349d5ed0ddf30127d17213a31aa2c931e822df061'
+            'd365ce80dab359d5277bd2f8568cad50a30ab269f222ed1bb12b8d74571e24a6'
             '986598c2ec47d3cd960abd94d0f9fb6e153dc3803db6fe4fe6288afeaed962d2'
-            'd255c8293029809782f5a553e63c4a197badea2e0460ae28045663a6958d3fb9'
-            '0126184f0d838695261f2e9a6aed6bd68ccea3cdb8091e8c17f7a28b688c2a82'
+            '3db782ace060e924d26c58aa1a99a64081c287739ef30fce75fc895bfa3a7c84'
+            'ba09034deb7c63a96e44689a4350969aa8f39cc9a4b8644f54ff9a179025be0e'
             'ee28626aa83b288f3e02bc4bfc49fcca969cbb258da5bdb82da1fdd66aa306bd'
             '03b397cf1e02da93a19fe682e8e3240d2656ddffecaab5216780341c0d767cbb'
             'bddae8572686ffe1d3b2f09786a710fc45287952d0e14a17602f128219a0f2fc'
-            'ecca09fe95cd3baf7e341dc5a7d6dbb56b166cd266438e4143a5618fb0b3ee28'
+            '29edfc85149f429b5e3dcc78c62c33f264cd471687b5081a9540c1e386060ccb'
             'eed5c04a5f8841d52292fbb321990c79316ce98cd21324c71226cdc95cc20d09')
 
 _kernelname=${pkgbase#linux}
@@ -79,6 +81,9 @@ prepare() {
 
   # https://bugs.archlinux.org/task/56711
   patch -Np1 -i ../0002-drm-i915-edp-Only-use-the-alternate-fixed-mode-if-it.patch
+
+  # NVIDIA driver compat
+  patch -Np1 -i ../0003-Partially-revert-swiotlb-remove-various-exports.patch
 
   cat ../config - >.config <<END
 CONFIG_LOCALVERSION="${_kernelname}"

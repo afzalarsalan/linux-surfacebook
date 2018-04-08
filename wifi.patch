@@ -13,7 +13,7 @@ index 042a1d0..fc9041f 100644
  
  		skb_src = skb_dequeue(&pra_list->skb_head);
 diff --git a/drivers/net/wireless/marvell/mwifiex/cfg80211.c b/drivers/net/wireless/marvell/mwifiex/cfg80211.c
-index f324011..7f31e43 100644
+index 6e0d9a9..d008687 100644
 --- a/drivers/net/wireless/marvell/mwifiex/cfg80211.c
 +++ b/drivers/net/wireless/marvell/mwifiex/cfg80211.c
 @@ -416,6 +416,9 @@ mwifiex_cfg80211_set_power_mgmt(struct wiphy *wiphy,
@@ -27,7 +27,7 @@ index f324011..7f31e43 100644
  }
  
 diff --git a/drivers/net/wireless/marvell/mwifiex/cmdevt.c b/drivers/net/wireless/marvell/mwifiex/cmdevt.c
-index dcc529e..3998ffb 100644
+index 0edc5d6..c0c9c70 100644
 --- a/drivers/net/wireless/marvell/mwifiex/cmdevt.c
 +++ b/drivers/net/wireless/marvell/mwifiex/cmdevt.c
 @@ -995,6 +995,7 @@ mwifiex_cmd_timeout_func(struct timer_list *t)
@@ -147,7 +147,7 @@ index 154c079..4205344 100644
  			      int cmd_type,
  			      struct mwifiex_ds_wakeup_reason *wakeup_reason);
 diff --git a/drivers/net/wireless/marvell/mwifiex/pcie.c b/drivers/net/wireless/marvell/mwifiex/pcie.c
-index 9511f5f..4a4737c 100644
+index cd31494..575da92 100644
 --- a/drivers/net/wireless/marvell/mwifiex/pcie.c
 +++ b/drivers/net/wireless/marvell/mwifiex/pcie.c
 @@ -1729,6 +1729,16 @@ static int mwifiex_pcie_process_cmd_complete(struct mwifiex_adapter *adapter)
@@ -250,7 +250,7 @@ index ffbf4e7..3ad81e3 100644
 +
  	if (pci_bridge_d3_possible(dev)) {
  		/*
- 		 * Keep the port resumed 100ms to make sure things like
+		 * Keep the port resumed 100ms to make sure things like
 diff --git a/net/wireless/sme.c b/net/wireless/sme.c
 index fdb3646..b44b23b 100644
 --- a/net/wireless/sme.c
