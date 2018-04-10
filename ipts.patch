@@ -136,7 +136,8 @@ index c963603..f8f63f0 100644
  	param(int, invert_brightness, 0) \
 -	param(int, enable_guc, 0) \
 +	param(int, enable_guc, 1) \
- 	param(int, guc_log_level, -1) \
+- 	param(int, guc_log_level, -1) \
++   param(int, guc_log_level, 4) \
  	param(char *, guc_firmware_path, NULL) \
  	param(char *, huc_firmware_path, NULL) \
 diff --git a/drivers/gpu/drm/i915/intel_guc.h b/drivers/gpu/drm/i915/intel_guc.h
@@ -5735,7 +5736,7 @@ index 0000000..1fcd021
 +#include "ipts-state.h"
 +#include "ipts-binary-spec.h"
 +
-+//#define ENABLE_IPTS_DEBUG		/* enable IPTS debug */
++#define ENABLE_IPTS_DEBUG		/* enable IPTS debug */
 +
 +#ifdef ENABLE_IPTS_DEBUG
 +
