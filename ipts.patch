@@ -137,7 +137,7 @@ index c963603..f8f63f0 100644
 -	param(int, enable_guc, 0) \
 - 	param(int, guc_log_level, -1) \
 +	param(int, enable_guc, 1) \
-+   param(int, guc_log_level, 4) \
++	param(int, guc_log_level, 4) \
  	param(char *, guc_firmware_path, NULL) \
  	param(char *, huc_firmware_path, NULL) \
 	param(int, mmio_debug, 0) \
