@@ -63,7 +63,7 @@ prepare() {
   #patch -p1 -i ../patch-${pkgver}
 
   # Surface Device Patches
-  patch -p1 -i ../ipts.patch
+  #patch -p1 -i ../ipts.patch
   patch -p1 -i ../keyboards_and_covers.patch
   patch -p1 -i ../sdcard_reader.patch
   patch -p1 -i ../wifi.patch
