@@ -35,7 +35,7 @@ new file mode 100644
 index 0000000..60e4db3
 --- /dev/null
 +++ b/drivers/platform/x86/surface_acpi.c
-@@ -0,0 +1,471 @@
+@@ -0,0 +1,472 @@
 +/*
 + *  surface_acpi.c - Microsoft Surface ACPI Notify
 + *
@@ -65,6 +65,7 @@ index 0000000..60e4db3
 +#include <linux/power_supply.h>
 +#include <linux/thermal.h>
 +#include <linux/dmi.h>
++#include <linux/seq_file.h>
 +#include <acpi/acpi_bus.h>
 +#include <acpi/acpi_drivers.h>
 +
