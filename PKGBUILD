@@ -6,7 +6,7 @@
 pkgbase=linux-surfacebook       # Build kernel with a different name
 _srcname=linux-4.16
 pkgver=4.16.2
-pkgrel=1
+pkgrel=2
 arch=('x86_64')
 url="https://www.kernel.org/"
 license=('GPL2')
@@ -23,6 +23,9 @@ source=(
   0002-drm-i915-edp-Only-use-the-alternate-fixed-mode-if-it.patch
   0003-Partially-revert-swiotlb-remove-various-exports.patch
   0004-Fix-vboxguest-on-guests-with-more-than-4G-RAM.patch
+  0005-Revert-drm-amd-display-disable-CRTCs-with-NULL-FB-on.patch
+  0006-net-aquantia-Regression-on-reset-with-1.x-firmware.patch
+  0007-media-v4l2-core-fix-size-of-devnode_nums-bitarray.patch
   acpica.patch
   ipts.patch
   keyboards_and_covers.patch
@@ -67,7 +70,7 @@ prepare() {
   patch -p1 -i ../patch-${pkgver}
 
   # Surface Device Patches
-  #patch -p1 -i ../ipts.patch
+  patch -p1 -i ../ipts.patch
   patch -p1 -i ../keyboards_and_covers.patch
   patch -p1 -i ../sdcard_reader.patch
   patch -p1 -i ../wifi.patch
@@ -91,6 +94,15 @@ prepare() {
 
   # https://bugs.archlinux.org/task/58153
   patch -Np1 -i ../0004-Fix-vboxguest-on-guests-with-more-than-4G-RAM.patch
+
+  # https://bugs.archlinux.org/task/58158
+  patch -Np1 -i ../0005-Revert-drm-amd-display-disable-CRTCs-with-NULL-FB-on.patch
+
+  # https://bugs.archlinux.org/task/58174
+  patch -Np1 -i ../0006-net-aquantia-Regression-on-reset-with-1.x-firmware.patch
+
+  # https://bugs.archlinux.org/task/58205
+  patch -Np1 -i ../0007-media-v4l2-core-fix-size-of-devnode_nums-bitarray.patch
 
   cat ../config - >.config <<END
 CONFIG_LOCALVERSION="${_kernelname}"
