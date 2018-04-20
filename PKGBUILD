@@ -5,8 +5,8 @@
 #pkgbase=linux               # Build stock -ARCH kernel
 pkgbase=linux-surfacebook       # Build kernel with a different name
 _srcname=linux-4.16
-pkgver=4.16.2
-pkgrel=2
+pkgver=4.16.3
+pkgrel=1
 arch=('x86_64')
 url="https://www.kernel.org/"
 license=('GPL2')
@@ -25,7 +25,6 @@ source=(
   0004-Fix-vboxguest-on-guests-with-more-than-4G-RAM.patch
   0005-Revert-drm-amd-display-disable-CRTCs-with-NULL-FB-on.patch
   0006-net-aquantia-Regression-on-reset-with-1.x-firmware.patch
-  0007-media-v4l2-core-fix-size-of-devnode_nums-bitarray.patch
   acpica.patch
   ipts.patch
   keyboards_and_covers.patch
@@ -41,7 +40,7 @@ validpgpkeys=(
 )
 sha256sums=('63f6dc8e3c9f3a0273d5d6f4dca38a2413ca3a5f689329d05b750e4c87bb21b9'
             'SKIP'
-            'fa82ef50579ea9b71b26b2ae98460380e22a48be2524f90548947a586988e575'
+            '336252cb15f2f2574461c1d3daabf5dc207842526085802270e1e5223f645db3'
             'SKIP'
             'd23f56aebe56d6b9e3e432d5daaa6a8b87055d1715ffe180cb73b40cc4304878'
             'ae2e95db94ef7176207c690224169594d49445e04249d2499e9d2fbc117a0b21'
@@ -53,7 +52,6 @@ sha256sums=('63f6dc8e3c9f3a0273d5d6f4dca38a2413ca3a5f689329d05b750e4c87bb21b9'
             'c0fa1a6141bf64111ab9d0af4fc63d95b03b65baa2682aee1cd794d9311062c2'
             'bc899ff8017cf60170d459d77f064edaad1bb4047eef53f27583521786f68f54'
             '76fe7d56b7e9e9dea548fe5a761cd346c20d78958a41907cd8ac6c6a9777e04d'
-            '34c7316a4e909300e14b0510dbeedc1d0acf9e43cc7c48693462e0fd98883fb2'
             '66b1395a51cd7c53ddce926cfba8bc5b26c6442350f8a9125cf3eb90298e74d0'
             '7e941d2251173c641a799ad76228030cbe93a724c6c66aff2822c045d2a71d77'
             'ba09034deb7c63a96e44689a4350969aa8f39cc9a4b8644f54ff9a179025be0e'
@@ -103,9 +101,6 @@ prepare() {
 
   # https://bugs.archlinux.org/task/58174
   patch -Np1 -i ../0006-net-aquantia-Regression-on-reset-with-1.x-firmware.patch
-
-  # https://bugs.archlinux.org/task/58205
-  patch -Np1 -i ../0007-media-v4l2-core-fix-size-of-devnode_nums-bitarray.patch
 
   cat ../config - >.config <<END
 CONFIG_LOCALVERSION="${_kernelname}"
