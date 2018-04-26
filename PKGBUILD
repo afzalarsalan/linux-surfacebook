@@ -5,7 +5,7 @@
 #pkgbase=linux               # Build stock -ARCH kernel
 pkgbase=linux-surfacebook       # Build kernel with a different name
 _srcname=linux-4.16
-pkgver=4.16.3
+pkgver=4.16.5
 pkgrel=1
 arch=('x86_64')
 url="https://www.kernel.org/"
@@ -23,8 +23,7 @@ source=(
   0002-drm-i915-edp-Only-use-the-alternate-fixed-mode-if-it.patch
   0003-Partially-revert-swiotlb-remove-various-exports.patch
   0004-Fix-vboxguest-on-guests-with-more-than-4G-RAM.patch
-  0005-Revert-drm-amd-display-disable-CRTCs-with-NULL-FB-on.patch
-  0006-net-aquantia-Regression-on-reset-with-1.x-firmware.patch
+  0005-net-aquantia-Regression-on-reset-with-1.x-firmware.patch
   acpica.patch
   ipts.patch
   keyboards_and_covers.patch
@@ -40,9 +39,9 @@ validpgpkeys=(
 )
 sha256sums=('63f6dc8e3c9f3a0273d5d6f4dca38a2413ca3a5f689329d05b750e4c87bb21b9'
             'SKIP'
-            '336252cb15f2f2574461c1d3daabf5dc207842526085802270e1e5223f645db3'
+            '8c3bb050d11da6e91d3e169f76ee3ed6937e1ca64264e605ddba8108696ba011'
             'SKIP'
-            'd23f56aebe56d6b9e3e432d5daaa6a8b87055d1715ffe180cb73b40cc4304878'
+            'dde712e2432b7b347cee7215637c9fe06e9546767813569f424022930561bdc5'
             'ae2e95db94ef7176207c690224169594d49445e04249d2499e9d2fbc117a0b21'
             '75f99f5239e03238f88d1a834c50043ec32b1dc568f2cc291b07d04718483919'
             'ad6344badc91ad0630caacde83f7f9b97276f80d26a20619a87952be65492c65'
@@ -50,7 +49,6 @@ sha256sums=('63f6dc8e3c9f3a0273d5d6f4dca38a2413ca3a5f689329d05b750e4c87bb21b9'
             'a4566321f73fa1448195691349d5ed0ddf30127d17213a31aa2c931e822df061'
             'd365ce80dab359d5277bd2f8568cad50a30ab269f222ed1bb12b8d74571e24a6'
             'c0fa1a6141bf64111ab9d0af4fc63d95b03b65baa2682aee1cd794d9311062c2'
-            'bc899ff8017cf60170d459d77f064edaad1bb4047eef53f27583521786f68f54'
             '76fe7d56b7e9e9dea548fe5a761cd346c20d78958a41907cd8ac6c6a9777e04d'
             '66b1395a51cd7c53ddce926cfba8bc5b26c6442350f8a9125cf3eb90298e74d0'
             '7e941d2251173c641a799ad76228030cbe93a724c6c66aff2822c045d2a71d77'
@@ -96,11 +94,8 @@ prepare() {
   # https://bugs.archlinux.org/task/58153
   patch -Np1 -i ../0004-Fix-vboxguest-on-guests-with-more-than-4G-RAM.patch
 
-  # https://bugs.archlinux.org/task/58158
-  patch -Np1 -i ../0005-Revert-drm-amd-display-disable-CRTCs-with-NULL-FB-on.patch
-
   # https://bugs.archlinux.org/task/58174
-  patch -Np1 -i ../0006-net-aquantia-Regression-on-reset-with-1.x-firmware.patch
+  patch -Np1 -i ../0005-net-aquantia-Regression-on-reset-with-1.x-firmware.patch
 
   cat ../config - >.config <<END
 CONFIG_LOCALVERSION="${_kernelname}"
