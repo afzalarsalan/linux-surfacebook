@@ -5,7 +5,7 @@
 #pkgbase=linux               # Build stock -ARCH kernel
 pkgbase=linux-surfacebook       # Build kernel with a different name
 _srcname=linux-4.16
-pkgver=4.16.5
+pkgver=4.16.6
 pkgrel=1
 arch=('x86_64')
 url="https://www.kernel.org/"
@@ -23,7 +23,6 @@ source=(
   0002-drm-i915-edp-Only-use-the-alternate-fixed-mode-if-it.patch
   0003-Partially-revert-swiotlb-remove-various-exports.patch
   0004-Fix-vboxguest-on-guests-with-more-than-4G-RAM.patch
-  0005-net-aquantia-Regression-on-reset-with-1.x-firmware.patch
   acpica.patch
   ipts.patch
   keyboards_and_covers.patch
@@ -39,7 +38,7 @@ validpgpkeys=(
 )
 sha256sums=('63f6dc8e3c9f3a0273d5d6f4dca38a2413ca3a5f689329d05b750e4c87bb21b9'
             'SKIP'
-            '8c3bb050d11da6e91d3e169f76ee3ed6937e1ca64264e605ddba8108696ba011'
+            '634d3fd97e5d9d90262db0a9d62ed0a40043eb691d68bd4a545f907079610b56'
             'SKIP'
             'dde712e2432b7b347cee7215637c9fe06e9546767813569f424022930561bdc5'
             'ae2e95db94ef7176207c690224169594d49445e04249d2499e9d2fbc117a0b21'
@@ -49,9 +48,8 @@ sha256sums=('63f6dc8e3c9f3a0273d5d6f4dca38a2413ca3a5f689329d05b750e4c87bb21b9'
             'a4566321f73fa1448195691349d5ed0ddf30127d17213a31aa2c931e822df061'
             'd365ce80dab359d5277bd2f8568cad50a30ab269f222ed1bb12b8d74571e24a6'
             'c0fa1a6141bf64111ab9d0af4fc63d95b03b65baa2682aee1cd794d9311062c2'
-            '76fe7d56b7e9e9dea548fe5a761cd346c20d78958a41907cd8ac6c6a9777e04d'
             '66b1395a51cd7c53ddce926cfba8bc5b26c6442350f8a9125cf3eb90298e74d0'
-            '7e941d2251173c641a799ad76228030cbe93a724c6c66aff2822c045d2a71d77'
+            'b51db34c55d86687aad6df3bbb6b063d492fb188c63aff2bff9b1d527a0bc0e5'
             'ba09034deb7c63a96e44689a4350969aa8f39cc9a4b8644f54ff9a179025be0e'
             'ee28626aa83b288f3e02bc4bfc49fcca969cbb258da5bdb82da1fdd66aa306bd'
             'b6e85a7c284400d57c756fd871f2a2cedc07a6732a94dea05633cb4b1489312f'
@@ -93,9 +91,6 @@ prepare() {
 
   # https://bugs.archlinux.org/task/58153
   patch -Np1 -i ../0004-Fix-vboxguest-on-guests-with-more-than-4G-RAM.patch
-
-  # https://bugs.archlinux.org/task/58174
-  patch -Np1 -i ../0005-net-aquantia-Regression-on-reset-with-1.x-firmware.patch
 
   cat ../config - >.config <<END
 CONFIG_LOCALVERSION="${_kernelname}"
