@@ -5,7 +5,7 @@
 #pkgbase=linux               # Build stock -ARCH kernel
 pkgbase=linux-surfacebook       # Build kernel with a different name
 _srcname=linux-4.16
-pkgver=4.16.10
+pkgver=4.16.11
 pkgrel=1
 arch=('x86_64')
 url="https://www.kernel.org/"
@@ -21,8 +21,6 @@ source=(
   linux.preset   # standard config files for mkinitcpio ramdisk
   0001-add-sysctl-to-disallow-unprivileged-CLONE_NEWUSER-by.patch
   0002-drm-i915-edp-Only-use-the-alternate-fixed-mode-if-it.patch
-  0003-Partially-revert-swiotlb-remove-various-exports.patch
-  0004-xhci-Fix-USB3-NULL-pointer-dereference-at-logical-di.patch
   acpica.patch
   ipts.patch
   keyboards_and_covers.patch
@@ -38,7 +36,7 @@ validpgpkeys=(
 )
 sha256sums=('63f6dc8e3c9f3a0273d5d6f4dca38a2413ca3a5f689329d05b750e4c87bb21b9'
             'SKIP'
-            '9fe6093be401fe0ff3f6cb3d428f137119a7befaf86d70f18c7e88871c1852d6'
+            'd0d998f193c3feeab95f1378dea15aa6ba145f591661547cc00ef16d161651fe'
             'SKIP'
             'e71c08f5816ea23a9e3abbb87bbbf3102480b3819f849b8b7d657a01f8a9df16'
             'ae2e95db94ef7176207c690224169594d49445e04249d2499e9d2fbc117a0b21'
@@ -46,8 +44,6 @@ sha256sums=('63f6dc8e3c9f3a0273d5d6f4dca38a2413ca3a5f689329d05b750e4c87bb21b9'
             'ad6344badc91ad0630caacde83f7f9b97276f80d26a20619a87952be65492c65'
             '69be34b14df3275118e8c345d61b36b71370710c7b4f61bb3bedaff7501775f0'
             'a4566321f73fa1448195691349d5ed0ddf30127d17213a31aa2c931e822df061'
-            'd365ce80dab359d5277bd2f8568cad50a30ab269f222ed1bb12b8d74571e24a6'
-            '052a39582f84c52b027c261fcec90325493f4d46f15647c274a58e39145deced'
             '66b1395a51cd7c53ddce926cfba8bc5b26c6442350f8a9125cf3eb90298e74d0'
             'bd05f2b28ddb230e9f1d7a277de31fee8e73ef1ead56ee54e27f09e1213770cc'
             'ba09034deb7c63a96e44689a4350969aa8f39cc9a4b8644f54ff9a179025be0e'
@@ -85,12 +81,6 @@ prepare() {
 
   # https://bugs.archlinux.org/task/56711
   patch -Np1 -i ../0002-drm-i915-edp-Only-use-the-alternate-fixed-mode-if-it.patch
-
-  # NVIDIA driver compat
-  patch -Np1 -i ../0003-Partially-revert-swiotlb-remove-various-exports.patch
-
-  # https://bugs.archlinux.org/task/58237
-  patch -Np1 -i ../0004-xhci-Fix-USB3-NULL-pointer-dereference-at-logical-di.patch
 
   cat ../config - >.config <<END
 CONFIG_LOCALVERSION="${_kernelname}"
