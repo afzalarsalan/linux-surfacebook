@@ -5,7 +5,7 @@
 #pkgbase=linux               # Build stock -ARCH kernel
 pkgbase=linux-surfacebook       # Build kernel with a different name
 _srcname=linux-4.16
-pkgver=4.16.12
+pkgver=4.16.13
 pkgrel=1
 arch=('x86_64')
 url="https://www.kernel.org/"
@@ -37,7 +37,7 @@ validpgpkeys=(
 )
 sha256sums=('63f6dc8e3c9f3a0273d5d6f4dca38a2413ca3a5f689329d05b750e4c87bb21b9'
             'SKIP'
-            '70a6381aca28b1d271e85bc38fab05af4525d9fdc2c5bb87182b3351db8c4fa2'
+            '9efa0a74eb61240da53bd01a3a23759e0065811de53d22de7d679eabf847f323'
             'SKIP'
             'e71c08f5816ea23a9e3abbb87bbbf3102480b3819f849b8b7d657a01f8a9df16'
             'ae2e95db94ef7176207c690224169594d49445e04249d2499e9d2fbc117a0b21'
@@ -46,7 +46,7 @@ sha256sums=('63f6dc8e3c9f3a0273d5d6f4dca38a2413ca3a5f689329d05b750e4c87bb21b9'
             '69be34b14df3275118e8c345d61b36b71370710c7b4f61bb3bedaff7501775f0'
             '2454c1ee5e0f5aa119fafb4c8d3b402c5e4e10b2e868fe3e4ced3b1e2aa48446'
             '8114295b8c07795a15b9f8eafb0f515c34661a1e05512da818a34581dd30f87e'
-            '66b1395a51cd7c53ddce926cfba8bc5b26c6442350f8a9125cf3eb90298e74d0'
+            '13d1a0d5b5136847a9f2e8f8c4a877780fce6eb58a978d10fbd25ec8823cf76a'
             'bd05f2b28ddb230e9f1d7a277de31fee8e73ef1ead56ee54e27f09e1213770cc'
             'ba09034deb7c63a96e44689a4350969aa8f39cc9a4b8644f54ff9a179025be0e'
             'ee28626aa83b288f3e02bc4bfc49fcca969cbb258da5bdb82da1fdd66aa306bd'
