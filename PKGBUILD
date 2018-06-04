@@ -21,7 +21,6 @@ source=(
   linux.preset   # standard config files for mkinitcpio ramdisk
   0001-add-sysctl-to-disallow-unprivileged-CLONE_NEWUSER-by.patch
   0002-Revert-drm-i915-edp-Allow-alternate-fixed-mode-for-e.patch
-  acpica.patch
   ipts.patch
   keyboards_and_covers.patch
   sdcard_reader.patch
@@ -42,7 +41,6 @@ sha256sums=('9faa1dd896eaea961dc6e886697c0b3301277102e5bc976b2758f9a62d3ccd13'
             'ad6344badc91ad0630caacde83f7f9b97276f80d26a20619a87952be65492c65'
             '69be34b14df3275118e8c345d61b36b71370710c7b4f61bb3bedaff7501775f0'
             '8114295b8c07795a15b9f8eafb0f515c34661a1e05512da818a34581dd30f87e'
-            '13d1a0d5b5136847a9f2e8f8c4a877780fce6eb58a978d10fbd25ec8823cf76a'
             'c9d17a0cae3c3ce78c89581a5f69009962a50e0f6aa6ffa38f9bf8c1cc29ebf5'
             'ba09034deb7c63a96e44689a4350969aa8f39cc9a4b8644f54ff9a179025be0e'
             'ee28626aa83b288f3e02bc4bfc49fcca969cbb258da5bdb82da1fdd66aa306bd'
@@ -67,7 +65,6 @@ prepare() {
   patch -p1 -i ../wifi.patch
   patch -p1 -i ../surfacedock.patch
   patch -p1 -i ../surfaceacpi.patch
-  patch -p1 -i ../acpica.patch
 
   mkdir -p firmware/intel/ipts && cp ../ipts_fw_config.bin firmware/intel/ipts
 
