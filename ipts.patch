@@ -136,7 +136,7 @@ index c96360398072..f8f63f023a95 100644
  	param(int, invert_brightness, 0) \
 -	param(int, enable_guc, 0) \
 +	param(int, enable_guc, 1) \
- 	param(int, guc_log_level, -1) \
+ 	param(int, guc_log_level, 0) \
  	param(char *, guc_firmware_path, NULL) \
  	param(char *, huc_firmware_path, NULL) \
 diff --git a/drivers/gpu/drm/i915/intel_dp.c b/drivers/gpu/drm/i915/intel_dp.c
