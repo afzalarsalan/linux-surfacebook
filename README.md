@@ -13,7 +13,7 @@ sudo pacman-key --lsign-key 606B8F67F4DAEEE2CD7FD986DF84850438168E49
 ```
 which will download my signing key from your assigned GPG keyserver and have your system sign it, showing that you trust packages signed by my machine
 
-You will then need to add these lines to your `/etc/pacman.conf` right about `[testing]`.
+You will then need to add these lines to your `/etc/pacman.conf` right above `[testing]`.
 
 ```
 [linux-surfacebook]
