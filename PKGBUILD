@@ -5,7 +5,7 @@
 #pkgbase=linux               # Build stock -ARCH kernel
 pkgbase=linux-surfacebook       # Build kernel with a different name
 _srcname=linux-4.17
-pkgver=4.17.5
+pkgver=4.17.6
 pkgrel=1
 arch=('x86_64')
 url="https://www.kernel.org/"
@@ -22,6 +22,7 @@ source=(
   0001-add-sysctl-to-disallow-unprivileged-CLONE_NEWUSER-by.patch
   0002-Revert-drm-i915-edp-Allow-alternate-fixed-mode-for-e.patch
   0003-ACPI-watchdog-Prefer-iTCO_wdt-always-when-WDAT-table.patch
+  0004-mac80211-disable-BHs-preemption-in-ieee80211_tx_cont.patch
   ipts.patch
   keyboards_and_covers.patch
   sdcard_reader.patch
@@ -36,15 +37,16 @@ validpgpkeys=(
 )
 sha256sums=('9faa1dd896eaea961dc6e886697c0b3301277102e5bc976b2758f9a62d3ccd13'
             'SKIP'
-            'cc18fcf14df25f0bab047aa180b9362bd4f3ce96f1b05e1f7764cfcc0e271bbd'
+            '7699b2246e4ed1e284f2947d5e0b66653c27574995caf6a02a3280bd055cfedf'
             'SKIP'
-            '5de88e56e30d76e75d5214fc2d4dd78049dc2947e7e94929d34c77b867497afc'
+            '4e8df8c510b99a4e9c25a712114a1d678713fc8da85e226243fe353886ef800b'
             'ae2e95db94ef7176207c690224169594d49445e04249d2499e9d2fbc117a0b21'
             '75f99f5239e03238f88d1a834c50043ec32b1dc568f2cc291b07d04718483919'
             'ad6344badc91ad0630caacde83f7f9b97276f80d26a20619a87952be65492c65'
             '69be34b14df3275118e8c345d61b36b71370710c7b4f61bb3bedaff7501775f0'
             '8114295b8c07795a15b9f8eafb0f515c34661a1e05512da818a34581dd30f87e'
             'd55e7de60b12bca26ded4c1bb8eb5860a9092374914a201a0f6a0ed2849d099f'
+            '66284102261c4ed53db050e9045c8672ba0e5171884b46e58f6cd417774d8578'
             'c9d17a0cae3c3ce78c89581a5f69009962a50e0f6aa6ffa38f9bf8c1cc29ebf5'
             'ba09034deb7c63a96e44689a4350969aa8f39cc9a4b8644f54ff9a179025be0e'
             'ee28626aa83b288f3e02bc4bfc49fcca969cbb258da5bdb82da1fdd66aa306bd'
@@ -83,6 +85,9 @@ prepare() {
 
   # https://bugs.archlinux.org/task/56780
   patch -Np1 -i ../0003-ACPI-watchdog-Prefer-iTCO_wdt-always-when-WDAT-table.patch
+
+  # Fix iwd provoking a BUG
+  patch -Np1 -i ../0004-mac80211-disable-BHs-preemption-in-ieee80211_tx_cont.patch
 
   cat ../config - >.config <<END
 CONFIG_LOCALVERSION="${_kernelname}"
