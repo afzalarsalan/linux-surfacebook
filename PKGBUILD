@@ -80,7 +80,7 @@ prepare() {
 build() {
   cd $_srcname
   export CFLAGS+=" -march=skylake"
-  make ${MAKEFLAGS} bzImage modules htmldocs
+  KBUILD_BUILD_TIMESTAMP='' make ${MAKEFLAGS} bzImage modules htmldocs
 }
 
 _package() {
