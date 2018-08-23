@@ -5,13 +5,13 @@
 
 #pkgbase=linux               # Build stock -ARCH kernel
 pkgbase=linux-surfacebook       # Build kernel with a different name
-_srcver=4.18.3-arch1
+_srcver=4.18.4-arch1
 pkgver=${_srcver//-/.}
 pkgrel=1
 arch=(x86_64)
 url="https://git.archlinux.org/linux.git/log/?h=v$_srcver"
 license=(GPL2)
-makedepends=(xmlto kmod inetutils bc libelf git)
+makedepends=(xmlto kmod inetutils bc libelf git python-sphix graphviz)
 options=('!strip')
 _srcname=archlinux-linux
 source=(
@@ -80,7 +80,7 @@ prepare() {
 build() {
   cd $_srcname
   export CFLAGS+=" -march=skylake"
-  make ${MAKEFLAGS} bzImage modules
+  make ${MAKEFLAGS} bzImage modules htmldocs
 }
 
 _package() {
@@ -210,6 +210,10 @@ _package-headers() {
     esac
   done < <(find "$builddir" -type f -perm -u+x ! -name vmlinux -print0)
 
+  msg2 "Adding symlink..."
+  mkdir -p "$pkgdir/usr/src"
+  ln -sr "$builddir" "$pkgdir/usr/src/$pkgbase-$pkgver"
+
   msg2 "Fixing permissions..."
   chmod -Rc u=rwX,go=rX "$pkgdir"
 }
@@ -224,6 +228,22 @@ _package-docs() {
   msg2 "Installing documentation..."
   mkdir -p "$builddir"
   cp -t "$builddir" -a Documentation
+
+  msg2 "Removing doctrees..."
+  rm -r "$builddir/Documentation/output/.doctrees"
+
+  msg2 "Moving HTML docs..."
+  local src dst
+  while read -rd '' src; do
+    dst="$builddir/Documentation/${src#$builddir/Documentation/output/}"
+    mkdir -p "${dst%/*}"
+    mv "$src" "$dst"
+    rmdir -p --ignore-fail-on-non-empty "${src%/*}"
+  done < <(find "$builddir/Documentation/output" -type f -print0)
+
+  msg2 "Adding symlink..."
+  mkdir -p "$pkgdir/usr/share/doc"
+  ln -sr "$builddir/Documentation" "$pkgdir/usr/share/doc/$pkgbase"
 
   msg2 "Fixing permissions..."
   chmod -Rc u=rwX,go=rX "$pkgdir"
