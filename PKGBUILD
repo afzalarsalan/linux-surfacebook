@@ -22,7 +22,7 @@ source=(
   ipts.patch
   keyboards_and_covers.patch
   sdcard_reader.patch
-  acpi.patch
+  surfaceacpi.patch
   buttons.patch
   surfacedock.patch
   wifi.patch
@@ -41,7 +41,7 @@ sha256sums=('SKIP'
             'f2681e1d4a3c6c992c18fc854ec1b200a7af2c505f191d3689845f63e9edbfd0'
             'ba09034deb7c63a96e44689a4350969aa8f39cc9a4b8644f54ff9a179025be0e'
             'ee28626aa83b288f3e02bc4bfc49fcca969cbb258da5bdb82da1fdd66aa306bd'
-            'dfefdbc67ad40a6ee43cdd2797d7a1a76b1246292707e1c33d16da298ae60f35'
+            'b6e85a7c284400d57c756fd871f2a2cedc07a6732a94dea05633cb4b1489312f'
             '736b4b7bb369e6739b851ce1317422bad39705a42bb1466893fac34eef23bd9b'
             'bddae8572686ffe1d3b2f09786a710fc45287952d0e14a17602f128219a0f2fc'
             '29edfc85149f429b5e3dcc78c62c33f264cd471687b5081a9540c1e386060ccb'
