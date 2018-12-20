@@ -4,7 +4,7 @@
 
 #pkgbase=linux              # Build stock -ARCH kernel
 pkgbase=linux-surfacebook   # Build kernel with a different name
-_srcver=4.19-arch1
+_srcver=4.19.11-arch1
 pkgver=${_srcver//-/.}
 pkgrel=1
 arch=(x86_64)
@@ -19,7 +19,7 @@ source=(
   60-linux.hook  # pacman hook for depmod
   90-linux.hook  # pacman hook for initramfs regeneration
   linux.preset   # standard config files for mkinitcpio ramdisk
-  ipts.patch
+  #ipts.patch
   keyboards_and_covers.patch
   sdcard_reader.patch
   surfaceacpi.patch
@@ -34,12 +34,11 @@ validpgpkeys=(
   '8218F88849AAC522E94CF470A5E9288C4FA415FA'  # Jan Alexander Steffens (heftig)
 )
 sha256sums=('SKIP'
-            '9a97d0d2783e2ad284854e36fc7f173d136e18ffe5b9457ac7710276a4c6d260'
+            '1d3c690a765c526aa22be8786d65510159dabe597fab1760ac33e9dab758cbb4'
             'ae2e95db94ef7176207c690224169594d49445e04249d2499e9d2fbc117a0b21'
-            '75f99f5239e03238f88d1a834c50043ec32b1dc568f2cc291b07d04718483919'
+            'c043f3033bb781e2688794a59f6d1f7ed49ef9b13eb77ff9a425df33a244a636'
             'ad6344badc91ad0630caacde83f7f9b97276f80d26a20619a87952be65492c65'
-            'f2681e1d4a3c6c992c18fc854ec1b200a7af2c505f191d3689845f63e9edbfd0'
-            'ba09034deb7c63a96e44689a4350969aa8f39cc9a4b8644f54ff9a179025be0e'
+            'd571ccc493fead8dee036e918ed8c4bc7de35afcb78f293a794b46abbbdd7f56'
             'ee28626aa83b288f3e02bc4bfc49fcca969cbb258da5bdb82da1fdd66aa306bd'
             'b6e85a7c284400d57c756fd871f2a2cedc07a6732a94dea05633cb4b1489312f'
             '736b4b7bb369e6739b851ce1317422bad39705a42bb1466893fac34eef23bd9b'
@@ -93,15 +92,17 @@ _package() {
   install=linux.install
 
   local kernver="$(<version)"
+  local modulesdir="$pkgdir/usr/lib/modules/$kernver"
 
   cd $_srcname
 
   msg2 "Installing boot image..."
-  install -Dm644 "$(make -s image_name)" "$pkgdir/boot/vmlinuz-$pkgbase"
+  # systemd expects to find the kernel here to allow hibernation
+  # https://github.com/systemd/systemd/commit/edda44605f06a41fb86b7ab8128dcf99161d2344
+  install -Dm644 "$(make -s image_name)" "$modulesdir/vmlinuz"
+  install -Dm644 "$modulesdir/vmlinuz" "$pkgdir/boot/vmlinuz-$pkgbase"
 
   msg2 "Installing modules..."
-  local modulesdir="$pkgdir/usr/lib/modules/$kernver"
-  mkdir -p "$modulesdir"
   make INSTALL_MOD_PATH="$pkgdir/usr" modules_install
 
   # a place for external modules,
