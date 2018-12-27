@@ -4,7 +4,7 @@
 
 #pkgbase=linux              # Build stock -ARCH kernel
 pkgbase=linux-surfacebook   # Build kernel with a different name
-_srcver=4.19.11-arch1
+_srcver=4.20-arch1
 pkgver=${_srcver//-/.}
 pkgrel=1
 arch=(x86_64)
@@ -25,7 +25,7 @@ source=(
   surfaceacpi.patch
   buttons.patch
   surfacedock.patch
-  wifi.patch
+  #wifi.patch
   ipts_fw_config.bin
 )
 validpgpkeys=(
@@ -34,16 +34,15 @@ validpgpkeys=(
   '8218F88849AAC522E94CF470A5E9288C4FA415FA'  # Jan Alexander Steffens (heftig)
 )
 sha256sums=('SKIP'
-            '1d3c690a765c526aa22be8786d65510159dabe597fab1760ac33e9dab758cbb4'
+            'cf3bc4b7e73eaa67c19ed4c55a2af7c71fa23428f1204b4098187918d46db656'
             'ae2e95db94ef7176207c690224169594d49445e04249d2499e9d2fbc117a0b21'
             'c043f3033bb781e2688794a59f6d1f7ed49ef9b13eb77ff9a425df33a244a636'
             'ad6344badc91ad0630caacde83f7f9b97276f80d26a20619a87952be65492c65'
-            'd571ccc493fead8dee036e918ed8c4bc7de35afcb78f293a794b46abbbdd7f56'
+            'd18ed0c75d17f8680471869a0c94afbc604d14410ec36e4854b4e4055c11f7ab'
             'ee28626aa83b288f3e02bc4bfc49fcca969cbb258da5bdb82da1fdd66aa306bd'
             'b6e85a7c284400d57c756fd871f2a2cedc07a6732a94dea05633cb4b1489312f'
             '736b4b7bb369e6739b851ce1317422bad39705a42bb1466893fac34eef23bd9b'
             'bddae8572686ffe1d3b2f09786a710fc45287952d0e14a17602f128219a0f2fc'
-            '29edfc85149f429b5e3dcc78c62c33f264cd471687b5081a9540c1e386060ccb'
             'eed5c04a5f8841d52292fbb321990c79316ce98cd21324c71226cdc95cc20d09')
 
 _kernelname=${pkgbase#linux}
