@@ -19,13 +19,14 @@ source=(
   60-linux.hook  # pacman hook for depmod
   90-linux.hook  # pacman hook for initramfs regeneration
   linux.preset   # standard config files for mkinitcpio ramdisk
-  #ipts.patch
+  ipts.patch
   keyboards_and_covers.patch
   sdcard_reader.patch
-  surfaceacpi.patch
+  #surfaceacpi.patch
   buttons.patch
   surfacedock.patch
   #wifi.patch
+  resumedelay.patch
   ipts_fw_config.bin
 )
 validpgpkeys=(
@@ -34,15 +35,16 @@ validpgpkeys=(
   '8218F88849AAC522E94CF470A5E9288C4FA415FA'  # Jan Alexander Steffens (heftig)
 )
 sha256sums=('SKIP'
-            'a4213303a0c17e19455249686ef6602cbf4ade2577d23cf93a243bcc5e3a5dc5'
+            '4fb0ca0067c1f6caa5ac3d165c975ae821a62ef23345fd9b534812cbf8a6ebe1'
             'ae2e95db94ef7176207c690224169594d49445e04249d2499e9d2fbc117a0b21'
             'c043f3033bb781e2688794a59f6d1f7ed49ef9b13eb77ff9a425df33a244a636'
             'ad6344badc91ad0630caacde83f7f9b97276f80d26a20619a87952be65492c65'
-            'd18ed0c75d17f8680471869a0c94afbc604d14410ec36e4854b4e4055c11f7ab'
-            'ee28626aa83b288f3e02bc4bfc49fcca969cbb258da5bdb82da1fdd66aa306bd'
-            'b6e85a7c284400d57c756fd871f2a2cedc07a6732a94dea05633cb4b1489312f'
-            '736b4b7bb369e6739b851ce1317422bad39705a42bb1466893fac34eef23bd9b'
-            'bddae8572686ffe1d3b2f09786a710fc45287952d0e14a17602f128219a0f2fc'
+            '47113d6e642712b14c0b838ead4cbd5275accdb965a4d64e22d94b371ca270b2'
+            '63c4edd447b528a04f95c942daf82299607e0a4c1f5d0b1055b28b9ac98cfa81'
+            '85466de05fb42127331922e75a772bd0765d702586f8dbc44e995d8d94caf093'
+            '28f396551fb05178c5b51d92d4b1144df7edeceedfbc4f65d378a12bd9bdb1ca'
+            'ada3dc015688da836c28f485b843478b5cb05368df86002653095e08ac25f0e9'
+            '7312db676d32fc2f2e3130a26e54bd1dc2c7cda89043ebd0f1b4c0cfcc2a1622'
             'eed5c04a5f8841d52292fbb321990c79316ce98cd21324c71226cdc95cc20d09')
 
 _kernelname=${pkgbase#linux}
@@ -70,7 +72,8 @@ prepare() {
 
   msg2 "Setting config..."
   cp ../config .config
-  make olddefconfig
+  #make olddefconfig
+  make oldconfig
 
   make -s kernelrelease > ../version
   msg2 "Prepared %s version %s" "$pkgbase" "$(<../version)"
