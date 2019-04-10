@@ -1,6 +1,6 @@
-From 9d849efa4cfe9459b6518de9247f765883245983 Mon Sep 17 00:00:00 2001
+From f7263e4fbcac6aef9ba78dc2525a47d40af8c96b Mon Sep 17 00:00:00 2001
 From: Jake Day <jake@ninebysix.com>
-Date: Thu, 7 Feb 2019 07:27:09 -0500
+Date: Wed, 13 Mar 2019 15:25:22 -0400
 Subject: [PATCH 06/11] hid
 
 ---
@@ -11,12 +11,10 @@ Subject: [PATCH 06/11] hid
  4 files changed, 86 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-index b7870e7e41d4..5e6e81340be8 100644
+index 24f846d67478..b10672a0e87e 100644
 --- a/drivers/hid/hid-ids.h
 +++ b/drivers/hid/hid-ids.h
---- hid-ids.h.orig	2019-02-11 04:56:42.257511304 -0600
-+++ hid-ids.h	2019-02-11 04:59:54.175715351 -0600
-@@ -806,11 +806,22 @@
+@@ -811,11 +811,22 @@
  #define USB_DEVICE_ID_MS_DIGITAL_MEDIA_3KV1 0x0732
  #define USB_DEVICE_ID_MS_DIGITAL_MEDIA_600  0x0750
  #define USB_DEVICE_ID_MS_COMFORT_MOUSE_4500	0x076c
@@ -45,10 +43,10 @@ index b7870e7e41d4..5e6e81340be8 100644
  #define USB_DEVICE_ID_MS_PIXART_MOUSE    0x00cb
  
 diff --git a/drivers/hid/hid-microsoft.c b/drivers/hid/hid-microsoft.c
-index 72d983626afd..133395b45022 100644
+index 330cb073cb66..f45fea460678 100644
 --- a/drivers/hid/hid-microsoft.c
 +++ b/drivers/hid/hid-microsoft.c
-@@ -313,7 +313,8 @@ static const struct hid_device_id ms_devices[] = {
+@@ -441,7 +441,8 @@ static const struct hid_device_id ms_devices[] = {
  		.driver_data = MS_HIDINPUT },
  	{ HID_USB_DEVICE(USB_VENDOR_ID_MICROSOFT, USB_DEVICE_ID_MS_COMFORT_KEYBOARD),
  		.driver_data = MS_ERGONOMY},
@@ -59,10 +57,10 @@ index 72d983626afd..133395b45022 100644
  		.driver_data = MS_PRESENTER },
  	{ HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_MICROSOFT, 0x091B),
 diff --git a/drivers/hid/hid-multitouch.c b/drivers/hid/hid-multitouch.c
-index 831617c386e6..21337070068a 100644
+index 719a0360e40c..962aeefed5d8 100644
 --- a/drivers/hid/hid-multitouch.c
 +++ b/drivers/hid/hid-multitouch.c
-@@ -1978,6 +1978,63 @@ static const struct hid_device_id mt_devices[] = {
+@@ -1970,6 +1970,63 @@ static const struct hid_device_id mt_devices[] = {
  		HID_USB_DEVICE(USB_VENDOR_ID_LG,
  			USB_DEVICE_ID_LG_MELFAS_MT) },
  
@@ -127,10 +125,10 @@ index 831617c386e6..21337070068a 100644
  	{ .driver_data = MT_CLS_CONFIDENCE_MINUS_ONE,
  		MT_USB_DEVICE(USB_VENDOR_ID_ASUS,
 diff --git a/drivers/hid/hid-quirks.c b/drivers/hid/hid-quirks.c
-index 77316f022c5a..12b4e94232cc 100644
+index 94088c0ed68a..391b882fd6e5 100644
 --- a/drivers/hid/hid-quirks.c
 +++ b/drivers/hid/hid-quirks.c
-@@ -111,6 +111,17 @@ static const struct hid_device_id hid_quirks[] = {
+@@ -112,6 +112,17 @@ static const struct hid_device_id hid_quirks[] = {
  	{ HID_USB_DEVICE(USB_VENDOR_ID_MICROSOFT, USB_DEVICE_ID_MS_SURFACE_PRO_2), HID_QUIRK_NO_INIT_REPORTS },
  	{ HID_USB_DEVICE(USB_VENDOR_ID_MICROSOFT, USB_DEVICE_ID_MS_TOUCH_COVER_2), HID_QUIRK_NO_INIT_REPORTS },
  	{ HID_USB_DEVICE(USB_VENDOR_ID_MICROSOFT, USB_DEVICE_ID_MS_TYPE_COVER_2), HID_QUIRK_NO_INIT_REPORTS },
@@ -149,5 +147,5 @@ index 77316f022c5a..12b4e94232cc 100644
  	{ HID_USB_DEVICE(USB_VENDOR_ID_MSI, USB_DEVICE_ID_MSI_GT683R_LED_PANEL), HID_QUIRK_NO_INIT_REPORTS },
  	{ HID_USB_DEVICE(USB_VENDOR_ID_MULTIPLE_1781, USB_DEVICE_ID_RAPHNET_4NES4SNES_OLD), HID_QUIRK_MULTI_INPUT },
 -- 
-2.17.1
+2.19.1
 

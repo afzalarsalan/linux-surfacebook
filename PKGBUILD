@@ -4,7 +4,7 @@
 
 #pkgbase=linux              # Build stock -ARCH kernel
 pkgbase=linux-surfacebook   # Build kernel with a different name
-_srcver=4.20.8-arch1
+_srcver=5.0.7-arch1
 pkgver=${_srcver//-/.}
 pkgrel=1
 arch=(x86_64)
@@ -19,13 +19,14 @@ source=(
   60-linux.hook  # pacman hook for depmod
   90-linux.hook  # pacman hook for initramfs regeneration
   linux.preset   # standard config files for mkinitcpio ramdisk
+  acpi.patch
   ipts.patch
   keyboards_and_covers.patch
   sdcard_reader.patch
-  #surfaceacpi.patch
+  surfaceacpi.patch
   buttons.patch
   surfacedock.patch
-  #wifi.patch
+  wifi.patch
   resumedelay.patch
   ipts_fw_config.bin
 )
@@ -35,16 +36,19 @@ validpgpkeys=(
   '8218F88849AAC522E94CF470A5E9288C4FA415FA'  # Jan Alexander Steffens (heftig)
 )
 sha256sums=('SKIP'
-            '4fb0ca0067c1f6caa5ac3d165c975ae821a62ef23345fd9b534812cbf8a6ebe1'
+            '6168fc7df57fe4a0234878f93df9d44ddf377ec5612b977175ba6418db00d486'
             'ae2e95db94ef7176207c690224169594d49445e04249d2499e9d2fbc117a0b21'
             'c043f3033bb781e2688794a59f6d1f7ed49ef9b13eb77ff9a425df33a244a636'
             'ad6344badc91ad0630caacde83f7f9b97276f80d26a20619a87952be65492c65'
-            '47113d6e642712b14c0b838ead4cbd5275accdb965a4d64e22d94b371ca270b2'
-            '63c4edd447b528a04f95c942daf82299607e0a4c1f5d0b1055b28b9ac98cfa81'
-            '85466de05fb42127331922e75a772bd0765d702586f8dbc44e995d8d94caf093'
-            '28f396551fb05178c5b51d92d4b1144df7edeceedfbc4f65d378a12bd9bdb1ca'
-            'ada3dc015688da836c28f485b843478b5cb05368df86002653095e08ac25f0e9'
-            '7312db676d32fc2f2e3130a26e54bd1dc2c7cda89043ebd0f1b4c0cfcc2a1622'
+            '9bb905109eb970603d17ef243332744f98bcc294d6393604460a82c7271382bb'
+            '1ee97e4ace07e2b63071709d6e0f320fb107a40c57e911d6e31d6b3bed10ad5e'
+            '9f9d5ee548857195ebbd6331a118125b77469eb18c4e0a3e5755e74dbbd94b5e'
+            'bff6ffa2acd78a83ec93e938dc81c10cd3ed8fe79e91968fa34298cb5b6284a9'
+            '2b6811147aeeb27853cbd718df7dba2c57f03817b169d17bc6c143c531021b79'
+            'd6239a3a92c40350f00fec311d001097aaeeb3e32cf5d273b127f2284bdf91ff'
+            'e657677de346c2af4d6d99c552f9b4cfbe1e2dbaae64f5ee43aeeaa635ce3c6a'
+            'e615fce50146b8180e09623e7c6f35c9662e0cf817a7fd773b58042aab5d97f0'
+            '86ff4cdeb83212b9d48fe9773bd4cea45f4ef3c24a7eb6bc98c61e9e3a8a2519'
             'eed5c04a5f8841d52292fbb321990c79316ce98cd21324c71226cdc95cc20d09')
 
 _kernelname=${pkgbase#linux}
