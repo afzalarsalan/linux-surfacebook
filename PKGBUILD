@@ -4,7 +4,7 @@
 
 #pkgbase=linux              # Build stock -ARCH kernel
 pkgbase=linux-surfacebook   # Build kernel with a different name
-_srcver=5.0.10-arch1
+_srcver=5.1.8-arch1
 pkgver=${_srcver//-/.}
 pkgrel=1
 arch=(x86_64)
@@ -36,7 +36,7 @@ validpgpkeys=(
   '8218F88849AAC522E94CF470A5E9288C4FA415FA'  # Jan Alexander Steffens (heftig)
 )
 sha256sums=('SKIP'
-            '5e1e3f2b9f20caef4480df5c6daa6ec1d2e462fa7e54838617c335fd97eea70c'
+            'ad92169edf217b48a26fa96eee8777eee024de8e57d0a73c1363285d772a16e3'
             'ae2e95db94ef7176207c690224169594d49445e04249d2499e9d2fbc117a0b21'
             'c043f3033bb781e2688794a59f6d1f7ed49ef9b13eb77ff9a425df33a244a636'
             'ad6344badc91ad0630caacde83f7f9b97276f80d26a20619a87952be65492c65'

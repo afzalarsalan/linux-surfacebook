@@ -1,7 +1,7 @@
-From ac316f5bd9cf7b3c631c580890528bdf483ef51f Mon Sep 17 00:00:00 2001
+From 2a6337d5e11ff46a01b0c5a2e32ee2deb6eec812 Mon Sep 17 00:00:00 2001
 From: Jake Day <jake@ninebysix.com>
-Date: Wed, 13 Mar 2019 15:26:46 -0400
-Subject: [PATCH 10/11] surface-dock
+Date: Thu, 6 Jun 2019 13:42:13 -0400
+Subject: [PATCH 10/12] surface-dock
 
 ---
  drivers/usb/core/quirks.c | 2 ++
